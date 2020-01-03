@@ -1,0 +1,17 @@
+*.aux
+*.log 
+*.bbl
+*.fls 
+*.idx 
+*.ind
+*.log
+*.gz 
+*.fdb_latexmk
+**/.DS_Store
+*.DS_Store
+*.toc
+*.ilg
+*.blg
+
+# more gitignore templates https://www.atlassian.com/git/tutorials/saving-changes/gitignore
+

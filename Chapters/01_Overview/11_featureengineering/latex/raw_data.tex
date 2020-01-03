@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage{tikz,pgfplots,calc}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{arrows}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+
+\tikzset{
+  mynode/.style = {align = center}}
+
+\usetikzlibrary{patterns}
+\begin{document}
+\begin{tikzpicture}[>=stealth', thick]
+\draw [draw, fill = white!50, pattern=north west lines] (0, 0.3) rectangle (1, 1);
+\draw [draw, fill = white!50, pattern = dots] (1.2, 0) rectangle (2, 2);
+\draw [draw, fill = white!50, pattern = vertical lines] (2.2, -.2) rectangle (4, 1.7);
+\draw [draw, fill = white!50, pattern = horizontal lines] (4.2, .2) rectangle (4.6, 2.7);
+\draw [draw, fill = white, pattern = bricks] (4.8, .5) rectangle (5.6, 2.);
+\end{tikzpicture}
+\end{document}

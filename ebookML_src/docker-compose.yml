@@ -1,0 +1,14 @@
+version: "2"
+services:
+  jupyterlab:
+    build:
+      context: .
+    user: root
+    ports:
+      - "80:8888"
+    volumes:
+      - "./src:/home/jovyan/work" # notebook host folder
+    environment:
+      NB_UID: 1000 # -> - Specify the uid of the jovyan user
+      GRANT_SUDO: "yes"
+    command: "start.sh jupyter lab"

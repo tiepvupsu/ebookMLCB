@@ -1,0 +1,54 @@
+\documentclass{standalone}
+\usepackage{tikz,pgfplots,calc,tkz-euclide}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{arrows}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+\begin{tikzpicture}[>=stealth, thick]
+   
+    % \def\a{1}
+    % % \begin{scope}[xshift = 14cm, yshift = -3cm, scale = 1.7]
+    %     % \draw[domain=-2:1.5,smooth,variable=\x,black] plot ({\x},{exp(\a*\x)});      
+    %     \draw[domain=-2:3,smooth,variable=\x,black] plot ({\x},{.3*\x*\x});  
+
+
+    %     \def\xx{-1}
+    %     \def\xy{.3}    
+    %     \def\yx{2.5}
+    %     \def\yy{6.25*.3}
+    %     \def\t{.4}
+    %     \def\u{.6}
+    %     \def\zx{{\t*\xx + \u*\yx}}
+    %     \def\zx{1.1}
+    %     \def\zy{{\t*\xy + \u*\yy}}
+    %     \def\vy{{.3*\zx*\zx}}
+    %     \def\vy{.35}
+
+
+        \draw [fill = gray!50] (0, 0)  --  (2, 1)  --  (1, 4)  --  (-1, 3)  --  (-2, 2)  --  cycle;
+        \draw [fill = black, draw = black] (0, 0 ) circle (2pt);
+        \draw [fill = black, draw = black] (2, 1 ) circle (2pt);
+        \draw [fill = black, draw = black] (1, 4 ) circle (2pt);
+        \draw [fill = black, draw = black] (-1, 3 ) circle (2pt);
+        \draw [fill = black, draw = black] (-2, 2 ) circle (2pt);
+
+        \draw [fill = black, draw = black] (.5, 2 ) circle (2pt);
+        \draw [fill = black, draw = black] (1.5, 1 ) circle (2pt);
+        \draw [fill = black, draw = black] (-.5, 2.5 ) circle (2pt);
+        \draw [fill = black, draw = black] (0, 1) circle (2pt);
+
+
+        \begin{scope}[xshift = 5cm]
+            \draw [fill = gray, opacity = .5, dashed] (0, 0)  --  (3, 2)  --  (4, 3)  --  (0, 3.5)  --  (-1, 1)  -- cycle;
+            \draw [pattern = dots, fill opacity = .5, draw = black] (0, 0)  --  (3, 2)  --  (4, 3)  --  (2, 2.5)  --  (0, 3.5)  --  (-1, 1)  -- cycle;
+            \draw [] (0, 0)  --  (3, 2)  --  (4, 3)  --  (0, 3.5)  --  (-1, 1)  -- cycle;
+        \end{scope}
+
+        \draw (2, -.5)  --  (4, 4);
+        \node [rotate = 66] at (3.3, 3) {separating hyperplane};
+        
+\end{tikzpicture}
+\end{document}

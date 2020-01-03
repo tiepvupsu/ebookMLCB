@@ -1,0 +1,100 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{standalone}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.11}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\renewcommand{\familydefault}{\sfdefault}
+% \usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+% \usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+% \usetikzlibrary{decorations.pathmorphing}
+% \usetikzlibrary{decorations.shapes}
+% \usetikzlibrary{decorations.text}
+% \usetikzlibrary{decorations.fractals}
+% \usetikzlibrary{decorations.footprints}
+% \usetikzlibrary{shadows}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{spy}
+
+% \pgfplotsset{compat=1.11}
+\usepackage[utf8]{inputenc}
+% \usepackage[vietnam]{babel}
+
+\def\d{.6}
+% \def\p{5.1}
+\def\q{-.6}
+% \def\sc{25}
+
+\newcommand{\nn}[4]{
+    \begin{scope}[xshift = #1*\d cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, draw, inner sep = 0, fill = #3!20, minimum height = .6cm, minimum width = .6cm] {#4};
+    \end{scope}
+}
+
+\newcommand{\nnn}[4]{
+    \begin{scope}[xshift = #1*\d cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, align = left,  draw, inner sep = 0, fill = #3!30, minimum height = .6cm, minimum width = .6cm] {#4};
+    \end{scope}
+}
+
+\tikzstyle{shaded0}=[pattern = north east lines, fill opacity = .62, very thick]
+\tikzstyle{shaded1}=[pattern = dots, fill opacity = .42, very thick]
+
+\begin{document}
+\begin{tikzpicture}
+    \def\m{4}
+    \def\n{6}
+    \def\r{2}
+    \begin{scope}[xshift = -.5cm]
+        \node [scale = 3] at (0.5*\n, 0.7) {$\mathbf{A}$};
+        \draw [very thick] (0, 0) rectangle (\n, -\m);
+        \node [scale = 3] at (1.15*\n, -0.25*\m) {$=$};
+    \end{scope}
+
+    \begin{scope}[xshift = 7cm]
+        \node [scale = 3] at (1, 0.7) {$\mathbf{U}_r$};
+        
+        \draw [shaded0] (0, 0) rectangle (1, -\m);
+        \draw [shaded1] (1, 0) rectangle (2, -\m);
+    \end{scope}
+
+    \begin{scope}[xshift = 9.2cm]
+        \node [scale = 3] at (1, 0.7) {$\mathbf{\Sigma}_r$};
+        \draw [shaded0] (0, 0) rectangle (1, -1);
+        \draw [shaded1] (1, -1) rectangle (2, -2);
+        \draw (0, 0) rectangle (2, -2); 
+    \end{scope}
+
+    \begin{scope}[xshift = 11.4cm]
+        \node [scale = 3] at (.5*\n, 0.7) {$(\mathbf{V}_r)^T$};
+        \draw [shaded0] (0, 0) rectangle (\n, -1);
+        \draw [shaded1] (0, -1) rectangle (\n, -2);
+    \end{scope}
+
+    \begin{scope}[xshift = 19cm]
+        \node [scale = 3] at (.5, .6) {$\sigma_1$};
+        \node [scale = 3] at (1.65, .6) {$\mathbf{u}_1$};
+        \node [scale = 3] at (3, .7) {$\mathbf{v}^T_1$};
+
+        \draw [shaded0] (0, 0) rectangle (1, -1);
+        \draw [shaded0] (1.2, 0) rectangle (2.2, -\m);
+        \draw [shaded0] (2.4, 0) rectangle (\n + 2.4, -1);
+        \node [scale = 3] at (1.535*\n, -0.25*\m) {$+$};
+        \node [scale = 3] at (-.7, -0.25*\m) {$=$};
+    
+        \begin{scope}[xshift = 10cm]
+            \node [scale = 3] at (.5, .6) {$\sigma_2$};
+            \node [scale = 3] at (1.65, .6) {$\mathbf{u}_2$};
+            \node [scale = 3] at (3, .7) {$\mathbf{v}^T_2$};
+            \draw [shaded1] (0, 0) rectangle (1, -1);
+            \draw [shaded1] (1.2, 0) rectangle (2.2, -\m);
+            \draw [shaded1] (2.4, 0) rectangle (\n + 2.4, -1);
+        \end{scope}        
+    \end{scope}
+
+\end{tikzpicture}
+\end{document}

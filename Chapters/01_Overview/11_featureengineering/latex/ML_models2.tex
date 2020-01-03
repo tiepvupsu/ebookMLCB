@@ -1,0 +1,182 @@
+\documentclass{standalone}
+\usepackage{tikz,pgfplots,calc}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{arrows}
+\usepackage{amsmath}
+\usepackage{tkz-euclide}
+
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+
+
+
+\usetkzobj{all}
+% \renewcommand{\familydefault}{\sfdefault}
+
+\tikzset{
+  mynode/.style = {align = center, text width = 3.7cm}}
+
+\begin{document}
+\begin{tikzpicture}[>=stealth', thick]
+
+
+    % % \node (p0) at (-2, 0) {};
+    % % \node [anchor = west, right = 2cm of p0] (p1) {$p_1$};
+    % % % \node [anchor = east, left = 2cm of p1.west] (p0) {};
+    % % \node [anchor = south east, above left = 1cm and 1cm of p0.north west, blue] (p3) {$p_2$};
+    % % \node [anchor = north east, below left = 1cm and 1cm of p0.south west, blue] (p2) {$p_3$};
+    % % \node [anchor = north, below = 1cm of p0.south] (p4) {};
+
+    % % \draw [->] (p0)  --  (p1);
+    % % \draw [->, blue] (p2)  --  (p0);
+    % % \draw [->, blue] (p3)  --  (p0);
+    % % \draw [dashed, very thick, violet] (p4)  --  (p0);
+    % % \node [scale = 1.5, red] at (-5,0) {$C_{12}$};
+    % % \node [scale = 1.5, red] at (-5,-5) {$C_{22}$};
+    % % \node [scale = 1.5, red] at (-5,-10) {$C_{31}$};
+    % % %% ==============================================================
+    % % \node (p0) at (5, 0) {};
+    % % \node [anchor = east, left = 2cm of p0, blue] (p1) {$p_1$};
+    % % % \node [anchor = west, right = 2cm of p1.east] (p0) {};
+    % % \node [anchor = south west, above right = 1cm and 1cm of p0.north east] (p2) {$p_2$};
+    % % \node [anchor = north west, below right = 1cm and 1cm of p0.south east] (p3) {$p_3$};
+    % % \node [anchor = north, below = 1cm of p0.south] (p4) {};
+
+    % % \draw [->, blue] (p1)  --  (p0);
+    % % \draw [->] (p0)  --  (p2);
+    % % \draw [->] (p0)  --  (p3);
+    % % \draw [dashed, violet, very thick] (p4)  --  (p0);
+    % % %% ==============================================================
+    % % \node (p0) at (1, -5) {};
+    % % \node [anchor = south east, above left = 1cm and 2.5cm of p0, blue] (p1) {$p_1$};
+    % % \node [anchor = north east, below left = 1cm and 2.5cm of p0, blue] (p2) {$p_2$};
+    % % \node [anchor = south west, above right = 1.5cm and 2.5cm of p0] (p3) {$p_3$};
+    % % \node [anchor = north west, below right = 1.5cm and 2.5cm of p0] (p4) {$p_4$};
+    % % \draw [->,blue] (p1)  --  (p0);
+    % % \draw [->,blue] (p2)  --  (p0);
+    % % \draw [<-] (p3)  --  (p0);
+    % % \draw [<-] (p4)  --  (p0);
+    % % %% ==============================================================
+    % % \node (p0) at (-2, -10) {};
+    % % \node (p1) [blue,anchor = east, left= 1.5cm of p0] {$p_1$};
+    % % \node (p2) [anchor = south west, above right = 1.5cm and 1.5cm of p0] {$p_2$};
+    % % \node (p3) [anchor = west, right= 1.5cm of p0] {$p_3$};
+    % % \node (p4) [anchor = north west, below right = 1.5cm and 1.5cm of p0] {$p_4$};
+    % % \draw [->, blue] (p1)  --  (p0);
+    % % \draw [->] (p0)  --  (p2);
+    % % \draw [->] (p0)  --  (p3);
+    % % \draw [->] (p0)  --  (p4);
+    % % %% ==============================================================
+    % % \node (p0) at (5, -10) {};
+    % % \node (p1) [anchor = west, right= 1.5cm of p0] {$p_1$};
+    % % \node (p2) [blue,anchor = south east, above left = 1.5cm and 1.5cm of p0] {$p_2$};
+    % % \node (p3) [blue,anchor = east, left= 1.5cm of p0] {$p_3$};
+    % % \node (p4) [blue,anchor = north east, below left = 1.5cm and 1.5cm of p0] {$p_4$};
+    % % \draw [<-] (p1)  --  (p0);
+    % % \draw [<-, blue] (p0)  --  (p2);
+    % % \draw [<-, blue] (p0)  --  (p3);
+    % % \draw [<-, blue] (p0)  --  (p4);
+
+    % \def\xx{.5}
+    % \def\xy{3}
+    % \def\yx{5}
+    % \def\yy{1}
+    % \coordinate (p0) at (0, 0) {};
+    % \coordinate (x) at (\xx, \xy);
+    % \coordinate (y) at (\yx, \yy);
+
+
+    % % \tkzDefPoint[label = above:$x$] (\xx, \xy) {x}
+    % % \tkzDefPoint[label = above:$y$] (\yx, \yy) {y}
+    % % \tkzDrawPoints[fill=black, size = 1.5] (x,y)
+    % % \tkzLabelPoints[above](x, y)
+    % \coordinate (xy) at (\xx, \yy);
+    % \draw [->] (-.5, 0)  -- ++ (7, 0);
+    % \draw [->] (0, -.5)  -- ++ (0, 5);
+
+
+    % \draw [dashed] (xy)  -- (\xx, 0);
+    % \draw [dashed] (x)  -- ++(-\xx, 0);
+    % \node at (\xx, \xy + .2) {$\mathbf{x}$};
+    % \node at (\yx, \yy + .2) {$\mathbf{y}$};
+    % \node at (\xx + .2, \yy - .2) {$\mathbf{z}$};
+    % \node at (\xx, -.25) {$x_1$};
+    % \node at (\yx, -.25) {$y_1$};
+    % \node at (-.25, \xy) {$x_2$};
+    % \node at (-.25, \yy) {$y_2$};
+    % \node [rotate = -23] at (.5*\xx + .5*\yx, .5*\xy + .5*\yy + .3) {\textcolor{blue}{$\mathbf{\|\mathbf{x - y}\|_2}$}};
+    % \draw [dashed] (y)  -- (\yx, 0);
+    % \draw [dashed] (xy)  -- ( 0, \yy);
+    % \draw [blue, thick] (x)  --  (y) ; 
+    % \draw [red, thick] (x)  --  (xy); 
+    % \draw [red, thick] (y)  --  (xy); 
+    % \node at (.5*\xx + .5*\yx, \yy + .3) {\textcolor{red}{${|x_1 - y_1|}$}};
+    % \node [rotate = -90, blue] at (\xx+.3, .5*\xy + .5*\yy) {\textcolor{red}{$|x_2 - y_2|$}};
+    % \node [red] at (.5*\xx + .5*\yx, .5*\xy + .5*\yy + 1.7) {\textcolor{red}{$\mathbf{\|\mathbf{x - y}\|_1 = |x_1 - y_1| + |x_2 - y_2|}$}};
+    % % \draw 
+    % % \draw 
+
+\node (train) at (-2, -2) [draw, fill = white, anchor = south west, minimum width = 15.5cm, minimum height = 7cm] {};
+\node at (1, 4.5) [scale = 2] {{Pha huấn luyện}};
+
+
+\node [draw, anchor = center, minimum height = 3cm, minimum width = 3cm] (raw_train) {};
+\node [mynode, align = center, anchor = north, below = .1cm of raw_train.north] {Dữ liệu huấn luyện thô (đầu vào)};
+
+\node [draw, dashed, anchor = south, above = of raw_train.north, text width = 3.5cm, align = center] (train_output) {Đầu ra huấn luyện \\ {(\large{$ \mathbf{y}_{\text{train}}$}})};
+
+\node [anchor = south, above = 0.2cm of raw_train.south] {\includegraphics[width = 2.7cm]{raw_data.pdf}};
+
+\node [draw, dashed, anchor = south, minimum height = 1cm, minimum width = 4cm, mynode] (prior) at (8, 3.5) {Thông tin biết trước về dữ liệu};
+
+\node (fea) [mynode, draw, anchor = west, right =of raw_train.east, minimum width = 3cm, minimum height = 3cm, text width = 2.5cm, fill =gray!20] {Bộ trích chọn đặc trưng};
+
+
+
+\node (ex_fea) [draw, anchor = west, right = of fea.east, minimum width = 2.5cm, minimum height = 3cm] {};
+\node [anchor = north, below=0cm of ex_fea.north, text width = 2.5cm, align = center] {Đặc trưng được trích chọn ($\mathbf{X}_{\text{train}}$)};
+\node [anchor = south, above=0cm of ex_fea.south] {\includegraphics[width = 1.7cm]{feature.pdf}};
+
+\node (ml) [draw, anchor = west, right =of ex_fea.east, minimum width = 3cm, text width = 2.5cm, minimum height = 3cm, align = center, fill = gray!20] {Thuật toán phân loại, hồi quy, phân cụm,...};
+
+%% arroww 
+\draw [ultra thick, ->] (raw_train)  --  (fea);
+\draw [ultra thick, ->, dashed] (train_output) -| (fea);
+\draw [ultra thick, ->, dashed] (train_output) -| (ml);
+\draw [ultra thick, ->, dashed] (prior)  --  (fea);
+\draw [ultra thick, ->, dashed] (prior)  --  (ml);
+\draw [ultra thick, ->] (fea)  --  (ex_fea);
+\draw [ultra thick, ->] (ex_fea)  --  (ml);
+
+%%%%%%%%%%%%%%%%%%%
+\node (test) at (-2, -9) [draw, fill = white, anchor = south west, minimum width = 15.5cm, minimum height = 6cm] {};
+\node at (1, -8) [scale = 2] {{Pha kiểm tra}};
+
+\node [draw, anchor = center, minimum height = 3cm, minimum width = 3cm] (raw_test) at (0, -5) {};
+\node [mynode, align = center, anchor = north, below = .1cm of raw_test.north] {Dữ liệu kiểm tra thô (đầu vào)};
+
+\node [anchor = south, above = 0.2cm of raw_test.south] {\includegraphics[width = 2.7cm]{raw_test_data.pdf}};
+
+
+\node (fea_test) [mynode, draw, anchor = west, right =of raw_test.east, minimum width = 3cm, minimum height = 3cm, text width = 2.5cm, fill =white!15, pattern = none] {Bộ trích chọn đặc trưng};
+
+
+\node (ex_test_fea) [draw, anchor = west, right = of fea_test.east, minimum width = 2.5cm, minimum height = 3cm] {};
+\node [anchor = north, below=0cm of ex_test_fea.north, text width = 2.5cm, align = center] {Đặc trưng được trích chọn ($\mathbf{X}_{\text{test}}$)};
+\node [anchor = south, above=-.5mm of ex_test_fea.south] {\includegraphics[width = 1.8cm]{feature_test.pdf}};
+
+\node (ml_test) [draw, anchor = west, right =of ex_test_fea.east, minimum width = 3cm, text width = 2.5cm, minimum height = 3cm, align = center, fill = white!15] {Thuật toán phân loại, hồi quy, phân cụm,...};
+
+\node (output) [draw, anchor = north, below =of ml_test, minimum width = 3cm, text width = 2.5cm, align = center,  minimum height = 1.2cm] {Đầu ra dự đoán \\ (\large{$\mathbf{y}_{\text{test}}$})};
+
+\draw [ultra thick,->, black, dashed](fea)  --  (fea_test);
+\draw [ultra thick,->, black, dashed](ml)  --  (ml_test);
+\draw [ultra thick,->] (raw_test)  --  (fea_test);
+\draw [ultra thick,->] (fea_test)  --  (ex_test_fea);
+\draw [ultra thick,->] (ex_test_fea)  --  (ml_test);
+\draw [ultra thick, ->] (ml_test)  --  (output);
+
+
+\end{tikzpicture}
+\end{document}

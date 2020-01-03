@@ -1,0 +1,634 @@
+%!TEX root = book_ML.tex
+% \usepackage[margin=1in]{geometry}
+\usepackage[T5]{fontenc}
+% \setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1} %% depth level of table of content with 0 - chapter only 
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% \usepackage{amssymb,amsbsy}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+% choose options for [] as required from the list
+% in the Reference Guide, Sect. 2.2
+
+% ******************************************************************************
+%% force table caption to top 
+%https://tex.stackexchange.com/questions/22751/how-to-force-table--on-top
+\usepackage{floatrow}
+\floatsetup[table]{capposition=top}
+\usepackage[font={sf,  }, tableposition=top]{caption}
+\usepackage{subcaption}
+\DeclareCaptionFormat{rule}{#1#2#3\rule{\textwidth}{.0pt}}
+% \DeclareCaptionFormat{norule}{}
+\DeclareCaptionLabelFormat{mylabel}{#1 #2.\hspace{1.5ex}}
+\captionsetup[figure]{labelformat=mylabel, labelfont = bf, justification=justified, labelsep=none}
+%%% change name Table and Figure
+\captionsetup[table]{name=Bảng}
+\captionsetup[figure]{name=Hình}
+% \captionsetup[listing]{name=Code}
+
+% caption on side
+\usepackage{floatrow}
+\usepackage{sidecap}
+
+% ******************************************************************************
+
+
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+% etc.
+% see the list of further useful packages
+% in the Reference Guide, Sects. 2.3, 3.1-3.3
+% rule after figure
+% \usepackage{caption}
+% \usepackage[tableposition=top]{caption}
+
+\usepackage{xcolor}
+\def\myrule{\textcolor{gray}{\rule{\textwidth}{.1pt}}}
+% \def\myrulethin{\rule{\textwidth}{.01pt}}
+
+\usepackage{multirow}
+%%%%%%%%%%
+\usepackage{makeidx}         % allows index generation
+\makeindex             % used for the subject index
+                       % please use the style svind.ist with
+                       % your makeindex program
+
+
+\usepackage{silence}
+\WarningFilter{latex}{Composite letter}
+\WarningFilter{latex}{Package hyperref Warning: Composite letter}
+
+
+\usepackage{cite,url,bm}
+% \usepackage{hyperref}
+% \urlstyle{rm}
+% \usepackage[unicode]{hyperref}
+\usepackage[unicode, pdftex,
+            pdfauthor={Tiep Vu},
+            pdftitle={Machine Learning co ban}]{hyperref}
+\renewcommand\UrlFont{\sffamily}
+\hypersetup{
+    colorlinks=black,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+%%%%%%%%%%%%%%%%%%%5
+% \usepackage{listings}
+% \usepackage{color}
+% \usepackage{textcomp}
+% %New colors defined below
+% \definecolor{codegreen}{rgb}{0,0.6,0}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \definecolor{codepurple}{rgb}{0.58,0,0.82}
+% \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+% \makeatletter
+% \expandafter\let\csname active@char\string?\endcsname\relax
+% \expandafter\let\csname active@char\string!\endcsname\relax
+% \expandafter\let\csname active@char\string:\endcsname\relax
+
+
+% \initiate@active@char{?}
+% \initiate@active@char{!}
+% \initiate@active@char{:}
+% \makeatletter
+
+
+
+\usepackage{courier}
+
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Code}
+% \usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{textcomp}
+%Code listing style named "mystyle"
+% \lstdefinestyle{mystyle}{
+%   backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+%   keywordstyle=\color{magenta},
+%   stringstyle=\color{codepurple},
+%   basicstyle=\footnotesize,
+%   frame = single,
+%   breakatwhitespace=false,
+%   breaklines=true,
+%   captionpos=b,
+%   keepspaces=true,
+%   numbers=none,
+%   numbersep=5pt,
+%   showspaces=false,
+%   showstringspaces=false,
+%   showtabs=false,
+%   tabsize=2,
+%   basicstyle=\footnotesize\ttfamily,
+%   % columns = flexible, 
+%   keepspaces = true,
+% }
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+
+\definecolor{codegreen}{rgb}{1, 1, 1}
+\definecolor{codegray}{rgb}{.2, .2, .2}
+\definecolor{codepurple}{rgb}{0, 0, 0}
+\definecolor{codekey}{rgb}{0, 0, 0}
+\definecolor{backcolour}{rgb}{1, 1, 1}
+
+
+\usepackage{courier}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},  
+  commentstyle=\color{codegray} \itshape,
+  keywordstyle=\color{codekey} \bfseries,
+  numberstyle=\tiny\color{codekey},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize\color{codekey},
+  % basewidth  = {.5em,0.5em},
+  % basicstyle=\ttfamily,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=none,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=4, 
+  frame = single,
+  framesep = 7pt,
+  % columns = flexible, 
+  % keepspaces = false
+}
+
+%"mystyle" code listing set
+\lstset{style=mystyle}
+
+
+% \definecolor{codebg}{HTML}{EEEEEE}
+% \definecolor{codeframe}{HTML}{CCCCCC}
+
+% \lstset{language=python}
+% \lstset{backgroundcolor=\color{codebg}}
+% \lstset{frame=single}
+% \lstset{framesep=10pt}
+% \lstset{rulecolor=\color{codeframe}}
+% \lstset{upquote=true}
+% \lstset{basicstyle=\ttfamily}
+% \lstset{showstringspaces=true}
+% \lstset{keywordstyle=\color{magenta}}
+% % \lstset{columns=flexible}
+% \lstset{keepspaces=false}
+% \makeatletter
+% \def\lst@outputspace{{\ifx\lst@bkgcolor\empty\color{white}\else\lst@bkgcolor\fi\lst@visiblespace}}
+% \makeatother
+
+
+% \definecolor{codebg}{HTML}{EEEEEE}
+% \definecolor{codeframe}{HTML}{CCCCCC}
+
+% \lstset{language=python}
+% \lstset{backgroundcolor=\color{codebg}}
+% \lstset{frame=single}
+% \lstset{framesep=10pt}
+% \lstset{rulecolor=\color{codeframe}}
+% \lstset{upquote=true}
+% \lstset{basicstyle=\ttfamily}
+% \lstset{showstringspaces=false}
+% \lstset{keywordstyle=\color{magenta}}
+% \lstset{columns=flexible}
+% \lstset{keepspaces=true}
+% \makeatletter
+% \def\lst@outputspace{{\ifx\lst@bkgcolor\empty\color{white}\else\lst@bkgcolor\fi\lst@visiblespace}}
+% \makeatother
+
+
+\lstset{style=mystyle}
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{11} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{10}  % for newtcbtheoremal
+
+% Custom colors
+% \usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0}
+\definecolor{deepred}{rgb}{0,0,0}
+\definecolor{deepgreen}{rgb}{0,0,0}
+
+
+% % Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false            %
+}}
+
+
+\usepackage{colortbl}
+
+% \include{myenv}
+\usepackage{tcolorbox}
+\usepackage{wrapfig}
+\newtcolorbox{mybox}[3][]
+{
+  colframe = #2!25,
+  colback  = #2!10,
+  coltitle = blue,  
+  title    = \textbf{#3},
+  #1,
+}
+
+
+
+%% ========= long bar notation ==============================
+\makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+\newcommand*\lbar[2][.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.3\mylenA\rlap{\usebox\myboxA}{\hskip 0.3\mylenA\usebox\myboxB}%
+    \fi}
+\makeatother
+
+%%%%%%%%%%%% wide hat 
+\def\what{\widehat}
+
+
+
+% ******************************************************************************
+% custom environments
+\tcbuselibrary{theorems}
+\tcbuselibrary{skins,raster}
+\newtcbtheorem[number within=chapter]{mytheo}{Định lý}{colback=white,colframe=gray,fonttitle=\bfseries}{th}
+
+\newtcbtheorem[number within=chapter]{mydef}{Định nghĩa}{colback=white,colframe=gray,fonttitle=\bfseries}{def}
+
+\newtcbtheorem[number within=chapter]{myalg}{Thuật toán}{colback=white,colframe=gray,fonttitle=\bfseries, fontupper = \itshape}{alg}
+
+% \newenvironment{myalg}
+    % {
+    % \begin{tcolorbox}[colback = blue!5, colframe=gray, title = Thuật toán,fonttitle=\bfseries]
+    % \it
+    % }
+    % {
+    % \end{tcolorbox}
+    % }
+
+\newenvironment{mydeff}
+    {
+    \begin{tcolorbox}[colback=white,colframe=gray, title = Chú ý,fonttitle=\bfseries]
+    \it
+    }
+    {
+    \end{tcolorbox}
+    }
+ 
+\newenvironment{mynote}
+    {
+    \begin{tcolorbox}[colback = white!5, colframe=gray, title =,fonttitle=\bfseries]
+    \it
+    }
+    {
+    \end{tcolorbox}
+    }
+
+\newcommand{\newnote}[2]{
+    % 1: title, 2: content 
+    \begin{tcolorbox}[colback = white, leftrule = .3mm, rightrule = .3mm, toprule = .3mm, bottomrule = .3mm, colframe=black, title =#1,fonttitle=\bfseries]
+    \it
+    #2    
+    \end{tcolorbox}
+}
+
+\newcommand{\myeqnbox}[1]{
+    % 1: content 
+    \begin{tcolorbox}[toptitle = 0mm, leftrule = .3mm, rightrule = .3mm, toprule = .3mm, bottomrule = .3mm, colback = white, colframe=black, sharp corners]    
+    \abovedisplayskip=-10pt
+    \belowdisplayskip=-30pt
+    #1
+    \end{tcolorbox}
+}
+
+
+\newenvironment{myfr}
+    {\begin{center} \it
+    \begin{tcolorbox}[colback = yellow!20, colframe=yellow!45!black]
+    % \includegraphics[width = 2cm]{logo.png}
+    \begin{wrapfigure}{L}{0.1\textwidth}
+    \vspace{-100pt}
+    \href{https://machinelearningcoban.com}{
+    \includegraphics[width=\textwidth]{pgfs/logofundaml.pdf}}
+    \vspace{-30pt}
+    \end{wrapfigure}
+    }
+    {
+    \end{tcolorbox}
+    \end{center}
+    }
+% END custom environments
+% ******************************************************************************
+
+% ******************************************************************************
+% definitions 
+\def\etal{\textit{et al.}}
+
+\def\ba{\mathbf{a}}
+\def\bb{\mathbf{b}}
+\def\bd{\mathbf{d}}
+\def\be{\mathbf{e}}
+\def\bm{\mathbf{m}}
+\def\bK{\mathbf{K}}
+\def\bk{\mathbf{k}}
+\def\bM{\mathbf{M}}
+\def\bp{\mathbf{p}}
+\def\bq{\mathbf{q}}
+\def\bx{\mathbf{x}}
+\def\by{\mathbf{y}}
+\def\bz{\mathbf{z}}
+\def\bu{\mathbf{u}}
+\def\bv{\mathbf{v}}
+\def\bw{\mathbf{w}}
+
+\def\bbx{\bar{\mathbf{x}}}
+\def\bbX{\bar{\mathbf{X}}}
+\def\bbw{\bar{\mathbf{w}}}
+
+\def\bE{\mathbf{E}}
+\def\bX{\mathbf{X}}
+\def\bY{\mathbf{Y}}
+\def\bZ{\mathbf{Z}}
+\def\bA{\mathbf{A}}
+\def\bB{\mathbf{B}}
+\def\bC{\mathbf{C}}
+\def\bP{\mathbf{P}}
+\def\bQ{\mathbf{Q}}
+\def\bI{\mathbf{W}}
+\def\bS{\mathbf{S}}
+\def\bT{\mathbf{T}}
+\def\bW{\mathbf{W}}
+\def\bI{\mathbf{I}}
+\def\bL{\mathbf{L}}
+\def\bU{\mathbf{U}}
+\def\bzero{\mathbf{0}}
+\def\bone{\mathbf{1}}
+\def\R{\mathbb{R}}
+\def\L{\mathcal{L}} 
+\def\S{\mathcal{S}} 
+
+
+\def\bmt{\left[\begin{matrix}}
+\def\bmt{\end{matrix}\right]}
+
+\def\diag{\text{diag}}
+
+\def\bmt{\left[\begin{matrix}}
+\def\emt{\end{matrix}\right]}
+
+\def\blambda{\boldsymbol{\lambda}}
+\def\bxi{\boldsymbol{\xi}}
+\def\bSigma{\mathbf{\Sigma}}
+\def\bLambda{\boldsymbol{\Lambda}}
+\def\bnu{\boldsymbol{\nu}}
+\def\bmu{\boldsymbol{\mu}}
+
+% \def\dpcm{\hfill $\square$} % Điều phải chứng minh. 
+\def\dpcm{} % Điều phải chứng minh. 
+\def\tcr{\textcolor{red}}
+\def\tcb{\textcolor{blue}}
+\def\trace{\text{trace}}
+\def\rank{\text{rank}}
+\def\sgn{\text{sgn}}
+\def\assign{\leftarrow}
+\def\imply{\Rightarrow}
+\def\dom{\textbf{dom}}
+
+\def\lg{\textit{\textbf{Lời giải}}:}
+\def\vd{\textbf{Ví dụ}: }
+\def\kq{{{Kết quả:}}}
+% ******************************************************************************
+
+% ******************************************************************************
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+% Python for inline
+\newcommand\pythoninline[1]{{\color{deepred}\pythonstyle\lstinline!#1!}}
+
+\newcommand{\bi}[1]{\textit{\textbf{{#1}}}} % bold and italic 
+% ******************************************************************************
+
+% ******************************************************************************
+%%%%%%%%% Header and {Footer}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\nouppercase\leftmark}
+% \fancyhead[RE,LO]{\thepage}
+\fancyfoot[RE,LO]{Machine Learning cơ bản}
+\fancyfoot[LE,RO]{\thepage}
+\fancypagestyle{plain}{%
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+
+}
+
+
+
+
+
+
+\renewcommand{\headrulewidth}{.2pt}
+\renewcommand{\footrulewidth}{.1pt}
+% ******************************************************************************
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+
+
+%%%%%% definition
+
+% ******************************************************************************
+%%%%%% chapter
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1.2ex \hfill \kern \z@}
+\def\@makechapterhead#1{
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill\quad
+        \scshape\bfseries\textit{\@chapapp{}  \thechapter}
+        % \scshape\bfseries{\Large CHƯƠNG  \thechapter}
+        \quad \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1 \par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+        \vskip 100\p@
+  }}
+% ******************************************************************************
+
+
+
+% ******************************************************************************
+% title 
+\title{
+{\centering \bf Machine Learning cơ bản}\\
+\\
+% \small{{\bf Order ebook tại \url{https://machinelearningcoban.com/ebook/}}} \\ \\
+% \small{\bf Blog: \url{https://machinelearningcoban.com}} \\
+% \small{\bf Facebook Page: \url{https://www.facebook.com/machinelearningbasicvn/}} \\
+% \small{\bf Facebook Group: \url{https://www.facebook.com/groups/machinelearningcoban/}} \\
+% \small{\bf Interactive Learning: \url{https:fundaml.com}} \\
+\\
+% {\small First Edition}
+% Lần cập nhật gần nhất:
+\vspace{-1.2cm}
+}
+% \author{Vũ Hữu Tiệp}
+
+
+% ******************************************************************************
+% Our next offender are section headings. By default they have huge gaps above
+% and below them. Totally wasteful, especially if you are trying to save trees
+% by decreasing your page count without sacrificing content. So what do you do?
+% There are very complex ways to change the spacing above and below the section
+% headings but we are lazy bums and don’t feel like using them. So let’s use the
+% titlesec package and zero out all the spaces:
+% source: https://goo.gl/tVy5Kk
+
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+% ******************************************************************************
+
+%% for book cover 
+\usepackage{incgraph,tikz}
+\usetikzlibrary{patterns}
+\newlength{\hatchspread}
+\newlength{\hatchthickness}
+\newlength{\hatchshift}
+\newcommand{\hatchcolor}{}
+% declaring the keys in tikz
+\tikzset{hatchspread/.code={\setlength{\hatchspread}{#1}},
+         hatchthickness/.code={\setlength{\hatchthickness}{#1}},
+         hatchshift/.code={\setlength{\hatchshift}{#1}},% must be >= 0
+         hatchcolor/.code={\renewcommand{\hatchcolor}{#1}}}
+% setting the default values
+\tikzset{hatchspread=6pt,
+         hatchthickness=0.15pt,
+         hatchshift=0pt,% must be >= 0
+         hatchcolor=black}
+% declaring the pattern
+\pgfdeclarepatternformonly[\hatchspread,\hatchthickness,\hatchshift,\hatchcolor]% variables
+   {custom north west lines}% name
+   {\pgfqpoint{\dimexpr-2\hatchthickness}{\dimexpr-2\hatchthickness}}% lower left corner
+   {\pgfqpoint{\dimexpr\hatchspread+2\hatchthickness}{\dimexpr\hatchspread+2\hatchthickness}}% upper right corner
+   {\pgfqpoint{\dimexpr\hatchspread}{\dimexpr\hatchspread}}% tile size
+   {% shape description
+    \pgfsetlinewidth{\hatchthickness}
+    \pgfpathmoveto{\pgfqpoint{0pt}{\dimexpr\hatchspread+\hatchshift}}
+    \pgfpathlineto{\pgfqpoint{\dimexpr\hatchspread+0.15pt+\hatchshift}{-0.15pt}}
+    \ifdim \hatchshift > 0pt
+      \pgfpathmoveto{\pgfqpoint{0pt}{\hatchshift}}
+      \pgfpathlineto{\pgfqpoint{\dimexpr0.15pt+\hatchshift}{-0.15pt}}
+    \fi
+    \pgfsetstrokecolor{\hatchcolor}
+%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
+    \pgfusepath{stroke}
+   }
+
+
+\tikzstyle{shaded}=[pattern = custom north west lines]
+
+% ******************************************************************************
+% section number too close to headers in table of content
+% Source: https://tex.stackexchange.com/questions/219160/toc-spacing-between-number-and-header
+%
+% \usepackage{titletoc}
+
+% \titlecontents{chapter}[0em]{\vspace{.25\baselineskip}}
+% {\eqparbox{ch}{\bfseries\thecontentslabel}\enspace}{}
+% {\hspace{.5em}\hfill\contentspage}
+
+% \titlecontents{section}[1.8em]{\vspace{.25\baselineskip}}
+% {{\thecontentslabel}\enspace}{}
+% {\hspace{.5em}\titlerule*[10pt]{$\cdot$}\contentspage}
+
+% \titlecontents{subsection}[4.5em]{\vspace{.25\baselineskip}}
+% {\eqparbox{Ss}{\thecontentslabel}\enspace}{}
+% {\hspace{.5em}\titlerule*[10pt]{$\cdot$}\contentspage}
+
+% \newcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
+% \newcommand*\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
+% \newcommand*\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
+% \newcommand*\l@paragraph{\@dottedtocline{4}{10em}{5em}}
+% \newcommand*\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
+
+% ******************************************************************************
+
+%%%%%%%%%%%%%
+%% Blank page 
+%%%%%%%%%%%
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+% boxed around eqnarray
+% source: https://tex.stackexchange.com/questions/109900/how-can-i-box-multiple-aligned-equations
+
+% \newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+
+% \usepackage{amsmath}
+% \usepackage{empheq}
+% \usepackage[theorems,skins]{tcolorbox}
+
+% \newtcolorbox{mymathbox}[1][]{colback=white, sharp corners, #1}
+
+% \usepackage{amsmath}

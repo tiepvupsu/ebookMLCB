@@ -1,0 +1,149 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+
+\input{../../definitions}
+\def\layersep{5}
+
+% \input{definitions}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5) -- (0, .5);
+        \def\a{5}
+      \draw [black] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+      % \draw [thin] (-1.1*\a, 0) -- (1.2*\a, 0);
+      % \draw [thin] (0, -.7) -- (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [orange] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,minimum size=17pt,inner sep=0pt, fill = white!60, draw = black]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=green!60]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=red!60]
+\tikzstyle{sign neuron}=[neuron, dist]
+\tikzstyle{signn neuron}=[neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!60]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+\def\pad{.5}
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%% AND %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{scope}
+
+        % \node at (-3.5, -2) {\includegraphics[width=5cm]{../XOR2.png}};
+
+        % %%%%%%%%%%%%%% (L-1) LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \draw [white, fill = gray!25] (-\pad, -4 - 2*\pad) rectangle (\pad, 2*\pad);
+        \node at (0, -5 - 2*\pad) {\Large$\bz^{(l-1)}~~~\ba^{(l-1)}$};
+        \node at (0, 1.5+2.5*\pad) {{\Large$(l-1)^{\text{th}}$ layer}};
+
+        \def\y{0}
+        \node[neuron, fill = white!10] (I-\y) at (0,-2*\y + 2) {1};
+
+        \def\y{1}
+        \node[neuron, label = below:{\Large$z^{(l-1)}_\y~~~a^{(l-1)}_\y$}] (I-\y) at (0,-2*\y + 2) {};
+        \node[scale = 1.5]  at (0,-2*\y + 1) {$\vdots$};
+
+        \def\y{2}
+        \node[neuron, label = below:{\Large$z^{(l-1)}_i~~~a^{(l-1)}_i$}] (I-\y) at (0,-2*\y + 2) {};
+        \node[scale = 1.5]  at (0,-2*\y + 1) {$\vdots$};
+
+        \def\y{3}
+        \node[neuron, label = below:{\Large$z^{(l-1)}_{d^{(l-1)}}~~~a^{(l-1)}_{d^{(l-1)}}$}] (I-\y) at (0,-2*\y + 2) {};
+
+        \node [scale = 1, anchor = west] at (2.5*\layersep, -1.5) {\Large$\mathbf{W}^{(l)} \in \R^{d^{(l-1)}\times d^{(l)}}$};
+        \node [scale = 1, anchor = west] at (2.5*\layersep, -2.5) {\Large$\mathbf{b}^{(l)} \in \R^{d^{(l)}\times1}$};
+        \node [scale = 1, anchor = west] at (2.5*\layersep, -3.5) {\Large$z_j^{(l)} = \mathbf{w}_j^{(l)T}\ba^{(l-1)} + b_j^{(l)}$};
+        \node [scale = 1, anchor = west] at (2.5*\layersep, -4.5) {\Large$\mathbf{z}^{(l)} = \mathbf{W}^{(l)T}\ba^{(l-1)} + \bb^{(l)}$};
+        \node [scale = 1, anchor = west] at (2.5*\layersep, -5.5) {\Large$\ba^{(l)} = f(\bz^{(l)})$};
+
+        %%%%%%%%%%%%%%%% (L)) LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \node at (\layersep, 1+2.5*\pad) {{\Large$l^{\text{th}}$ layer}};
+        \draw [white, fill = gray!25] (-\pad + \layersep, -5 - 2*\pad)
+                            rectangle ( \pad + \layersep , 1+2*\pad);
+        \node at (\layersep, -6 - 2*\pad) {\Large$\bz^{(l)}~~~\ba^{(l)}$};
+
+        % \foreach \name / \y in {1, 2, 3, 4}
+        \def\y{1}
+        \path[yshift=3cm] node[neuron, label = below:{\Large$z^{(l)}_\y~~~a^{(l)}_\y$}] (H-\y) at (\layersep,-2*\y cm) {};
+
+        \def\y{2}
+        \path[yshift=3cm] node[neuron, label = below:{\Large$z^{(l)}_\y~~~a^{(l)}_\y$}] (H-\y) at (\layersep,-2*\y cm) {};
+        \node[scale = 1.5]  at (\layersep,-2*\y + 2) {$\vdots$};
+
+        \def\y{3}
+        \path[yshift=3cm] node[neuron, label = below:{\Large$z^{(l)}_j~~~a^{(l)}_j$}] (H-\y) at (\layersep,-2*\y cm) {};
+        \node[scale = 1.5]  at (\layersep,-2*\y + 2) {$\vdots$};
+
+        \def\y{4}
+        \path[yshift=3cm] node[neuron, label = below:{\Large$z^{(l)}_{d^{(l)}}~~~a^{(l)}_{d^{(l)}}$}] (H-\y) at (\layersep,-2*\y cm) {};
+
+        \foreach \src in {0, 1, 2, 3}
+            \foreach \dst in {1, 2, 3, 4}
+                \draw [->, draw = gray!40] (I-\src.east) -- (H-\dst.west);
+        % \node[hidden neuron, opacity = .5, label = below:{$a^{(1)}_0$}] (H-0) at (\layersep,0) {1};
+
+        \draw [thick, ->](I-2.east) -- node[midway, fill = white, ] {\Large$w^{(l)}_{ij}$} (H-3.west);
+        \draw [thick, ->](I-0.east) -- node[midway, fill = white, ] {\Large$b^{(l)}_{j}$} (H-3.west);
+
+
+        % \draw [thick, ->](I-2.east) -- node[midway, fill = white, ] {$w^{(l)}_{ij}$} (H-3.west);
+        % \draw [thick, ->](I-0.east) -- node[midway, fill = white, ] {$b^{(l)}_{i}$} (H-3.west);
+         %%%%%%%%%%%%%%%% (L+1)) LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \node at (2*\layersep, 1+2.5*\pad) {{\Large$(l+1)^{\text{th}}$ layer}};
+        \draw [white, fill = gray!25] (-\pad + 2*\layersep, -4 - 2*\pad)
+                            rectangle ( \pad + 2*\layersep , 2*\pad);
+        \node at (2*\layersep, -5 - 2*\pad) {\Large$\bz^{(l+1)}~~~\ba^{(l+1)}$};
+
+        % \foreach \name / \y in {1, 2, 3, 4}
+        \def\y{1}
+        \path[yshift=2cm] node[hidden neuron, label = below:{\Large$z^{(l+1)}_\y~~~a^{(l+1)}_\y$}] (O-\y) at (2*\layersep,-2*\y cm) {};
+
+        \def\y{2}
+        \path[yshift=2cm] node[hidden neuron, label = below:{\Large$z^{(l+1)}_k~~~a^{(l+1)}_k$}] (O-\y) at (2*\layersep,-2*\y cm) {};
+        \node[scale = 1.5]  at (2*\layersep,-2*\y + 3) {$\vdots$};
+
+        \def\y{3}
+        \path[yshift=2cm] node[hidden neuron, label = below:{\Large$z^{(l+1)}_{d^{(l+1)}}~~~a^{(l+1)}_{d^{(l+1)}}$}] (O-\y) at (2*\layersep,-2*\y cm) {};
+        \node[scale = 1.5]  at (2*\layersep,-2*\y + 3) {$\vdots$};
+
+        % \def\y{4}
+        % \path[yshift=3cm] node[output neuron, label = below:{$a^{(l)}_{d^{(l)}}$}] (O-\y) at (2*\layersep,-2*\y cm) {};
+
+        \foreach \src in {1, 2, 3, 4}
+            \foreach \dst in {1, 2, 3}
+                \draw [->, draw = gray!40] (H-\src.east) -- (O-\dst.west);
+
+         \foreach \src in {3}
+            \foreach \dst in {1, 2, 3}
+                \draw [->, draw] (H-\src.east) -- (O-\dst.west);
+        \draw [->, draw] (H-3.east) -- node[midway, fill = white, ] {\Large$w^{(l+1)}_{jk}$} (O-2.west);
+        % \node[hidden neuron, opacity = .5, label = below:{$a^{(1)}_0$}] (H-0) at (\layersep,0) {1};
+
+        
+
+    \end{scope}
+
+
+
+\end{tikzpicture}
+% End of code
+\end{document}

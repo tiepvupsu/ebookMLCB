@@ -1,0 +1,61 @@
+\documentclass{standalone}
+\usepackage{tikz,,calc}
+\usetikzlibrary{intersections, calc}
+\renewcommand{\familydefault}{\sfdefault}
+\tikzstyle{level}=[thick, opacity = .93, black]
+
+\tikzset{
+    partial ellipse/.style args={#1:#2:#3}{
+        insert path={+ (#1:#3) arc (#1:#2:#3)}
+    }
+}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+\begin{document}
+\begin{tikzpicture}[>=stealth]
+  \clip (-1, -1) rectangle (6, 3);
+  % \begin{scope}[xshift = 6cm]
+  \draw [fill = gray!50] (0, 0)  --  (1, -.81)  --  (2.5, -.5)  --  (3, 1.5)  --  (2, 2)  --  (.5, 2)  --  (0, 1)  --  cycle;
+  
+  \def\k{5.25}
+  \def\ax{2.65}
+  \def\bx{3.4}
+  \def\ay{\d*(\ax - 3) + 1}
+
+  \def\r{2}
+  \def\r{2.1}
+  \draw[level, dash pattern=on 9pt off 9pt] (5,1) [partial ellipse=0:360:1cm and .5cm];
+  \draw[level, dash pattern=on 7pt off 7pt] (5,1) [partial ellipse=30:330:\r cm and .5*\r cm];
+  \draw[level, dash pattern=on 5pt off 5pt] (5,1) [partial ellipse=30:330:3cm and 1.5cm];
+  \draw[level, dash pattern=on 3pt off 3pt] (5,1) [partial ellipse=30:330:4cm and 2cm];
+  \draw[level, dash pattern=on 2pt off 2pt] (5,1) [partial ellipse=30:330:5cm and 2.5cm];
+  \draw[level] (5,1) [partial ellipse=30:330:6cm and 3cm];
+
+  \draw [fill = black, draw = black] (2.91, 1.17 ) circle (2pt);
+  \def\a{.4}
+  \draw [->](2.91, 1.17)  --  (2.91 + 4*\a, 1.17 - \a);
+  \node at (5, 1) {$-\nabla f_0 (\mathbf{x}_0)$};
+  % \draw [fill = red, draw = red] (0, 1 ) circle (1pt);
+
+  \node at (1.5, 0.4) {tập khả thi $\mathcal{X}$};
+  \node at (1.5, 2.4) {Quy hoạch toàn phương};
+  \node at (2.7, 1) {$\mathbf{x}_0$};
+  % \node at (.3, 1) {$\mathbf{x}_1$};
+  % \node at (4.3, 1) {$-\mathbf{c}$};
+
+  % \coordinate (P) at ($(0, 0) + (30:3cm and 2cm)$);
+
+  % \draw[thick, red, -latex] ($(0, 0) + (30:3cm and 2cm)$(P) arc
+  % (30:150:3cm and 2cm);
+
+
+  % \draw (-1, .5)  --  (3, -1.5);
+  % \draw (1.5, -2)  --  (3.5, 2);
+  % \draw (-.5, .75)  --  (3, 2.5);
+  % \draw (0, -1)  --  (0, 2);
+  % \draw (3.5, .5)  --  (1.5, 2.5);
+
+  % \end{scope}
+\end{tikzpicture}
+\end{document} 

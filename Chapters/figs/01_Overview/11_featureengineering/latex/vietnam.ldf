@@ -1,0 +1,78 @@
+%%
+%% File 'vietnamese.ldf', generated from 'babel-vi.dtx'.
+%%
+%% Copyright 2000-2005 Werner Lemberg <WL@gnu.org>
+%%
+%% This file is part of vntex.
+%%
+%% This work may be distributed and/or modified under the conditions
+%% of the LaTeX Project Public License, either version 1.3 of this
+%% license or (at your option) any later version.
+%%
+%% The latest version of this license is
+%%
+%%         http://www.latex-project.org/lppl.txt
+%%
+%% The current maintainers are Werner Lemberg, Han The Thanh, and
+%% Reinhard Kotucha.
+%%
+
+\ProvidesLanguage{vietnamese}%
+[2005/04/21 v1.2 Vietnamese support from the babel system]
+
+\LdfInit{vietnamese}{captionsvietnamese}
+
+\ifx\l@vietnamese \@undefined
+  \adddialect\l@vietnamese 0
+\fi
+
+\let\latinencoding\cf@encoding
+
+\InputIfFileExists{t5enc.def}
+  {\message{Loading definitions for the Vietnamese font encoding}}
+  {\errhelp{I can't find the file `t5enc.def' for Vietnamese fonts}
+   \errmessage{Since I do not know what the T5 encoding means^^J
+               I can't typeset Vietnamese.^^J
+               I stop here, while you get a suitable `t5enc.def' file}
+   \@@end}
+
+\@ifpackageloaded{inputenc}{}
+  {\PackageWarning{babel}{No input encoding specified for Vietnamese}}
+
+\endlinechar \m@ne
+
+\@ifpackageloaded{ucs}{
+  \PreloadUnicodePage{0}
+  \PreloadUnicodePage{1}
+  \PreloadUnicodePage{30}
+  \ifx \UnicodeCharFilter \@undefined
+    \UCSProtectionIeC
+  \else
+    \UnicodeCharFilter\IeC
+  \fi}{}
+
+\DeclareRobustCommand{\viettext}{
+  \fontencoding{T5}\selectfont
+  \def\encodingdefault{T5}
+  \language\l@vietnamese}
+\let\viet \viettext
+\DeclareTextFontCommand{\textviet}{\viet}
+
+\addto\extrasvietnamese{\viettext}
+\addto\noextrasvietnamese{\latintext}
+
+\addto\extrasvietnamese{\bbl@frenchspacing}
+\addto\noextrasvietnamese{\bbl@nonfrenchspacing}
+
+\input{vncaps.tex}
+  \let\captionsvietnamese\captionsvietnam
+  \let\datevietnamese\datevietnam
+
+\ldf@finish{vietnamese}
+
+\endlinechar `\^^M
+
+\endinput
+%%
+%% End of file `vietnamese.ldf'.
+

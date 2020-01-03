@@ -1,0 +1,122 @@
+%!TEX root = ../book_ML.tex
+
+\chapter{Phương pháp nhân tử Lagrange}
+\label{apd:lagrange}
+% Trước tiên, chúng ta lại bắt đầu bằng những kỹ thuật đơn giản cho các bài toán cơ bản. Kỹ thuật này có lẽ các bạn đã từng nghe đến: Phương pháp nhân tử Lagrange (method of \href{https://en.wikipedia.org/wiki/Lagrange_multiplier}{Lagrange multipliers}). Đây là một phương pháp giúp tìm các điểm cực trị của hàm mục tiêu trên feasible set của bài toán.
+
+Việc tối ưu hàm số một biến liên tục và khả vi trên miền xác định
+là một tập mở\footnote{Xem thêm:
+\textit{Open sets, closed
+sets and sequences of real numbers} (\url{https://goo.gl/AgKhCn}).} thường được thực hiện dựa trên
+việc giải
+phương trình đạo hàm bằng không. Gọi hàm mục tiêu là $f(x): \R \rightarrow \R$,
+cực trị toàn cục nếu có thường được tìm bằng cách giải
+phương trình $f'(x) = 0$. Chú ý rằng điều ngược lại không đúng, tức một điểm
+thoả mãn đạo hàm bằng không chưa chắc đã là cực trị của hàm số. Ví dụ hàm $f(x) = x^3$ có đạo hàm bằng không tại $x =0$ nhưng điểm này không là một điểm cực trị. Với hàm nhiều biến, ta cũng có thể áp dụng quan sát này: giải phương trình gradient bằng không.
+
+Cách làm trên đây được áp dụng vào các bài toán tối ưu không ràng buộc. Các bài toán có ràng buộc là một phương
+trình:
+\begin{eqnarray}
+\nonumber
+\mathbf{x}=& \arg\min_{\mathbf{x}} f_0(\mathbf{x}) \\\
+\label{eqn:18_1constraint}
+\text{thoả mãn:}~& f_1(\mathbf{x}) = 0,
+\end{eqnarray}
+cũng có thể được đưa về bài toán không ràng buộc bằng \textit{phương pháp nhân tử Lagrange}.
+
+\index{phương pháp nhân tử Lagrange}
+% Bài toán này là bài toán tổng quát, không nhất thiết phải lồi. Tức hàm mục tiêu và hàm ràng buộc không nhất thiết phải lồi.
+
+Xét hàm số $\mathcal{L}(\mathbf{x}, \lambda) = f_0(\mathbf{x}) + \lambda
+f_1(\mathbf{x})$ với biến $\lambda$ được gọi là \textit{nhân tử Lagrange}
+({Lagrange multiplier}). Hàm số $\mathcal{L}(\mathbf{x}, \lambda)$ được
+gọi là \textit{hàm Lagrange} của bài toán. Người ta đã chứng minh được rằng, điểm tối ưu của
+bài toán \eqref{eqn:18_1constraint} thoả mãn điều kiện $\nabla_{\mathbf{x},
+\lambda} \mathcal{L}(\mathbf{x}, \lambda) = \bzero$. Điều này tương đương với:
+\begin{align}
+\label{eqn:18_2}
+\nabla_{\bx} \L(\bx, \lambda) &=  \nabla_{\mathbf{x}}f_0(\mathbf{x}) + \lambda
+\nabla_{\mathbf{x}} f_1(\mathbf{x}) = 0 \\\
+\label{eqn:18_3}
+\nabla_{\lambda}\L(\bx, \lambda) &= f_1(\mathbf{x}) = 0
+\end{align}
+
+Để ý rằng điều kiện thứ hai chính là ràng buộc trong bài toán
+\eqref{eqn:18_1constraint}.
+
+Trong nhiều trường hợp, việc giải hệ phương trình \eqref{eqn:18_2} - \eqref{eqn:18_3} đơn giản hơn việc trực tiếp đi tìm nghiệm của bài toán
+\eqref{eqn:18_1constraint}.
+
+\textbf{Ví dụ 1}:
+
+% \subsection{Ví dụ}
+Tìm giá trị lớn nhất và nhỏ nhất của hàm số $f_0(x, y) = x + y$ với
+$x, y$ thoả mãn điều kiện $f_1(x, y) = x^2 + y^2 = 2$.
+
+% Ta nhận thấy rằng đây không phải là một bài toán tối ưu lồi vì \textit{feasible set} $x^2 + y^2 = 2$ không phải là một tập lồi (nó chỉ là một đường tròn).
+
+\lg
+
+Điều kiện ràng buộc có thể được viết lại dưới dạng $x^2 + y^2 - 2 = 0$.
+Hàm Lagrange của bài toán này là $\mathcal{L}(x, y, \lambda) = x + y + \lambda(x^2 + y^2 - 2)$. Các điểm cực trị của hàm số Lagrange phải thoả mãn hệ điều kiện:
+\begin{equation}
+\label{eqn:18_ex1}
+\nabla_{x, y, \lambda} \mathcal{L}(x, y, \lambda) = 0 \Leftrightarrow
+\left\{
+\begin{matrix}
+1 + 2\lambda x &= 0 \\\
+1 + 2\lambda y &= 0 \\\
+x^2 + y^2 &=     2
+\end{matrix}
+\right.
+\end{equation}
+Từ hai phương trình đầu của \eqref{eqn:18_ex1} suy ra $x = y =
+\frac{-1}{2\lambda}$. Thay vào phương trình cuối ta sẽ có $\lambda^2 =
+\frac{1}{4} \Rightarrow \lambda = \pm \frac{1}{2}$. Vậy ta được 2 cặp nghiệm
+$(x, y) \in \{(1, 1), (-1, -1)\}$. Bằng cách thay các giá trị này vào hàm mục
+tiêu, ta tìm được giá trị nhỏ nhất và lớn nhất của bài toán.
+
+\textbf{Ví dụ 2}: Chuẩn $\ell_2$ của ma trận.
+
+Nhắc lại chuẩn $\ell_2$ của một vector $\bx: \|\bx\|_2 = \sqrt{\bx^T\bx}$. Dựa trên chuẩn $\ell_2$ của vector, chuẩn $\ell_2$ của một ma trận $\bA \in \R^{m\times n}$, ký hiệu là $\|\bA\|_2$, được định nghĩa như sau:
+\begin{equation}
+\|\bA\|_2 = \max \frac{\|\bA \bx\|_2}{\|\bx\|_2} = \max \sqrt{\frac{\bx^T\bA^T\bA\bx}{\bx^T\bx}}, \text{với}~ \bx \in \R^{n}
+\end{equation}
+Bài toán tối ưu này tương đương với:
+\begin{eqnarray}
+\label{eqn:app_norm2}
+\begin{aligned}
+\max\left(\bx^T\bA^T\bA\bx\right) \\
+\text{thoả mãn:}~ \bx^T\bx = 1
+\end{aligned}
+\end{eqnarray}
+Hàm Lagrange của bài toán này là
+\begin{equation}
+\L(\bx, \lambda) = \bx^T\bA^T\bA\bx + \lambda ( 1 - \bx^T\bx)
+\end{equation}
+Các điểm cực trị của hàm số Lagrange phải thoả mãn:
+\begin{eqnarray}
+\label{eqn:app_9}
+\nabla_{\bx}\L &=& 2\bA^T\bA\bx - 2\lambda\bx = \bzero\\
+\label{eqn:app_10}
+\nabla_{\lambda}\L &=& 1 - \bx^T\bx = 0
+\end{eqnarray}
+Từ~\eqref{eqn:app_9} ta có $\bA^T\bA\bx = \lambda\bx$. Vậy $\bx$ phải là một vector riêng của $\bA^T\bA$ ứng với trị riêng $\lambda$. Nhân cả hai vế của biểu thức này với $\bx^T$ vào bên trái và sử dụng~\eqref{eqn:app_10}, ta thu được:
+\begin{equation}
+\bx^T\bA^T\bA\bx = \lambda \bx^T\bx = \lambda
+\end{equation}
+Từ đó suy ra $\|\bA\bx\|_2$ đạt giá trị lớn nhất khi $\lambda$ đạt giá trị lớn
+nhất. Nói cách khác, $\lambda$ phải là trị riêng lớn nhất của $\bA^T\bA$.
+Vậy,
+\begin{math}
+\|\bA\|_2 = \lambda_{\max}(\bA^T\bA).
+\end{math}
+
+Các trị riêng của $\bA^T\bA$ còn được gọi là \textit{giá trị suy biến} (singular value) của $\bA$.
+Tóm lại, chuẩn $\ell_2$ của một ma trận là giá trị suy biến lớn nhất của ma trận đó.
+
+Hoàn toàn tương tự, nghiệm của bài toán
+\begin{equation}
+\min_{\|\bx\| = 1} \|\bA\bx\|_2
+\end{equation}
+chính là một vector riêng ứng với giá trị suy biến nhỏ nhất của $\bA$.

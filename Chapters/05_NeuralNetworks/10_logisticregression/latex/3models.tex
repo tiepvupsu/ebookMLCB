@@ -1,0 +1,128 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+ \usepackage[vietnam]{babel}
+
+
+\begin{document}
+\pagestyle{empty}
+% \input{definitions}
+\def\layersep{2.5cm}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [black] (-\a, -.5) --  (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [black] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{disttt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [black] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{disttt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      % \draw [black] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+      % \draw[domain=-.5:.5, smooth, variable=\x,black] plot ({\x},{1/(1 + exp(-\x))}
+      % \addplot[color=red]{1/(1+exp(-x))-2};
+      \draw [black] plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+    \end{scope}
+    }
+  }
+}
+
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!40]
+\tikzstyle{linear neuron}=[output neuron, dist]
+\tikzstyle{sign neuron}=[output neuron, distt]
+\tikzstyle{sigmoid neuron}=[output neuron, disttt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=black!40]
+\tikzstyle{annot} = [text width=4em, text centered]
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,4}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[linear neuron ] (O-\name) at (\layersep,-\y cm) {};
+    % hidden layer.
+    \foreach \source in {1,...,4}
+        \foreach \dest in {3}
+            % \path (I-\source) edge (H-\dest);
+            \draw [thick, ->](I-\source) -- (O-\dest);
+    \node at (1, -5) {Hồi quy tuyến tính};
+\end{tikzpicture}
+% sign 
+\quad \quad
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,4}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[sign neuron ] (O-\name) at (\layersep,-\y cm) {};
+    % hidden layer.
+    \foreach \source in {1,...,4}
+        \foreach \dest in {3}
+            % \path (I-\source) edge (H-\dest);
+            \draw [thick, ->](I-\source) -- (O-\dest);
+    \node at (1, -5) {PLA};
+\end{tikzpicture}
+\quad \quad
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,4}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[sigmoid neuron ] (O-\name) at (\layersep,-\y cm) {};
+    % hidden layer.
+    \foreach \source in {1,...,4}
+        \foreach \dest in {3}
+            % \path (I-\source) edge (H-\dest);
+            \draw [thick, ->](I-\source) -- (O-\dest);
+    \node at (1, -5) {Hồi quy logistic};
+\end{tikzpicture}
+
+% End of code
+\end{document}

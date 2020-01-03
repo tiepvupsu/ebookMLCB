@@ -1,0 +1,120 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{standalone}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.11}
+
+\renewcommand{\familydefault}{\sfdefault}
+% \usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+% \usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+% \usetikzlibrary{decorations.pathmorphing}
+% \usetikzlibrary{decorations.shapes}
+% \usetikzlibrary{decorations.text}
+% \usetikzlibrary{decorations.fractals}
+% \usetikzlibrary{decorations.footprints}
+% \usetikzlibrary{shadows}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{spy}
+
+% \pgfplotsset{compat=1.11}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnam]{babel}
+
+\def\dd{.6}
+% \def\p{5.1}
+\def\q{-.6}
+% \def\sc{25}
+
+\newcommand{\nn}[4]{
+    \begin{scope}[xshift = #1*\dd cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = west, draw, inner sep = 0, fill = #3!30, minimum height = .6cm, minimum width = .6cm] {#4};
+    \end{scope}
+}
+
+\newcommand{\nnn}[4]{
+    \begin{scope}[xshift = #1*\dd cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, align = left,  draw, inner sep = 0, fill = #3!30, minimum height = .6cm, minimum width = 3.5cm] {#4};
+    \end{scope}
+}
+
+\newcommand{\nnnn}[4]{
+    \begin{scope}[xshift = #1*\dd cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = west, align = left,  draw, inner sep = 0, fill = #3!15, minimum height = .6cm, minimum width = 3.6cm] {#4};
+    \end{scope}
+}
+
+\def\bx{\mathbf{x}}
+\def\bw{\mathbf{w}}
+\begin{document}
+\begin{tikzpicture}
+    \nn{1}{0}{white}{A};
+    \nn{1}{1}{white}{5};
+    \nn{1}{2}{white}{5};
+    \nn{1}{3}{gray}{?};
+    \nn{1}{4}{white}{1};
+    \nn{1}{5}{white}{1};
+
+    \nn{2}{0}{white}{B};
+    \nn{2}{1}{white}{5};
+    \nn{2}{2}{gray}{?};
+    \nn{2}{3}{white}{4};
+    \nn{2}{4}{white}{1};
+    \nn{2}{5}{white}{0};
+
+    \nn{3}{0}{white}{C};
+    \nn{3}{1}{white}{0};
+    \nn{3}{2}{gray}{?};
+    \nn{3}{3}{white}{1};
+    \nn{3}{4}{white}{4};
+    \nn{3}{5}{white}{5};
+
+    \nn{4}{0}{white}{D};
+    \nn{4}{1}{white}{0};
+    \nn{4}{2}{white}{0};
+    \nn{4}{3}{gray}{?};
+    \nn{4}{4}{white}{4};
+    \nn{4}{5}{gray}{?};
+
+    \nn{5}{0}{white}{E};
+    \nn{5}{1}{white}{1};
+    \nn{5}{2}{gray}{?};
+    \nn{5}{3}{gray}{?};
+    \nn{5}{4}{white}{4};
+    \nn{5}{5}{gray}{?};
+
+    \nn{6}{0}{white}{F};
+    \nn{6}{1}{gray}{?};
+    \nn{6}{2}{gray}{?};
+    \nn{6}{3}{white}{1};
+    \nn{6}{4}{gray}{?};
+    \nn{6}{5}{gray}{?};
+
+    \nnnn{7}{0}{white}{vector đặc trưng};
+    \nnnn{7}{1}{white}{$~~\bx_1 = [ 0.99, 0.02]^T~~$};
+    \nnnn{7}{2}{white}{$~~\bx_2 = [ 0.91, 0.11]^T~~$};
+    \nnnn{7}{3}{white}{$~~\bx_3 = [ 0.95, 0.05]^T~~$};
+    \nnnn{7}{4}{white}{$~~\bx_4 = [ 0.01, 0.99]^T~~$};
+    \nnnn{7}{5}{white}{$~~\bx_5 = [ 0.03, 0.98]^T~~$};
+    \nnnn{7}{6}{white}{\bf $\leftarrow$ tham số cần tìm};
+
+    \nn{1}{6}{white}{$\theta_1$};
+    \nn{2}{6}{white}{$\theta_2$};
+    \nn{3}{6}{white}{$\theta_3$};
+    \nn{4}{6}{white}{$\theta_4$};
+    \nn{5}{6}{white}{$\theta_5$};
+    \nn{6}{6}{white}{$\theta_6$};
+
+    \nnn{1}{1}{white}{Mưa nửa đêm};
+    \nnn{1}{2}{white}{Cỏ úa};
+    \nnn{1}{3}{white}{Vùng lá me bay};
+    \nnn{1}{4}{white}{Con cò bé bé};
+    \nnn{1}{5}{white}{Em yêu trường em};
+    \nnn{1}{6}{white}{Mô hình người dùng};
+
+    \draw[very thick]  (-2.9, -3.3) -- ++ (10.7, 0);
+   
+\end{tikzpicture}
+\end{document}

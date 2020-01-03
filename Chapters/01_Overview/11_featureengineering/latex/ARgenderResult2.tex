@@ -1,0 +1,29 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{bchart}
+
+\begin{document}
+% \begin{scope}
+\begin{tikzpicture}
+\node at (0, 0) {\includegraphics{m2.png}}; 
+\end{tikzpicture}
+
+\begin{bchart}[max = 1, scale = 1, width = 2cm]
+    \bcbar[label=man, color = blue!50]{0.3}
+    \smallskip
+    \bcbar[label=woman, color = red!50]{0.7}
+\end{bchart}
+\quad\quad\quad\quad\quad
+\begin{tikzpicture}
+\node at (0, 0) {\includegraphics{w2.png}}; 
+\end{tikzpicture}
+\begin{bchart}[max = 1, scale = 1, width = 2cm]
+    \bcbar[label=man, color = blue!50]{0.84}
+    \smallskip
+    \bcbar[label=woman, color = red!50]{0.16}
+\end{bchart}
+
+
+\end{document}

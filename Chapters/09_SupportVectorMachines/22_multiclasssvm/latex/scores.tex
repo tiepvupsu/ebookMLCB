@@ -1,0 +1,104 @@
+\documentclass{standalone}
+\usepackage{tikz,}
+
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+\usetikzlibrary{patterns}
+% defining the new dimensions and parameters
+% https://www.latex4technics.com/?note=32oo
+\newlength{\hatchspread}
+\newlength{\hatchthickness}
+\newlength{\hatchshift}
+\newcommand{\hatchcolor}{}
+% declaring the keys in tikz
+\tikzset{hatchspread/.code={\setlength{\hatchspread}{#1}},
+         hatchthickness/.code={\setlength{\hatchthickness}{#1}},
+         hatchshift/.code={\setlength{\hatchshift}{#1}},% must be >= 0
+         hatchcolor/.code={\renewcommand{\hatchcolor}{#1}}}
+% setting the default values
+\tikzset{hatchspread=6pt,
+         hatchthickness=0.15pt,
+         hatchshift=0pt,% must be >= 0
+         hatchcolor=black}
+% declaring the pattern
+% declaring the pattern
+\pgfdeclarepatternformonly[\hatchspread,\hatchthickness,\hatchshift,\hatchcolor]% variables
+   {custom north west lines}% name
+   {\pgfqpoint{\dimexpr-2\hatchthickness}{\dimexpr-2\hatchthickness}}% lower left corner
+   {\pgfqpoint{\dimexpr\hatchspread+2\hatchthickness}{\dimexpr\hatchspread+2\hatchthickness}}% upper right corner
+   {\pgfqpoint{\dimexpr\hatchspread}{\dimexpr\hatchspread}}% tile size
+   {% shape description
+    \pgfsetlinewidth{\hatchthickness}
+    \pgfpathmoveto{\pgfqpoint{0pt}{\dimexpr\hatchspread+\hatchshift}}
+    \pgfpathlineto{\pgfqpoint{\dimexpr\hatchspread+0.15pt+\hatchshift}{-0.15pt}}
+    \ifdim \hatchshift > 0pt
+      \pgfpathmoveto{\pgfqpoint{0pt}{\hatchshift}}
+      \pgfpathlineto{\pgfqpoint{\dimexpr0.15pt+\hatchshift}{-0.15pt}}
+    \fi
+    \pgfsetstrokecolor{\hatchcolor}
+%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
+    \pgfusepath{stroke}
+   }
+\usetikzlibrary{shapes.geometric, positioning}
+\begin{document}
+    \begin{tikzpicture}[square/.style={draw, regular polygon,regular polygon sides=4, minimum width = 2.5cm}]
+        % W
+        \node at (0,0) [square, fill = gray!20] (w0) {\Large .3};
+        \node [ anchor = west, right = 0 cm of w0,square, fill = gray!20] (w11) {\Large 1};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large-0.1};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large2};
+        \node [ anchor = west, right = 0 cm of w11,square, pattern = custom north west lines] (w11) {\Large-1.1};
+            
+        \node [ anchor = north, below = 0 cm of w0,square, fill = gray!20] (w1) {\Large 1.5};
+        \node [ anchor = west, right = 0 cm of w1,square, fill = gray!20] (w11) {\Large -2};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large 0.7};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large -0.1};
+        \node [ anchor = west, right = 0 cm of w11,square, pattern = custom north west lines] (w11) {\Large .05};
+
+        \node [ anchor = north, below = 0 cm of w1,square, fill = gray!20] (w11) {\Large -0.3};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large 0.1};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large -1.2};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {\Large 1.5};
+        \node [ anchor = west, right = 0 cm of w11,square, pattern = custom north west lines] (w11) {\Large 0.7};
+        \node at (3.5, -5) [scale = 2] {$\mathbf{W^T}$};
+        % %  b
+        % \node at (4.7, 0) [square, pattern = custom north west lines] (w0) {-1.1};
+        % \node [anchor = north, below = 0cm of w0, square, pattern = custom north west lines] (w1) {0.5};
+        % \node [anchor = north, below = 0cm of w1, square, pattern = custom north west lines] (w1) {0.7};
+
+        % x 
+        \node at (8.5, -2) [scale = 2] {\bf $\times$};
+        %  x
+        \node at (10, 0) [square, fill = white!10] (w0) {\Large -12};
+        \node [anchor = north, below = 0cm of w0, square, fill = white!10] (w1) {\Large 45};
+        \node [anchor = north, below = 0cm of w1, square, fill = white!10] (w1) {\Large -50};
+        \node [anchor = north, below = 0cm of w1, square, fill = white!10] (w1) {\Large 120};
+        \node [anchor = north, below = 0cm of w1, square, fill = white!50] (w1) {\Large \textbf{1}};
+
+        \node at (10, -8.7) [scale = 2, anchor = center] {$\mathbf{x}$};
+
+        % = 
+        \node at (12, -2) [scale = 2] {\bf $=$};
+
+        % z
+        \node at (14, 0) [minimum width = 2.5cm, minimum height = 1.75cm, draw, black, fill = white!10] (w0) {\Large \bf 285.3};
+        \node [anchor = north, minimum width = 2.5cm, minimum height = 1.75cm, below = 0cm of w0, draw,  fill = white!10] (w1) {\Large-154.5};
+        \node [anchor = north, minimum width = 2.5cm, minimum height = 1.75cm, below = 0cm of w0, draw,  below = 0cm of w1 , fill = white!10] (w2) {\Large248.8};
+        \node at (14, -4.9) [scale = 2, anchor = center, text width = 3.035cm, align = center] {vector điểm số $\mathbf{z}$ };
+
+        \node [anchor = west, right = 0cm of w0, scale = 2] {điểm \textit{cat}};
+        \node [anchor = west, right = 0cm of w1, scale = 2] {điểm \textit{frog}};
+        \node [anchor = west, right = 0cm of w2, scale = 2] {điểm \textit{dog}};
+
+        \node (cat) at (-3.5, -1.1) {\includegraphics[width = 3cm]{cat_gray.jpg}};
+        \node [below = .35cm of cat, scale = 2, text width = 2cm] {ảnh (màu)\\ đầu vào};
+        \draw [->, ultra thick] (-3.5, 0.85)  --  ++ (0, .7)  --  ++ (13.5, 0)  --  ++ (0, -.7);
+
+        \node at (3.25, 2.1) [scale = 2] {vector đặc trưng chuẩn hóa (đã thêm đặc trưng 1)};
+
+        % \draw
+    \end{tikzpicture}
+\end{document}

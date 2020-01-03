@@ -1,0 +1,140 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{standalone}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.11}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\renewcommand{\familydefault}{\sfdefault}
+% \usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+% \usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+% \usetikzlibrary{decorations.pathmorphing}
+% \usetikzlibrary{decorations.shapes}
+% \usetikzlibrary{decorations.text}
+% \usetikzlibrary{decorations.fractals}
+% \usetikzlibrary{decorations.footprints}
+% \usetikzlibrary{shadows}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{spy}
+
+% \pgfplotsset{compat=1.11}
+% \usepackage[utf8]{inputenc}
+% \usepackage[vietnam]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnam]{babel}
+
+\usetikzlibrary{patterns}
+
+
+\tikzstyle{shaded0}=[pattern = north east lines, fill opacity = .25, thick]
+\tikzstyle{shaded1}=[pattern = dots, fill opacity = .2, thick]
+
+%% ========= long bar notation ==============================
+\makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+\newcommand*\lbar[2][.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.3\mylenA\rlap{\usebox\myboxA}{\hskip 0.3\mylenA\usebox\myboxB}%
+    \fi}
+\makeatother
+
+\def\dd{.6}
+% \def\p{5.1}
+\def\q{-.6}
+% \def\sc{25}
+
+\newcommand{\nn}[4]{
+    \begin{scope}[xshift = #1*\dd cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, draw, inner sep = 0, fill = #3!20, minimum height = .6cm, minimum width = .6cm] {#4};
+    \end{scope}
+}
+
+\newcommand{\nnn}[4]{
+    \begin{scope}[xshift = #1*\dd cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, align = left,  draw, inner sep = 0, fill = #3!30, minimum height = .6cm, minimum width = .6cm] {#4};
+    \end{scope}
+}
+
+
+
+\begin{document}
+\begin{tikzpicture}
+    \begin{scope}
+        \draw [thick] (0, 0) rectangle (5, 3);
+        \node [scale = 1.5] at (2.5, 1.5) {$\mathbf{X}$};
+        \node at (2.5, -0.3) {Dữ liệu ban đầu};
+        \node at (2.5, 2.7) {$N$};
+        \node at (.3, 1.5) {$D$};
+        \node [scale = 1.5] at (5.5, 1.55) {$=$};
+    \end{scope}
+
+
+    \begin{scope}[xshift = 6cm]
+        \draw [shaded0] (0, 0) rectangle (2, 3);
+        \draw [shaded1] (2, 0) rectangle (3, 3);
+        \node [scale = 1.5] at (1, 1.5) {$\mathbf{U}_K$};
+        \node [scale = 1.5] at (2.5, 1.5) {$\widehat{\mathbf{U}}_K$};
+        \node at (1.5, -0.3) {Ma trận trực giao};
+        \node at (1, 2.7) {$K$};
+        \node at (2.5, 2.7) {$D-K$};
+        \node at (.3, 1.5) {$D$};
+        \node [scale = 1.5] at (3.5, 1.55) {$\times$};
+    \end{scope}
+
+
+    \begin{scope}[xshift = 10cm]
+        \draw [shaded0] (0, 1) rectangle (5, 3);
+        \draw [shaded1] (0, 0) rectangle (5, 1);
+        \node [scale = 1.5] at (2.5, 2) {$\mathbf{Z}$};
+        \node [scale = 1.5] at (2.5, .5) {$\mathbf{Y}$};
+        \node at (2.5, -0.3) {Toạ độ trong hệ cơ sở mới};
+        \node at (2.5, 2.7) {$N$};
+        \node at (.3, 2) {$K$};
+        \node [align = left] at (.6, .5) {$D-K$};
+        % \node [scale = 1.5] at (5.5, 1.55) {$=$};
+    \end{scope}
+
+
+    \begin{scope}[xshift = 6cm, yshift = -4cm]
+        \draw [shaded0] (0, 0) rectangle (2, 3);
+        \node [scale = 1.5] at (1, 1.5) {$\mathbf{U}_K$};
+        \node at (1, 2.7) {$K$};
+        \node at (.3, 1.5) {$D$};
+        \node [scale = 1.5] at (2.5, 2) {$\times$};
+        \node [scale = 1.5] at (-.5, 2) {$=$};
+    \end{scope}
+    \begin{scope}[xshift = 9cm, yshift = -4cm]
+        \draw [shaded0] (0, 1) rectangle (5, 3);
+        \node [scale = 1.5] at (2.5, 2) {$\mathbf{Z}$};
+        \node at (2.5, 2.7) {$N$};
+        \node at (.3, 2) {$K$};
+        \node [scale = 1.5] at (5.5, 2) {$+$};
+    \end{scope}
+
+    \begin{scope}[xshift = 13cm, yshift = -4cm]
+        \draw [shaded1] (2, 0) rectangle (3, 3);
+        \node [scale = 1.5] at (2.5, 1.5) {$\widehat{\mathbf{U}}_K$};
+        \node at (.3, 1.5) {$D$};
+        \node [scale = 1.5] at (3.5, 2.5) {$\times$};
+    \end{scope}
+    \begin{scope}[xshift = 17cm, yshift = -4cm]
+        \draw [shaded1] (0, 2) rectangle (5, 3);
+        \node [scale = 1.5] at (2.5, 2.5) {$\mathbf{Y}$};
+    \end{scope}
+
+\end{tikzpicture}
+\end{document}

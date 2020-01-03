@@ -1,0 +1,207 @@
+% \documentclass[parskip]{scrartcl}
+% \usepackage[margin=15mm]{geometry}
+% \usepackage{tikz}
+% \documentclass{beamer}
+\documentclass[xcolor={dvipsnames}]{beamer}
+\usepackage[pdftex,active,tightpage]{preview}
+\usepackage{tikz}
+% \usepackage{siunitx}
+% \usepackage{mathpazo}
+% \input{../definitions}
+\PreviewEnvironment{tikzpicture}
+%%%<
+\usepackage{verbatim}
+%%%>
+\begin{comment}
+:Title: Sudoku
+:Tags: Foreach;Scopes;Games
+:Author: Roberto Bonvallet
+:Slug: sudoku
+\end{comment}
+% \usepackage[dvipsnames]{xcolor}
+%%%>
+% \begin{comment}
+% :Title: Sudoku
+% :Tags: Foreach;Scopes;Games
+% :Author: Roberto Bonvallet
+% :Slug: sudoku
+% \end{comment}
+
+\useoutertheme[subsection=false]{smoothbars}
+%\useoutertheme[subsection=false]{miniframes}
+\useinnertheme{circles}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{navigation symbols}
+
+
+
+%% ========================== tikzcuboid =============================
+\newcommand{\tikzcuboid}[4]{% width, height, depth, scale
+    \path[fill=#4, draw = black, draw opacity = 1, rounded corners = 1pt, line width = 1mm] 
+        (0, 0, #3)  --  (0,#2,#3)  --  (#1,#2,#3)  --  (#1,0,#3)  --  cycle;
+    \path[fill=#4, draw = black, draw opacity = 1, rounded corners = 1pt, line width = 1mm] 
+        (0, #2, 0)  --  (#1,#2,0)  --  (#1,#2,#3)  --  (0,#2,#3)  --  cycle;
+    \path[fill=#4, draw = black, draw opacity = 1, rounded corners = 1pt, line width = 1mm] 
+        (#1, 0, #3)  --  (#1,#2,#3)  --  (#1,#2,0)  --  (#1,0,0)  --  cycle;
+    % \begin{tikzpicture}
+    \foreach \x in {0,...,#1}
+    {   \draw [opacity=0.5](\x ,0  ,#3 )  --  (\x ,#2 ,#3 );
+        \draw [opacity=0.5](\x ,#2 ,#3 )  --  (\x ,#2 ,0  );
+    }
+    \foreach \x in {0,...,#2}
+    {   
+        % \draw [opacity=0.5] (#1 ,\x ,#3 )  --  (#1 ,\x ,0  );
+        % \draw [opacity=0.5](0  ,\x ,#3 )  --  (#1 ,\x ,#3 );
+    }
+    \foreach \x in {0,...,#3}
+    {   \draw [opacity=0.5](#1 ,0  ,\x )  --  (#1 ,#2 ,\x );
+        \draw [opacity=0.5](0  ,#2 ,\x )  --  (#1 ,#2 ,\x );
+    }
+}
+%%  --  --  --  --  --  --  --  --  --  --  --  end of tikzcuboid  --  --  --  --  --  --  --  --  --  --  --  --  -- 
+%% ========================== tikzcuboid =============================
+\newcommand{\mycolorright}[4]{% \x, \y, \z, color options 
+
+     \path[#4] (#1, #2, #3)  --  (#1,#2 + 1,#3)  --  
+        (#1, #2+1, #3 + 1)  --  (#1, #2, #3 + 1)  -- cycle;
+}
+%%  --  --  --  --  --  --  --  --  --  --  --  end of tikzcuboid  --  --  --  --  --  --  --  --  --  --  --  --  -- 
+%% ========================== tikzcuboid =============================
+\newcommand{\mycolorfront}[4]{% \x, \y, \z, color options 
+
+     \path[#4] (#1, #2, #3+1)  --  (#1,#2 + 1,#3+1)  --  
+        (#1-1, #2+1, #3+1)  --  (#1-1, #2, #3+1)  -- cycle;
+}
+%%  --  --  --  --  --  --  --  --  --  --  --  end of tikzcuboid  --  --  --  --  --  --  --  --  --  --  --  --  -- 
+\newcommand{\mycolortop}[4]{% \x, \y, \z, color options 
+
+     \path[#4] (#1, #2+1, #3+1)  --  (#1,#2 + 1,#3)  --  
+        (#1-1, #2+1, #3)  --  (#1-1, #2+1, #3+1)  -- cycle;
+}
+%%  --  --  --  --  --  --  --  --  --  --  --  end of tikzcuboid  --  --  --  --  --  --  --  --  --  --  --  --  -- 
+
+%%  --  --  --  --  --  --  --  --  --  --  --  end of tikzcuboid  --  --  --  --  --  --  --  --  --  --  --  --  -- 
+\newcommand{\mycolortube}[2]{% \x, \y, \z, color options 
+     \path[#2] (1, #1, 3)  --  (0,#1,3)  --  (0, 1+ #1 , 3)  --  (1, 1+#1,3)  --  (1, 1 + #1, 0)  --  (1, #1, 0)  -- cycle;
+
+%     \path[fill=cyan!90, opacity = .4, draw = black] (1, \y, 3)  --  (0,\y,3)  --  
+%         (0, 1+ \y , 3)  --  (1, 1+\y,3)  --  (1, 1 + \y, 0)  --  (1, \y, 0)  -- cycle;
+}
+%%  --  --  --  --  --  --  --  --  --  --  --  end of tikzcuboid  --  --  --  --  --  --  --  --  --  --  --  --  -- 
+
+
+\newcommand{\tikzcube}[2]{% length, scale
+\tikzcuboid{#1}{#1}{#1}{#2}
+}
+
+
+\def\d{1}
+\newcommand{\mycell}[4]{
+    %x, y, properties, content
+    \node at (#1, -#2) [fill = blue!10, draw = blue, #3, minimum width = \d cm, minimum height = \d cm] {#4};
+}
+
+\tikzstyle{highlight}=[fill = red!15]
+\tikzstyle{nonzero}=[fill = green!15]
+
+
+\def\bmt{\left[\begin{matrix}}
+\def\dpcm{$\square$}
+\def\emt{\end{matrix}\right]}
+\def\bx{\mathbf{x}}
+
+\begin{document}
+\begin{tikzpicture}
+    
+
+%% signal 
+% \tikzcuboid{1}{10}{3}{blue!70}
+
+\node at (0, -1.5) [scale = 1.5] {$ \bmt 
+\mathbf{w}_1^T \\
+\mathbf{w}_2^T \\
+\mathbf{w}_3^T \\
+\mathbf{w}_4^T
+\emt
+\bmt 
+\mathbf{x}_1  \mathbf{x}_2  \mathbf{x}_3
+\emt = 
+$};
+
+\node [scale = 1.5] at (0, -3.5) {$\mathbf{y} = [1, 3, 2]$};
+
+\begin{scope}[xshift = 3cm]
+
+    \mycell{0}{0}{highlight}{2};
+    \mycell{0}{1}{}{1.5};
+    \mycell{0}{2}{}{-0.2};
+    \mycell{0}{3}{}{1.7};
+
+    \mycell{1}{0}{}{0.1};
+    \mycell{1}{1}{}{1.5};
+    \mycell{1}{2}{highlight}{2.5};
+    \mycell{1}{3}{}{1.8};
+
+    \mycell{2}{0}{}{-0.2};
+    \mycell{2}{1}{highlight}{2.5};
+    \mycell{2}{2}{}{3.0};
+    \mycell{2}{3}{}{1.0};
+
+    \node at (1, 1) {$\mathbf{Z} = \mathbf{W}^T\mathbf{X}$};
+
+\end{scope}
+
+%% 1 -z y_n z 
+\begin{scope}[xshift = 7cm]
+    
+    \node at (1, 1) {$\max(0, 1 - z_{y_n}^n + z^n_j)$};
+
+    \mycell{0}{0}{highlight}{0};
+    \mycell{0}{1}{nonzero}{0.5};
+    \mycell{0}{2}{}{0};
+    \mycell{0}{3}{nonzero}{0.7};
+
+    \mycell{1}{0}{}{0};
+    \mycell{1}{1}{}{0};
+    \mycell{1}{2}{highlight}{0};
+    \mycell{1}{3}{nonzero}{0.3};
+
+    \mycell{2}{0}{}{0};
+    \mycell{2}{1}{highlight}{0};
+    \mycell{2}{2}{nonzero}{1.5};
+    \mycell{2}{3}{}{0};
+
+    \node at (1, -4) [scale = 1.3] {$\mathcal{L}_{\text{data}} =0.5 + 0.7 + 0.3 + 1.5 = 3.0$};
+\end{scope}
+
+\begin{scope}[xshift = 11cm]
+
+    \mycell{0}{0}{highlight}{-2};
+    \mycell{0}{1}{nonzero}{1};
+    \mycell{0}{2}{}{0};
+    \mycell{0}{3}{nonzero}{1};
+
+    \mycell{1}{0}{}{0};
+    \mycell{1}{1}{}{0};
+    \mycell{1}{2}{highlight}{-1};
+    \mycell{1}{3}{nonzero}{1};
+
+    \mycell{2}{0}{}{0};
+    \mycell{2}{1}{highlight}{-1};
+    \mycell{2}{2}{nonzero}{1};
+    \mycell{2}{3}{}{0};
+
+
+    \node [scale = 1.5, anchor = west] at (2.5, 0) {$\rightarrow \frac{\partial \mathcal{L}_{\text{data}}}{\partial \mathbf{w}_1} = -2\bx_1$};
+    \node [scale = 1.5, anchor = west] at (2.5, -1) {$\rightarrow \frac{\partial \mathcal{L}_{\text{data}}}{\partial \mathbf{w}_2} = \bx_1 - \bx_3$};
+    \node [scale = 1.5, anchor = west] at (2.5, -2) {$\rightarrow \frac{\partial \mathcal{L}_{\text{data}}}{\partial \mathbf{w}_3} = -\bx_2 + \bx_3$};
+    \node [scale = 1.5, anchor = west] at (2.5, -3) {$\rightarrow \frac{\partial \mathcal{L}_{\text{data}}}{\partial \mathbf{w}_4} = \bx_1 + \bx_2$};
+\end{scope}
+
+
+\draw [->, line width = 1mm] (5.6, -1.5)  --  (6.4, -1.5);
+\draw [->, line width = 1mm] (9.6, -1.5)  --  (10.4, -1.5);
+\end{tikzpicture}
+
+
+\end{document}

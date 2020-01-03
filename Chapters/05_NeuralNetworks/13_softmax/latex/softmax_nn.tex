@@ -1,0 +1,153 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tikz,pgfplots,calc}
+\usetikzlibrary{positioning,calc}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsfonts}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+% \usepackage[vietnam]{babel}
+
+
+% \def\p{5.1}
+\def\R{\mathbb{R}}
+% \input{../definitions}
+% \pagestyle{empty}
+% \input{definitions}
+\def\layersep{2.5cm}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5)  --  (0, .5);
+        \def\a{5}
+      \draw [blue] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+      \draw [thin] (-1.1*\a, 0)  --  (1.2*\a, 0);
+      \draw [thin] (0, -.7)  --  (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [blue] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!40]
+\tikzstyle{sign neuron}=[output neuron, dist]
+\tikzstyle{signn neuron}=[output neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+
+\begin{document}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+
+    % Draw bias 
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,7}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        % \node[input neuron, label = left:$x_\y$] (I-\name) at (0,-\y) {};
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+    \node[input neuron, opacity = .5, label = left:{$x_0$}] (I-0) at (0,0) {1};
+    \node[input neuron, opacity = .5, label = left:{$x_1$}]  at (0,-1) {};
+    \node[input neuron, opacity = .5, label = left:{$x_2$}]  at (0,-2) {};
+    \node[input neuron, opacity = .5, label = left:{$x_d$}]  at (0,-7) {};
+
+
+    \node [scale = 1.5, below= 1mm of I-7.south] {$\mathbf{x}$};
+    \node [scale = 1.5] at (0.6*\layersep, -.5) {$\mathbf{W}$};
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {1, ..., 4}
+        \path[yshift=-.5cm]
+            node[output neuron] (O-\name) at (\layersep,-1.5*\y cm) {$\Sigma$};
+            % node[output neuron, label={[label distance=-1mm]90:$z_\name$}] (O-\name) at (\layersep,-\y cm) {$\Sigma$};
+
+    \node[label={[label distance=1mm]90:$z_1$}]  at (\layersep,-3) {};
+    \node[label={[label distance=1mm]90:$z_2$}]  at (\layersep,-4.5) {};
+    \node[label={[label distance=1mm]90:$z_C$}]  at (\layersep,-7.5) {};
+
+
+    \node [scale = 1.5, below=5mm of O-4.south] {$\mathbf{z}$};
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {1, ..., 4}
+        \path[yshift=-.5cm]
+            node[output neuron] (O2-\name) at (2*\layersep,-1.5*\y cm) {};
+    
+    \node[label={[label distance=1mm]90:$a_1$}]  at (2*\layersep,-3) {};
+    \node[label={[label distance=1mm]90:$a_2$}]  at (2*\layersep,-4.5) {};
+    \node[label={[label distance=1mm]90:$a_C$}]  at (2*\layersep,-7.5) {};
+
+    \node [scale = 1.5, below=5mm of O2-4.south] {$\mathbf{a}$};
+
+
+    % Draw the output layer node
+    % \node[output neuron,pin={[pin edge={->}]right:Output}, right of=H-3] (O) {};
+
+    % Connect every node in the input layer with every node in the
+    % hidden layer.
+    \foreach \source in {0,...,7}
+        \foreach \dest in {1,...,4}
+            \draw [thick, ->](I-\source.east)  --  (O-\dest.west);
+
+    \foreach \source in {1,...,4}
+        \foreach \dest in {1,...,4}
+            \draw [thick, ->](O-\source.east)  --  (O2-\dest.west);
+   
+   \begin{scope}[xshift = 7cm]
+    % \node [input neuron] (ii) at (0, 0) {};
+    \node[input neuron, label = left:$x_i$] (ii) at (0,0) {};
+    \node[output neuron, label = below:$z_j$] (oo) at (\layersep,0) {$\Sigma$};
+
+    \draw [thick, ->] (ii.east)  --  node[midway, fill = white, yshift = -2pt] {$w_{ij}$} (oo.west); 
+
+    \def\offset{-3.5}
+    \def\dd{.7}
+    \node [text width= 4cm, anchor = west] at (-1, \offset + 3*\dd) {$w_{0j}$: hệ số điều chỉnh};
+    \node [text width= 4cm, anchor = west] at (-1, \offset + 2*\dd) {$d$: số chiều dữ liệu};
+    \node [text width= 4cm, anchor = west] at (-1, \offset + \dd) {$C$: số lớp dữ liệu};
+    \node [text width= 4cm, anchor = west] at (-1, \offset) {$\mathbf{x} \in \R^{d+1}$};
+    \node [text width= 4cm, anchor = west] at (-1, \offset - \dd) {$\mathbf{W} \in \R^{(d+1)\times C}$};
+    \node [text width= 4cm, anchor = west] at (-1, \offset - 2*\dd) {$z_i = \mathbf{w}_i^T\mathbf{x} $};
+    \node [text width= 4cm, anchor = west] at (-1, \offset - 3*\dd) {$\mathbf{z} = \mathbf{W}^T\mathbf{x} \in \R^{C}$};
+    \node [text width= 4cm, anchor = west] at (-1, \offset - 4*\dd) {$\mathbf{a} = \text{softmax}(\mathbf{z}) \in \R^{C}$};
+    \node [text width= 4cm, anchor = west] at (-1, \offset - 5.2*\dd) {$\displaystyle a_i > 0,~~ \sum_{i=1}^C a_i = 1$};
+   \end{scope}
+
+   \begin{scope}[xshift = 12cm, yshift = 0cm]
+       \foreach \name / \y in {1,...,7}
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+        \foreach \name / \y in {1,...,4}
+         \path[yshift=-1.5cm]
+            node[output neuron] (O2-\name) at (\layersep,-\y cm) {};
+
+        \foreach \source in {1,...,7}
+            \foreach \dest in {1,...,4}
+                \draw [thick, ->](I-\source.east)  --  (O2-\dest.west);
+        \node [anchor = west, align = left, scale = 1.5, below= 0mm of I-7.south] {$\mathbf{x} $};
+        \node [anchor = west, align = left, scale = 1.5, below= 1mm of O2-4.south] {$\mathbf{a}$};
+
+        \node [draw] at (1, 0) {$\mathbf{z} = \text{softmax}(\mathbf{W}^T \mathbf{{x}})$};
+        % \node [scale = 1.5, below= 1mm of I-7.south] {$\mathbf{z = \text{softmax}(\)}$};
+
+        \draw [scale = 2, ->, ultra thick] (-1.4, -2.1)  --  node[above] {dạng đơn giản} ++(1, 0);
+   \end{scope}
+\end{tikzpicture}
+% End of code
+\end{document}

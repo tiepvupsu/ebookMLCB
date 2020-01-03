@@ -1,0 +1,127 @@
+\documentclass{standalone}
+\usepackage{tikz,}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+\usetikzlibrary{patterns}
+% defining the new dimensions and parameters
+% https://www.latex4technics.com/?note=32oo
+\newlength{\hatchspread}
+\newlength{\hatchthickness}
+\newlength{\hatchshift}
+\newcommand{\hatchcolor}{}
+% declaring the keys in tikz
+\tikzset{hatchspread/.code={\setlength{\hatchspread}{#1}},
+         hatchthickness/.code={\setlength{\hatchthickness}{#1}},
+         hatchshift/.code={\setlength{\hatchshift}{#1}},% must be >= 0
+         hatchcolor/.code={\renewcommand{\hatchcolor}{#1}}}
+% setting the default values
+\tikzset{hatchspread=6pt,
+         hatchthickness=0.15pt,
+         hatchshift=0pt,% must be >= 0
+         hatchcolor=black}
+% declaring the pattern
+\pgfdeclarepatternformonly[\hatchspread,\hatchthickness,\hatchshift,\hatchcolor]% variables
+   {custom north west lines}% name
+   {\pgfqpoint{\dimexpr-2\hatchthickness}{\dimexpr-2\hatchthickness}}% lower left corner
+   {\pgfqpoint{\dimexpr\hatchspread+2\hatchthickness}{\dimexpr\hatchspread+2\hatchthickness}}% upper right corner
+   {\pgfqpoint{\dimexpr\hatchspread}{\dimexpr\hatchspread}}% tile size
+   {% shape description
+    \pgfsetlinewidth{\hatchthickness}
+    \pgfpathmoveto{\pgfqpoint{0pt}{\dimexpr\hatchspread+\hatchshift}}
+    \pgfpathlineto{\pgfqpoint{\dimexpr\hatchspread+0.15pt+\hatchshift}{-0.15pt}}
+    \ifdim \hatchshift > 0pt
+      \pgfpathmoveto{\pgfqpoint{0pt}{\hatchshift}}
+      \pgfpathlineto{\pgfqpoint{\dimexpr0.15pt+\hatchshift}{-0.15pt}}
+    \fi
+    \pgfsetstrokecolor{\hatchcolor}
+%    \pgfsetdash{{1pt}{1pt}}{0pt}% dashing cannot work correctly in all situation this way
+    \pgfusepath{stroke}
+   }
+
+
+
+\usetikzlibrary{shapes.geometric, positioning}
+\begin{document}
+    \begin{tikzpicture}[square/.style={draw, regular polygon,regular polygon sides=4, minimum width = 1.6cm}]
+        % W
+        \node at (0,0) [square, fill = gray!20] (w0) {0.3};
+        \node [ anchor = west, right = 0 cm of w0,square, fill = gray!20] (w11) {1};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {-0.1};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {2};
+            
+        \node [ anchor = north, below = 0 cm of w0,square, fill = gray!20] (w1) {1.5};
+        \node [ anchor = west, right = 0 cm of w1,square, fill = gray!20] (w11) {-2};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {0.7};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {-0.1};
+
+        \node [ anchor = north, below = 0 cm of w1,square, fill = gray!20] (w11) {-0.3};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {0.1};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {-1.2};
+        \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {1.5};
+
+        \node at (2, -3.5) [scale = 1.5] {$\mathbf{W^T}$};
+        % x 
+        \node at (4.5, -1) [scale = 1.5] {\bf $\times$};
+        %  x
+        \node at (5.5, 0) [square, fill = white] (w0) {-12};
+        \node [anchor = north, below = 0cm of w0, square, fill = white] (w1) {45};
+        \node [anchor = north, below = 0cm of w1, square, fill = white] (w1) {-50};
+        \node [anchor = north, below = 0cm of w1, square, fill = white] (w1) {120};
+
+        \node at (5.5, -4.5) [scale = 1.5] {$\mathbf{x}$};
+        % + 
+        \node at (6.5, -1) [scale = 1.5] {\bf $+$};
+
+        %  b
+        \node at (7.5, 0) [square, pattern = custom north west lines] (w0) {-1.1};
+        \node [anchor = north, below = 0cm of w0, square, pattern = custom north west lines] (w1) {0.5};
+        \node [anchor = north, below = 0cm of w1, square, pattern = custom north west lines] (w1) {0.7};
+
+        \node at (7.5, -3.5) [scale = 1.5] {$\mathbf{b}$};
+
+        \node at (8.5, -1) [scale = 1.5] {\bf $\Leftrightarrow$};
+
+        \begin{scope}[xshift = 9.7cm]
+            % W
+            \node at (0,0) [square, fill = gray!20] (w0) {0.3};
+            \node [ anchor = west, right = 0 cm of w0,square, fill = gray!20] (w11) {1};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {-0.1};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {2};
+                
+            \node [ anchor = north, below = 0 cm of w0,square, fill = gray!20] (w1) {1.5};
+            \node [ anchor = west, right = 0 cm of w1,square, fill = gray!20] (w11) {-2};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {0.7};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {-0.1};
+
+            \node [ anchor = north, below = 0 cm of w1,square, fill = gray!20] (w11) {-0.3};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {0.1};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {-1.2};
+            \node [ anchor = west, right = 0 cm of w11,square, fill = gray!20] (w11) {1.5};
+            \node at (2, -3.2) [scale = 1.5] {$\mathbf{W^T}$};
+            %  b
+            \node at (4.7, 0) [square, pattern = custom north west lines] (w0) {-1.1};
+            \node [anchor = north, below = 0cm of w0, square, pattern = custom north west lines] (w1) {0.5};
+            \node [anchor = north, below = 0cm of w1, square, pattern = custom north west lines] (w1) {0.7};
+            \node at (4.7, -3.2) [scale = 1.5] {$\mathbf{b}$};
+
+            % x 
+            \node at (5.7, -1) [scale = 1.5] {\bf $\times$};
+            %  x
+            \node at (6.7, 0) [square, fill = white] (w0) {-12};
+            \node [anchor = north, below = 0cm of w0, square, fill = white] (w1) {45};
+            \node [anchor = north, below = 0cm of w1, square, fill = white] (w1) {-50};
+            \node [anchor = north, below = 0cm of w1, square, fill = white] (w1) {120};
+            \node [anchor = north, below = .1cm of w1, square, fill = white!50] (w1) {\large\textbf{1}};
+
+            \draw [draw = black, very thick] (-.7, -3.6) rectangle (5.4, .7);
+            
+            \node at (3, -4) [scale = 1.5, black] {$\mathbf{W^T}$ mới};
+
+            \draw [draw = black, very thick] (6, -5.4) rectangle (7.4, .7);
+            \node at (6.7, -5.8) [scale = 1.5, black, anchor = center] {$\mathbf{x}$ mới};
+        \end{scope}
+    \end{tikzpicture}
+\end{document}

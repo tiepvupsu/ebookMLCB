@@ -1,0 +1,132 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+
+\input{../definitions}
+
+% \def\bW{\mathbf{W}}
+% \def\bA{\mathbf{A}}
+% \def\bX{\mathbf{X}}
+% \def\bw{\mathbf{w}}
+% \def\ba{\mathbf{a}}
+% \def\bx{\mathbf{x}}
+
+
+
+\def\layersep{3}
+
+% \input{definitions}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5) -- (0, .5);
+        \def\a{5}
+      \draw [black] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+      % \draw [thin] (-1.1*\a, 0) -- (1.2*\a, 0);
+      % \draw [thin] (0, -.7) -- (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [orange] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!60]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!60]
+\tikzstyle{sign neuron}=[neuron, dist]
+\tikzstyle{signn neuron}=[neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!60]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+\def\pad{.5}
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%% AND %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{scope}
+        
+        \node at (-3.5, -2) {\includegraphics[width=5cm]{../XOR2.pdf}};
+
+        % %%%%%%%%%%%%%% INPUT LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \draw [white,  draw = gray] (-\pad, -4 - 2*\pad) rectangle (\pad, -2+2*\pad);
+        \node at (0, 2.5*\pad) {Input layer};
+
+        \node[input neuron, opacity = .5, label = below:{$x_0$}] (I-0) at (0,0) {1};
+
+        \foreach \name / \y in {1,...,2}
+            \node[input neuron, label = below:$x_\y$] (I-\name) at (0,-2*\y) {};
+
+
+        %%%%%%%%%%%%%%%% HIDDEN LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \node [scale = 1.5] at (0.5*\layersep, -5) {$\mathbf{W}^{(1)}$};
+        \node [scale = 1.5] at (0.5*\layersep, 0) {$\mathbf{b}^{(1)}$};
+        \node at (\layersep, 2.5*\pad) {Hidden layer};
+        \draw [white, fill = gray!35] (-\pad + \layersep, -4 - 2*\pad) 
+                            rectangle ( \pad + \layersep , -2+2*\pad);
+
+        \foreach \name / \y in {1, 2}
+            \path[yshift=0cm] node[sign neuron, hidden neuron, label = below:{$a^{(1)}_\name$}] (H-\name) at (\layersep,-2*\y cm) {};
+
+        \node[hidden neuron, opacity = .5, label = below:{$a^{(1)}_0$}] (H-0) at (\layersep,0) {1};
+
+        \draw [thick, ->](I-0) -- node[midway, fill = white, yshift = 25pt, xshift = -18pt] {$-1$} (H-2);
+        \draw [thick, ->](I-1) -- node[midway, fill = white, yshift = 15pt, xshift = -20pt] {$2$} (H-2);
+        \draw [thick, ->](I-2) -- node[midway, fill = white, yshift = -2pt] {$2$} (H-2);
+
+        \draw [thick, ->](I-0) -- node[midway, fill = white, yshift = -2pt] {$3$} (H-1);
+        \draw [thick, ->](I-1) -- node[midway, fill = white, yshift = -2pt, xshift = -15pt] {$-2$} (H-1);
+        \draw [thick, ->](I-2) -- node[midway, fill = white, yshift = -15pt, xshift = -18pt] {$-2$} (H-1);
+
+        %%%%%%%%%%%%%% OUTPUT%%%%%%%%%%%%%%%%%
+        \node [scale = 1.5] at (1.5*\layersep, -5) {$\mathbf{W}^{(2)}$};
+        \node [scale = 1.5] at (1.5*\layersep,  0) {$\mathbf{b}^{(2)}$};
+
+        \node at (2*\layersep, 2.5*\pad) {Output layer};
+        \draw [white, fill = white!15, draw = gray] (-\pad + 2*\layersep, -3 - 2*\pad) 
+                            rectangle ( \pad + 2*\layersep , -3+2*\pad);
+        \path[yshift=0cm] node[sign neuron, output neuron, label = below:{$a^{(2)}$}] (O) at (2*\layersep,-3 cm) {};
+
+        \draw [thick, ->](H-1) -- node[midway, fill = white, yshift = -2pt] {$1$} (O);
+        \draw [thick, ->](H-2) -- node[midway, fill = white, yshift = -2pt] {$1$} (O);
+        \draw [thick, ->](H-0) -- node[midway, fill = white, yshift = -2pt] {$-1$} (O);
+
+
+        %%%%%%%%%%% layer 
+    \draw [thin] (-1, -6.25) -- ++ (0, 8);
+    \draw (-6, -6.25) rectangle (12.5, 1.75);
+    \node [scale = 1.5] at (-3, -5.75) {(a)};
+    \node [scale = 1.5] at (6, -5.75) {(b)};
+    \end{scope}
+
+    \begin{scope}[xshift = 8.2cm, yshift = 1cm ]
+        \node [anchor = west] at (-1, 0) {$\bW^{(1)} = \bmt -2 & 2 \\ -2 &2 \emt; ~~ \bb^{(1)} = \bmt 3 \\ -1\emt$};
+        \node [anchor = west] at (-1, -1.5) {$\bW^{(2)} = \bmt 1 \\ 1 \emt; ~~ \bb^{(2)} = \bmt -1 \emt$};
+        \node [anchor = west] at (-1, -2.75) {$\bx = \bmt x_1 \\ x_2\emt; \ba^{(1)} = \bmt a^{(1)}_1 \\ a^{(1)}_2 \emt$}; 
+        % \node [anchor = west] at (-1, -2.5) {$a_0 = 1$ (bias, don't forget!)};
+        
+        \node [anchor = west] at (-1, -3.75) {$\ba^{(1)} = f\Big( \bW^{(1)T}\bx + \bb^{(1)}\Big)$};
+        \node [anchor = west] at (-1, -4.75) {$a^{(2)} = f\Big( \bW^{(2)T}\ba^{(1)} + \bb^{(2)}\Big)$};
+
+
+        % \node [anchor = west] at (-1, -4) {$a_2 = f\Big((\mathbf{w}_2^{(1)})^T\mathbf{x}\Big)$};
+        % \node [anchor = west] at (-1, -4.75) {$z = f\Big((\mathbf{w}_1^{(2)})^T\mathbf{v}\Big)$};
+        \node [anchor = west] at (-1, -5.5) {$f(.) = \text{sgn}(.)$ (element-wise)};
+    \end{scope}
+
+
+\end{tikzpicture}
+% End of code
+\end{document}

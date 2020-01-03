@@ -1,0 +1,73 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+
+% \pagestyle{empty}
+
+\begin{document}
+% \input{definitions}
+\def\layersep{2.5cm}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5)  --  (0, .5);
+        \def\a{5}
+      \draw [blue] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+    \end{scope}
+    }
+  }
+}
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=green!40]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=red!40]
+\tikzstyle{sign neuron}=[output neuron, dist]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=blue!40]
+% \tikzstyle{annot} = [text width=4em, text centered]
+\begin{tikzpicture}[draw=black,thick, node distance=\layersep, >= stealth]
+\begin{scope}
+    
+% \clip (0, -5) rectangle (3.5, .3);
+
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,4}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        \node[input neuron] (I-\name) at (0,-\y) {};
+
+    \node at (0, 0) {Input layer};
+    \node at (\layersep, 0) {Output layer};
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[sign neuron ] (O-\name) at (\layersep,-\y cm) {};
+    %         node[sign neuron, label = below:$y$] (O2-\name) at (1.5*\layersep,-\y cm) {};
+
+    % Draw the output layer node
+    % \node[output neuron,pin={[pin edge={->}]right:Output}, right of=H-3] (O) {};
+
+    % Connect every node in the input layer with every node in the
+    % hidden layer.
+    \foreach \source in {1,...,4}
+        \foreach \dest in {3}
+            % \path (I-\source) edge (H-\dest);
+            \draw [thick, ->](I-\source)  --  (O-\dest);
+    % \draw [thick, ->] (O-3)  --  (O2-3);
+
+    % \node [anchor = west] at (1.5, .2) {$\displaystyle z = \sum_{i=0}^d w_0x_0 = \mathbf{w}^T\mathbf{x}$};
+    % \node [anchor = west] at (1.5, -.8) {$y = \text{sgn}(z)$};
+    % Connect every node in the hidden layer with the output layer
+    % \foreach \source in {1,...,5}
+        % \path (H-\source) edge (O);
+
+    % Annotate the layers
+    % \node[annot,above of=H-1, node distance=1cm] (O) {Hidden layer};
+    % \node[annot,left of=hl] {Input layer};
+    % \node[annot,right of=hl] {Output layer};
+\end{scope}
+\end{tikzpicture}
+% End of code
+\end{document}

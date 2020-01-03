@@ -1,0 +1,23 @@
+\documentclass[border=5pt]{standalone}
+\usepackage{pgfplots, calc}
+\usepgfplotslibrary{fillbetween}
+
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+\begin{tikzpicture}[>= stealth]
+    \draw (0, 0) rectangle (6, 6);
+    \draw [thick] (1, 0)  --  (5, 6);
+\edef\points{}
+\foreach \point [count=\i] in {(0,0),(0,2),(2,0),(2,2)} {
+    \def\this{point-\i}
+    \node[red, fill = red] (\this) at \point {} ;
+    \fill (\this) circle (0.1) ;
+    \xdef\points{(\this) \points}
+}
+
+% \node (box) [draw=gray,dashed, inner sep=10pt,fit=\points] {};
+% \node (label) at (box.south) [below] { blah };
+
+\end{tikzpicture}
+
+\end{document}

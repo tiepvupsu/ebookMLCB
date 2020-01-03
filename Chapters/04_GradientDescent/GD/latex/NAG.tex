@@ -1,0 +1,73 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{standalone}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.11}
+
+\renewcommand{\familydefault}{\sfdefault}
+% \usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+% \usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+% \usetikzlibrary{decorations.pathmorphing}
+% \usetikzlibrary{decorations.shapes}
+% \usetikzlibrary{decorations.text}
+% \usetikzlibrary{decorations.fractals}
+% \usetikzlibrary{decorations.footprints}
+% \usetikzlibrary{shadows}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{spy}
+
+% \pgfplotsset{compat=1.11}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnam]{babel}
+
+\def\gradnt{black!60!black}
+\def\moment{black!40!black}
+\def\update{black}
+\def\gradnw{black!70!black}
+
+\tikzstyle{myarrow}=[->, ultra thick]
+
+\begin{document}
+\begin{tikzpicture}[>=stealth]
+\begin{scope}
+    \draw [fill = gray] (5, 2) circle (.1);
+
+    \draw [myarrow, \gradnt, dotted] (0, 0)  -- ++(3, 0);
+    \draw [myarrow, \gradnt, dotted ] (2, 2)  -- ++(3, 0);
+    \draw [myarrow, \moment, dashed ] (0, 0)  -- ++(2, 2);
+    \draw [myarrow, \update ] (0, 0)  -- ++(5, 2);    
+
+    \draw [fill = gray] (0,0) circle (.1);
+
+    \node at (0, -.35) {$\theta_{t-1}$};
+    \node [anchor = west] at (.5, -.35) {\textcolor{\gradnt}{gradient step $-\eta \nabla_{\theta}J(\theta_{t-1})$}};
+
+    \node at (-0.01, .3) [anchor = west, rotate = 45] {\textcolor{\moment}{momentum $-\gamma v_{t-1}$}};
+    \node [anchor = south, text width = 6 cm, align = center] at (5.25, 2.05) {cập nhật\\ $\theta_t = \theta_{t-1} \textcolor{\moment}{- \gamma v_{t-1}} \textcolor{\gradnt}{- \eta \nabla_{\theta}J({\theta_{t-1}})}$};
+
+    \node at (2.5, -1) {(a) Momentum gradient descent.};
+\end{scope}
+
+\begin{scope}[xshift = 8cm]
+    \node at (2.5, -1) {(b) Nesterov accelerated gradient.};
+    \draw [fill = gray] (5, 2.5) circle (.1);
+
+    \draw [myarrow, \gradnw, dotted] (2, 2)  -- ++(3, .5);
+    % \draw [myarrow, \gradnt, dashed ] (2, 2)  -- ++(3, 0);
+    \draw [myarrow, \moment, dashed] (0, 0)  -- ++(2, 2);
+    \draw [myarrow, \update ] (0, 0)  -- ++(5, 2.5);    
+
+    \draw [fill = gray] (0,0) circle (.1);
+    % \draw [fill = \moment] (2, 2) circle (.1);
+
+    \node at (0, -.35) {$\theta_{t-1}$};
+    
+    \node [anchor = west, rotate = 10, text width = 4cm, align = center] at (1.85, 2.45) {\textcolor{\gradnw}{gradient step:\\ $-\eta \nabla_{\theta}J(\theta_{t-1} - \gamma v_{t-1})$}};
+
+    \node at (-0.01, .35) [anchor = west, rotate = 45] {\textcolor{\moment}{momentum $-\gamma v_{t-1}$}};
+    \node [anchor = south, text width = 5 cm, align = center] at (5.55, 1.05) {cập nhật $\theta_t =$ \\$ \theta_{t-1} \textcolor{\moment}{- \gamma v_{t-1}} \textcolor{\gradnw}{- \eta \nabla_{\theta}J({\theta_{t-1}} - \gamma v_{t-1})}$};
+
+    \node at (5, 0.5) {Toạ độ điểm tính gradient thay đổi};
+\end{scope}
+\end{tikzpicture}
+\end{document}

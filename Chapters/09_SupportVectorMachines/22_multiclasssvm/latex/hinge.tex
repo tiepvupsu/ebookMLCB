@@ -1,0 +1,66 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{amsmath}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+\pagestyle{empty}
+% \input{definitions}
+\def\layersep{2.5cm}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5)  --  (0, .5);
+        \def\a{5}
+      \draw [blue] (-\a, -.5)  --   (\a, .5);
+      % \draw [thin] (-1.1*\a, 0)  --  (1.2*\a, 0);
+      % \draw [thin] (0, -.7)  --  (0, .8);
+    \end{scope}
+    }
+  }
+}
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=green!40]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=red!40]
+\tikzstyle{linear neuron}=[output neuron, dist]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=blue!40]
+\tikzstyle{annot} = [text width=4em, text centered]
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+
+    \draw [->, ultra thick] (-1, 0)  --  (10, 0);
+    \node at (9.5, 0.25) {score};
+    \foreach \x in {0, 0.5, 2, 4.5} {
+        \draw [ultra thick, green!90!black] (\x, -.2)  --  (\x, .2);        
+    }
+
+    \node at (2, .5) [scale = 1.5, green!90!black] {$z_i$};
+    \node at (7, .65) [scale = 1.5, blue!90!black] {$z_y$};
+    \node at (4.5, -.65) [scale = 1.5, green!90!black] {$z_j$};
+
+
+    \draw [ultra thick, blue!90!black, dashed] (7, -.5)  --  (7,  .5);
+    \draw [ultra thick, blue!90!black] (7, -.2)  --  (7,  .2);
+    \draw [ultra thick, red!90!black, dashed] (3, -.5)  --  (3,  .5);
+    \draw [ultra thick, green!90!black, dashed] (4.5, -.35)  --  (4.5,  .2);
+
+    \node at (1, -.6) [align = center, green!90!black] {scores for other classes};
+    \node at (7, -.6) [align = center, blue!90!black] {scores for the correct class};
+
+    \draw [ultra thick, red!90!black] (3, 0)  --  (7, 0);
+
+    \draw [<->, thick, red!90!black] (3, .3)  --  (7, .3);
+    \draw [<->, thick, red!90!black] (3, -.2)  --  (4.5, -.2);
+    \node at (5, .5) [align = center, red!90!black] {margin = $\Delta$};
+
+    \node at (3, 0) [red!90!black] {\Large \bf $\times$};
+
+    \node at (3.75, -1.2) [red!90!black] {level of violation};
+
+    \draw [->] (3.75, -1)  --  (3.75, -.3);
+\end{tikzpicture}
+% End of code
+\end{document}

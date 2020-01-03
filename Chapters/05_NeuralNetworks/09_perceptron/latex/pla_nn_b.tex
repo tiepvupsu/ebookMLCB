@@ -1,0 +1,71 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+ \usepackage[vietnam]{babel}
+
+
+\def\layersep{2.5cm}
+% \pagestyle{empty}
+% \input{definitions}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5)  --  (0, .5);
+        \def\a{5}
+      \draw [black] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+      \draw [thin] (-1.1*\a, 0)  --  (1.2*\a, 0);
+      \draw [thin] (0, -.7)  --  (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [black] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!40]
+\tikzstyle{sign neuron}=[output neuron, dist]
+\tikzstyle{signn neuron}=[output neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+
+\begin{document}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+    \foreach \name / \y in {1,...,4}
+        % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+            \node[input neuron] (I-\name) at (0,-\y) {};
+
+    \node at (0, 0) {Tầng đầu vào};
+    \node at (\layersep, 0) {Tầng đầu ra};
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[signn neuron ] (O-\name) at (\layersep,-\y cm) {};
+
+    \foreach \source in {1,...,4}
+        \foreach \dest in {3}
+            % \path (I-\source) edge (H-\dest);
+            \draw [thick, ->](I-\source)  --  (O-\dest);
+
+\end{tikzpicture}
+% End of code
+\end{document}

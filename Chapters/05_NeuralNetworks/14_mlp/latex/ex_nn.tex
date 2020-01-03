@@ -1,0 +1,117 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+\input{../../definitions}
+\def\layersep{3}
+
+% \input{definitions}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5) -- (0, .5);
+        \def\a{5}
+      \draw [black] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+      % \draw [thin] (-1.1*\a, 0) -- (1.2*\a, 0);
+      % \draw [thin] (0, -.7) -- (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [cyan] (-\a, -.5) -- (0, -.5) -- (0, .5) -- (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!60]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!60]
+\tikzstyle{sign neuron}=[neuron, dist]
+\tikzstyle{signn neuron}=[neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!60]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+\def\pad{.5}
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%% AND %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{scope}
+
+        % \node at (-3.5, -2) {\includegraphics[width=5cm]{../XOR2.png}};
+
+
+        % \node[input neuron, opacity = .5, label = below:{$x_0$}] (I-0) at (0,0) {1};
+        \def\nze{2}
+        \def\non{4}
+        \def\ntw{2}
+        \def\nth{3}
+
+        % %%%%%%%%%%%%%% INPUT LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \node at (0, -2.5) {Tầng đầu vào};
+        \draw [black, fill = white!15] (-\pad, -.5*\nze) rectangle (\pad, .5*\nze);
+        \foreach \name / \y in {1,...,\nze}
+            \node[input neuron] (I-\name) at (0, \y - 0.5*\nze -.5) {};
+
+        \node at (0.5*\layersep, 2) {$\mathbf{W}^{(1)}$};
+
+        % %%%%%%%%%%%%%% HIDDEN LAYER 1 %%%%%%%%%%%%%%%%%%%%%%
+        \node  at (1*\layersep, -2.5) {Tầng ẩn};
+        \draw [white, fill = gray!30] (\layersep-\pad, -.5*\non) rectangle (\layersep + \pad, .5*\non);
+        \foreach \name / \y in {1,...,\non}
+            \node[hidden neuron] (H-\name) at (\layersep, \y - 0.5*\non -.5) {};
+
+        \node at (1.5*\layersep, 2) {$\mathbf{W}^{(2)}$};
+
+        % % %%%%%%%%%%%%%% HIDDEN LAYER 2 %%%%%%%%%%%%%%%%%%%%%%
+        % \node at (2*\layersep, -2.5) {Hidden 2};
+        % \draw [white, fill = cyan!15] (2*\layersep-\pad, -.5*\ntw) rectangle (2*\layersep + \pad, .5*\ntw);
+        % \foreach \name / \y in {1,...,\ntw}
+        %     \node[hidden neuron] (H2-\name) at (2*\layersep, \y - 0.5*\ntw -.5) {};
+
+        % \node at (2.5*\layersep, 2) {$\mathbf{W}^{(3)}$};
+
+        % %%%%%%%%%%%%%% OUTPUT LAYER 2 %%%%%%%%%%%%%%%%%%%%%%
+        \node at (2*\layersep, -2) {Tầng đầu ra};
+        \node at (2*\layersep, -2.5) {Hồi quy softmax};
+        \draw [gray, fill = white!15] (2*\layersep-\pad, -.5*\nth) rectangle (2*\layersep + \pad, .5*\nth);
+        \foreach \name / \y in {1,...,\nth}
+            \node[output neuron] (O-\name) at (2*\layersep, \y - 0.5*\nth -.5) {};
+
+
+        %%%%%%%%%%%%%%%% CONNECTION %%%%%%%%%%%%%%%%%%%%%%
+        %%%%%% input - hidden 1%%%%%%
+        \foreach \source in {1,...,\nze}
+            \foreach \dest in {1,...,\non}
+                \draw [thick, ->](I-\source.east) -- (H-\dest.west);
+
+        % %%%%%% hidden 1 - hidden 2%%%%%%
+        % \foreach \source in {1,...,\non}
+        %     \foreach \dest in {1,...,\ntw}
+        %         \draw [thick, ->](H1-\source) -- (H2-\dest);
+
+        %%%%%% hidden 2 - output%%%%%%
+        \foreach \source in {1,...,\non}
+            \foreach \dest in {1,...,\nth}
+                \draw [thick, ->](H-\source.east) -- (O-\dest.west);
+
+        %%%%%%%%%%%%%%%% Namming %%%%%%%%%%%%%%%%%%%%%%
+
+    \end{scope}
+
+
+\end{tikzpicture}
+% End of code
+\end{document}

@@ -1,0 +1,64 @@
+%% line1.tex
+\documentclass{standalone}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{adjustbox,tikz}
+\usepackage{xcolor}
+\definecolor{myblue}{RGB}{0, 0, 0}
+
+%% ================== commands ==========================
+\newcommand{\myShowPoints}[2]{
+\tkzDrawPoints(#1) 
+\tkzLabelPoints[#2](#1)
+}       
+\newcommand{\myGetMidPoint}[3]{
+\tkzDefMidPoint(#1,#2)\tkzGetPoint{#3}
+}       
+\begin{document}
+\def\s{3}
+\begin{tikzpicture}[>=stealth]
+    \clip(-2.9,-.5) rectangle (3.25,3.5);
+    \tkzDefPoints{0/0/O, \s/0/A, 0/\s/B, 1.8/2.4/C, -2.4/1.8/D}
+    % \tkzDefPoint[label = above:$\mathbf{x}$](.5,1.5){X}
+    \tkzDefPoint[label = below:$O$](0, 0){O}
+    \tkzDefPoint[label = above:$\mathbf{e}_1$](\s, 0){A}
+    \tkzDefPoint[label = left:$\mathbf{e}_2$](0, \s){B}
+    \tkzDefPoint[label = left:\color{myblue}{$\mathbf{u}_1$}](1.8, 2.4){C}
+    \tkzDefPoint[label = left:\color{myblue}{$\mathbf{u}_2$}](-2.4, 1.8){D}
+    \tkzDefPoint[label = below:$x_1$](1.05, 0){h}
+    \tkzDefPoint[label = left:$x_2$](0, 2.05){i}
+    \tkzDefPoint[label = right:$y_1$](1.3, 1.75){j}
+    \tkzDefPoint[label = left:$y_2$](-.2, .2){k}
+
+    \tkzDrawLines[add = 0 and 0, draw, arrows=->](O,A)
+    \tkzDrawLines[add = 0 and 0, draw, arrows=->](O,B)
+    \tkzDrawLines[add = 0 and 0, draw = myblue, dashed, thick, arrows=->](O,C)
+    \tkzDrawLines[add = 0 and 0, draw = myblue, dashed, thick, arrows=->](O,D)
+    % show points
+    % \tkzDefPoint[label = left:$\mathbf{x}$] (.7, 1.7) {X}
+
+    \tkzDefPoint[label = above:$\mathbf{x}$](1.05,2.05){X}
+
+    \tkzDefPointBy[projection=onto O--A](X)
+    \tkzGetPoint{H}
+    \tkzDrawLines[add = 0 and 0](X,H)
+    \tkzMarkRightAngle[ scale=.5](X,H,A)
+
+    \tkzDefPointBy[projection=onto O--B](X)
+    \tkzGetPoint{I}
+    \tkzDrawLines[add = 0 and 0](X,I)
+    \tkzMarkRightAngle[ scale=.5](X,I,B)
+
+    \tkzDefPointBy[projection=onto O--C](X)
+    \tkzGetPoint{J}
+    \tkzDrawLines[add = 0 and 0, draw = myblue, dashed, thick](X,J)
+    \tkzMarkRightAngle[ scale=.5, draw = myblue](X,J,C)
+
+    \tkzDefPointBy[projection=onto O--D](X)
+    \tkzGetPoint{K}
+    \tkzDrawLines[add = 0 and 0, draw = myblue, dashed, thick](X,K)
+    \tkzMarkRightAngle[ scale=.5, draw = myblue, thick](X,K,D)
+
+    \tkzDrawPoints[size=4, fill=black](X)
+\end{tikzpicture}
+\end{document}

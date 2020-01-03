@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\usepackage{tikz,pgfplots,calc}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{arrows}
+\usepackage{tkz-euclide}
+\usepackage{amsmath}
+\usetkzobj{all}
+
+\tikzset{
+  mynode/.style = {draw, minimum width = .6cm, minimum height = 3cm}}
+
+\begin{document}
+\begin{tikzpicture}[>=stealth', thick]
+
+
+% \node [lable=below:a, drw] at (10, 10);
+\node[mynode, fill = white!50, pattern=north west lines] (n1) {};
+\node[mynode, fill = white!50, pattern = dots, anchor = west, right=.1cm of n1.east] (n2) {};
+\node[mynode, fill = white!50, pattern = vertical lines, anchor = west, right=.1cm of n2.east] (n3) {};
+\node[mynode, fill = white!50, pattern = horizontal lines, anchor = west, right=.1cm of n3.east] (n4) {};
+\node[mynode, fill = white!50, pattern = bricks, anchor = west, right=.1cm of n4.east] (n5) {};
+
+\end{tikzpicture}
+\end{document}
+

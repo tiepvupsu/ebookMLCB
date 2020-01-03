@@ -1,0 +1,252 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+ \usepackage[vietnam]{babel}
+
+% \input{../../definitions}
+\def\layersep{2}
+
+% \input{definitions}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5)  --  (0, .5);
+        \def\a{5}
+      \draw [black] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+      % \draw [thin] (-1.1*\a, 0)  --  (1.2*\a, 0);
+      % \draw [thin] (0, -.7)  --  (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [cyan] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!60]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!60]
+\tikzstyle{sign neuron}=[neuron, dist]
+\tikzstyle{signn neuron}=[neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!30]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+\def\pad{.5}
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%% AND %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{scope}
+
+        % \node at (-3.5, -2) {\includegraphics[width=5cm]{../XOR2.png}};
+
+
+        % \node[input neuron, opacity = .5, label = below:{$x_0$}] (I-0) at (0,0) {1};
+        \def\nze{3}
+        \def\non{4}
+        \def\ntw{5}
+        \def\nth{4}
+        \def\nfo{3}
+        
+        % %%%%%%%%%%%%%% INPUT LAYER %%%%%%%%%%%%%%%%%%%%%%
+        \node at (0, -2.5) {Đầu vào};
+        \draw [draw = gray] (-\pad, -.5*\nze) rectangle (\pad, .5*\nze);
+        \foreach \name / \y in {1,...,\nze}
+            \node[input neuron] (I-\name) at (0, \y - 0.5*\nze -.5) {};
+
+        % \node at (0.5*\layersep, 2) {$\mathbf{W}^{(1)}$};
+
+        % %%%%%%%%%%%%%% HIDDEN LAYER 1 %%%%%%%%%%%%%%%%%%%%%%
+        \node at (1*\layersep, -2.5) {Tầng ẩn 1};
+        \draw [gray, fill = gray!45] (\layersep-\pad, -.5*\non) rectangle (\layersep + \pad, .5*\non);
+        \foreach \name / \y in {1,...,\non}
+            \node[hidden neuron] (H1-\name) at (\layersep, \y - 0.5*\non -.5) {};
+
+        % \node at (1.5*\layersep, 2) {$\mathbf{W}^{(2)}$};
+
+        % %%%%%%%%%%%%%% HIDDEN LAYER 2 %%%%%%%%%%%%%%%%%%%%%%
+        \node at (2*\layersep, -2.65) {...};
+        \draw [gray, fill = gray!45] (2*\layersep-\pad, -.5*\ntw) rectangle (2*\layersep + \pad, .5*\ntw);
+        \foreach \name / \y in {1,...,\ntw}
+            \node[hidden neuron] (H2-\name) at (2*\layersep, \y - 0.5*\ntw -.5) {};
+
+        \node [text width = 2.5cm] at (4.5*\layersep, 2.5) {softmax hoặc SVM đa lớp};
+
+        % %%%%%%%%%%%%%% HIDDEN LAYER 3 %%%%%%%%%%%%%%%%%%%%%%
+        \node at (3*\layersep, 3.5) {Vector đặc trưng};
+        \draw [->] (3*\layersep, 3)  --  (3*\layersep, 2);
+        \node at (3*\layersep, -2.5) {Tầng gần cuối};
+        \draw [gray, fill = gray!45] (3*\layersep-\pad, -.5*\nth) rectangle (3*\layersep + \pad, .5*\nth);
+        \foreach \name / \y in {1,...,\nth}
+            \node[hidden neuron] (H3-\name) at (3*\layersep, \y - 0.5*\nth -.5) {};
+
+        % %%%%%%%%%%%%%% OUTPUT LAYER 2 %%%%%%%%%%%%%%%%%%%%%%
+        \node at (4*\layersep, -2.5) {Đầu ra};
+        \draw [gray, fill = white!15] (4*\layersep-\pad, -.5*\nth + .5) rectangle (4*\layersep + \pad, .5*\nth - .5);
+        \foreach \name / \y in {1,...,\nfo}
+            \node[output neuron] (O-\name) at (4*\layersep, \y - 0.5*\nth) {};
+
+
+        %%%%%%%%%%%%%%%% CONNECTION %%%%%%%%%%%%%%%%%%%%%%
+        %%%%%% input - hidden 1%%%%%%
+        % \foreach \source in {1,...,\nze}
+        %     \foreach \dest in {1,...,\non}
+        %         \draw [thick, ->](I-\source.east)  --  (H1-\dest.west);
+
+        \draw [line width = 1.5mm, ->] (0*\layersep+ .6 , 0)  --  (1*\layersep - .6, 0);
+        \draw [line width = 1.5mm, ->] (1*\layersep+ .6 , 0)  --  (2*\layersep - .6, 0);
+        \draw [line width = 1.5mm, ->] (2*\layersep+ .6 , 0)  --  (3*\layersep - .6, 0);
+
+        %%%%%% hidden 1 - hidden 2%%%%%%
+        % \foreach \source in {1,...,\non}
+        %     \foreach \dest in {1,...,\ntw}
+        %         \draw [thick, ->](H1-\source.east)  --  (H2-\dest.west);
+
+        %%%%%% hidden 2 - hidden3%%%%%%
+        % \foreach \source in {1,...,\ntw}
+        %     \foreach \dest in {1,...,\nth}
+        %         \draw [thick, ->](H2-\source.east)  --  (H3-\dest.west);
+
+        %%%%%% hidden 2 - hidden3%%%%%%
+        \foreach \source in {1,...,\nth}
+            \foreach \dest in {1,...,\nfo}
+                \draw [thick, ->](H3-\source.east)  --  (O-\dest.west);
+
+        %%%%%%%%%%%%%%%% Namming %%%%%%%%%%%%%%%%%%%%%%
+        % \node at (0, 0) {.};
+        % \node [scale = 1.5] at (0.5*\layersep, 0) {$\mathbf{W}^{(1)}$};
+        % \node at (\layersep, 2.5*\pad) {Hidden layer};
+        % \draw [white, fill = cyan!15] (-\pad + \layersep, -4 - 2*\pad)
+        %                     rectangle ( \pad + \layersep , 2*\pad);
+
+        % \foreach \name / \y in {1, 2}
+        %     \path[yshift=0cm] node[sign neuron, hidden neuron, label = below:{$v_\name$}] (H-\name) at (\layersep,-2*\y cm) {};
+
+        % \node[hidden neuron, opacity = .5, label = below:{$v_0$}] (H-0) at (\layersep,0) {1};
+        %     % \path[yshift=2cm] node[sign neuron, label = below:{$z_1$}] (O-3) at (\layersep,-2*2 cm) {};
+
+        % \draw [thick, ->](I-0)  --  node[midway, fill = white, yshift = 25pt, xshift = -18pt] {$-1$} (H-2);
+        % \draw [thick, ->](I-1)  --  node[midway, fill = white, yshift = 15pt, xshift = -20pt] {$2$} (H-2);
+        % \draw [thick, ->](I-2)  --  node[midway, fill = white, yshift = -2pt] {$2$} (H-2);
+
+        % \draw [thick, ->](I-0)  --  node[midway, fill = white, yshift = -2pt] {$3$} (H-1);
+        % \draw [thick, ->](I-1)  --  node[midway, fill = white, yshift = -2pt, xshift = -15pt] {$-2$} (H-1);
+        % \draw [thick, ->](I-2)  --  node[midway, fill = white, yshift = -15pt, xshift = -18pt] {$-2$} (H-1);
+
+        % %%%%%%%%%%%%%% OUTPUT%%%%%%%%%%%%%%%%%
+        % \node [scale = 1.5] at (1.5*\layersep, 0) {$\mathbf{W}^{(2)}$};
+        % \node at (2*\layersep, 2.5*\pad) {Output layer};
+        % \draw [white, fill = red!15] (-\pad + 2*\layersep, -3 - 2*\pad)
+        %                     rectangle ( \pad + 2*\layersep , -3+2*\pad);
+        % \path[yshift=0cm] node[sign neuron, output neuron, label = below:{$z$}] (O) at (2*\layersep,-3 cm) {};
+
+        % \draw [thick, ->](H-1)  --  node[midway, fill = white, yshift = -2pt] {$1$} (O);
+        % \draw [thick, ->](H-2)  --  node[midway, fill = white, yshift = -2pt] {$1$} (O);
+        % \draw [thick, ->](H-0)  --  node[midway, fill = white, yshift = -2pt] {$-1$} (O);
+
+
+        %%%%%%%%%%% layer
+    % \draw [thin] (-1, -5.75)  --  ++ (0, 7.5);
+    % \draw (-6, -5.75) rectangle (12, 1.75);
+    \end{scope}
+
+    % \begin{scope}[xshift = 8.2cm, yshift = 1cm ]
+    %     \node [anchor = west] at (-1, 0) {$\bW^{(1)} = \bmt 3 & -1 \\ -2 & 2 \\ -2 &2 \emt$};
+    %     \node [anchor = west] at (-1, -1.5) {$\bW^{(2)} = \bmt -1 \\ 1 \\1 \emt$};
+    %     \node [anchor = west] at (-1, -2.5) {$v_0 = 1$ (bias, don't forget!)};
+    %     \node [anchor = west] at (-1, -3.25) {$v_1 = f\Big((\mathbf{w}_1^{(1)})^T\mathbf{x}\Big)$};
+    %     \node [anchor = west] at (-1, -4) {$v_2 = f\Big((\mathbf{w}_2^{(1)})^T\mathbf{x}\Big)$};
+    %     \node [anchor = west] at (-1, -4.75) {$z = f\Big((\mathbf{w}_1^{(2)})^T\mathbf{v}\Big)$};
+    %     \node [anchor = west] at (-1, -5.5) {$f(.) = \text{sgn}(.)$};
+    % \end{scope}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%% OR %%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % \begin{scope}[xshift = 4cm]
+   %      \node at (0.65, 3.25) {\includegraphics[width=4cm]{../OR.png}};
+   %      % Draw bias
+   %      \node[input neuron, opacity = .5, label = left:{$x_0$}] (I-0) at (0,0) {1};
+   %      % Draw the input layer nodes
+   %      \foreach \name / \y in {1,...,2}
+   %      % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+   %          \node[input neuron, label = left:$x_\y$] (I-\name) at (0,-\y) {};
+
+
+   %      % Draw the output layer nodes
+   %      \foreach \name / \y in {3}
+   %          \path[yshift=1.5cm]
+   %              node[sign neuron, label = below:{$z$}] (O-\name) at (\layersep,-\y cm) {};
+
+   %      \draw [thick, ->](I-0)  --  node[midway, fill = white, yshift = -2pt] {$-1$} (O-3);
+   %      \draw [thick, ->](I-1)  --  node[midway, fill = white, yshift = -2pt] {$2$} (O-3);
+   %      \draw [thick, ->](I-2)  --  node[midway, fill = white, yshift = -2pt] {$2$} (O-3);
+
+   %      \node [anchor = west] at (-1, -3) {$\displaystyle z = \text{sgn}(2x_1 + 2x_2 - 3)$};
+   %  \end{scope}
+
+   %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% NOT %%%%%%%%%%%%%%%%%%%%%%%%%%%
+   %  \begin{scope}[xshift = -3.75cm]
+   %      \node at (0.65, 3.25) {\includegraphics[width=3.5cm]{../NOT.png}};
+   %      % Draw bias
+   %      \node[input neuron, opacity = .5, label = left:{$x_0$}] (I-0) at (0,0) {1};
+   %      % Draw the input layer nodes
+   %      \foreach \name / \y in {1,...,1}
+   %      % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+   %          \node[input neuron, label = left:$x_\y$] (I-\name) at (0,-\y) {};
+
+
+   %      % Draw the output layer nodes
+   %      \foreach \name / \y in {3}
+   %          \path[yshift=2cm]
+   %              node[sign neuron, label = below:{$z$}] (O-\name) at (\layersep,-\y cm) {};
+
+   %      \draw [thick, ->](I-0)  --  node[midway, fill = white, yshift = -2pt] {$1$} (O-3);
+   %      \draw [thick, ->](I-1)  --  node[midway, fill = white, yshift = -2pt] {$-2$} (O-3);
+   %      % \draw [thick, ->](I-2)  --  node[midway, fill = white, yshift = -2pt] {$2$} (O-3);
+
+   %      \node [anchor = west] at (-1, -3) {$\displaystyle z = \text{sgn}(-2x_1 + 1)$};
+   %  \end{scope}
+
+   %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% XOR %%%%%%%%%%%%%%%%%%%%%%%%%%%
+   %  \begin{scope}[xshift = 8cm]
+   %      \node at (0.65, 3.25) {\includegraphics[width=4cm]{../XOR.png}};
+   %      % Draw bias
+   %      \node[input neuron, opacity = .5, label = left:{$x_0$}] (I-0) at (0,0) {1};
+   %      % Draw the input layer nodes
+   %      \foreach \name / \y in {1,...,2}
+   %      % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+   %          \node[input neuron, label = left:$x_\y$] (I-\name) at (0,-\y) {};
+
+
+   %      % Draw the output layer nodes
+   %      \foreach \name / \y in {3}
+   %          \path[yshift=1.5cm]
+   %              node[sign neuron, label = below:{$z$}] (O-\name) at (\layersep,-\y cm) {};
+
+   %      \draw [thick, ->](I-0)  --  node[midway, fill = white, yshift = -2pt] {$?$} (O-3);
+   %      \draw [thick, ->](I-1)  --  node[midway, fill = white, yshift = -2pt] {$?$} (O-3);
+   %      \draw [thick, ->](I-2)  --  node[midway, fill = white, yshift = -2pt] {$?$} (O-3);
+
+   %      \node [anchor = west] at (0, -3) {No solution!};
+   %  \end{scope}
+   % \draw [very thin] (2.75, -3.5)  --  ++(0, 10);
+   % \draw [very thin] (6.75, -3.5)  --  ++(0, 10);
+   % \draw [very thin] (-1.15, -3.5)  --  ++(0, 10);
+   % \draw (-5, -3.5) rectangle (10.75, 6.5);
+
+\end{tikzpicture}
+% End of code
+\end{document}

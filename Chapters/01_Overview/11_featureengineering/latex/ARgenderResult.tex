@@ -1,0 +1,17 @@
+\documentclass{standalone}
+\usepackage{tikz,pgfplots,calc}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{arrows}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{bchart}
+
+\begin{document}
+% \begin{scope}
+\begin{tikzpicture}
+\node (n1) at (0, 0) {\includegraphics{ARgenderResult1.pdf}}; 
+\node (n2) [anchor = north, below right=1mm and -19.11cm of n1] {\includegraphics{ARgenderResult2.pdf}};
+\end{tikzpicture}
+
+\end{document}

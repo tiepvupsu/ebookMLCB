@@ -1,0 +1,75 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{standalone}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.11}
+
+\renewcommand{\familydefault}{\sfdefault}
+% \usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+% \usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning}
+% \usetikzlibrary{decorations.pathmorphing}
+% \usetikzlibrary{decorations.shapes}
+% \usetikzlibrary{decorations.text}
+% \usetikzlibrary{decorations.fractals}
+% \usetikzlibrary{decorations.footprints}
+% \usetikzlibrary{shadows}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{spy}
+
+% \pgfplotsset{compat=1.11}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnam]{babel}
+
+\def\d{.6}
+% \def\p{5.1}
+\def\q{-.6}
+% \def\sc{25}
+
+\newcommand{\nn}[4]{
+    \begin{scope}[xshift = #1*\d cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, draw, inner sep = 0, fill = #3!20, minimum height = .6cm, minimum width = .6cm] {#4};
+    \end{scope}
+}
+
+\newcommand{\nnn}[4]{
+    \begin{scope}[xshift = #1*\d cm, yshift = #2*\q cm]
+        
+    \node at (0, 0) [anchor = east, align = left,  draw, inner sep = 0, fill = #3!30, minimum height = .6cm, minimum width = 3.5cm] {#4};
+    \end{scope}
+}
+
+
+\usepackage{xcolor}
+\definecolor{myblue}{RGB}{47, 134, 215}
+
+
+
+
+\def\layersep{2.5cm}
+\def\t{2.5}
+\def\w{19}
+\def\h{27}
+\def\d{8}
+\def\c{7}
+\def\f{.3}
+\def\e{.3}
+\def\g{4}
+
+\def\k{3.25}
+\begin{document}
+\begin{tikzpicture}
+% font 
+\draw [fill = myblue] (0, 0) rectangle (\w, \h); % 41 = 19*2 + 3
+\draw [draw = white, line width = 3mm]  (-.5, \h - \d-.5) -- ++ (\d+.6, \d+.6); 
+\draw [draw = white, line width = 2mm]  (-.5, \h - \d+1) -- ++ (\d-.9, \d-.9); 
+\draw [draw = white, line width = 2mm]  (-.5, \h - \d-2) -- ++ (\d+2.1, \d+2.1);
+
+\draw [draw = white, fill = white] (\k , \h - \k) circle (3mm); 
+\draw [draw = white, fill = white] (\k -\f, \h - \k -3 -\f ) rectangle ++ (\f + \f, \f + \f); 
+\draw [draw = white, fill = white] (\k -\f+3, \h - \k -\f ) rectangle ++ (\f + \f, \f + \f); 
+
+\node at (15, 25) {};
+\end{tikzpicture}
+% End of code
+\end{document}

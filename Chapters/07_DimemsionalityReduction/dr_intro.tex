@@ -1,0 +1,24 @@
+%!TEX root = ../../book_ML.tex
+\index{giảm chiều dữ liệu -- dimensionality reduction}
+\index{lựa chọn đặc trưng -- feature selection}
+\index{trích chọn đặc trưng -- feature extraction}
+Các bài toán quy mô lớn trên thực tế có lượng điểm dữ liệu lớn và dữ liệu nhiều
+chiều. Nếu thực hiện lưu trữ và tính toán trực tiếp trên dữ liệu có số chiều lớn
+thì sẽ gặp khó khăn về lưu trữ và tính toán. Vì vậy, \textit{giảm
+chiều dữ liệu} ({dimensionality reduction} hoặc {dimension reduction}) là một
+bước quan trọng trong nhiều bài toán machine learning.
+
+
+Dưới góc độ toán học, giảm chiều dữ liệu là việc đi tìm một hàm số $f: \R^D
+\rightarrow \R^K$ với $K < D$ biến một điểm dữ liệu $\bx$ trong không gian có số
+chiều lớn $\R^D$ thành một điểm $\bz$ trong không gian có số chiều nhỏ hơn
+$\R^D$. Giảm chiều dữ liệu có thể áp dụng vào các bài toán nén thông tin. Nó cũng hữu ích trong việc chọn ra những đặc trưng quan trọng hoặc
+tạo ra các đặc trưng mới từ đặc trưng cũ phù hợp với từng bài toán. Trong nhiều trường hợp, làm việc trên dữ liệu đã giảm chiều cho kết quả tốt
+hơn dữ liệu trong không gian ban đầu. 
+
+Trong phần này, chúng ta sẽ xem xét các phương pháp giảm chiều dữ liệu phổ biến
+nhất: \textit{phân tích thành phần chính} ({principle component analysis}) cho bài toán giảm chiều dữ liệu
+vẫn giữ tối đa lượng thông tin, và \textit{linear discriminant analysis}
+cho bài toán giữ lại những đặc trưng quan trọng nhất cho việc phân loại. Trước
+hết, chúng ta cùng tìm hiểu một phương pháp phân tích ma trận vô
+cùng quan trọng  --  \textit{phân tích giá trị suy biến} ({singular value decomposition}). 

@@ -1,0 +1,886 @@
+%!TEX root = ../../book_ML.tex
+
+\chapter{Các khái niệm cơ bản}
+
+
+\section{Nhiệm vụ, kinh nghiệm, phép đánh giá}
+Một thuật toán machine learning là một thuật toán có khả năng {học tập} từ dữ
+liệu. Vậy thực sự ``học tập'' có nghĩa như thế nào? Theo
+Mitchell~\cite{mitchell1997machine}, ``\textit{A computer program is said to learn from
+\textit{experience} $E$ with respect to some \textit{tasks} $T$ and
+\textit{performance measure} $P$, if its performance at tasks in $T$, as
+measured by $P$, improves with experience $E$.}''
+
+Tạm dịch:
+
+% \begin{mydef}{Học (chương trình máy tính)}{learning}
+\newnote{}{
+Một chương trình máy tính được gọi là ``học tập'' từ \textit{kinh nghiệm} $E$
+để hoàn thành \textit{nhiệm vụ} $T$ với hiệu quả được đo bằng \textit{phép đánh
+giá} $P$, nếu hiệu quả của nó khi thực hiện nhiệm vụ $T$, khi được đánh giá bởi
+$P$, cải thiện theo kinh nghiệm $E$.
+}
+% \end{mydef}
+
+Lấy ví dụ về một chương trình máy tính có khả năng tự chơi cờ vây. Chương trình này tự học từ các ván cờ đã chơi trước đó của con người để tính toán ra các chiến thuật hợp lý nhất. Mục đích của việc học này là tạo ra một chương trình có khả năng giành phần thắng cao. Chương trình này cũng có thể tự cải thiện khả năng của mình bằng cách chơi hàng triệu ván cờ với chính nó. Trong ví dụ này, chương trình máy tính có nhiệm vụ chơi cờ vây thông qua kinh nghiệm là {các ván cờ đã chơi} với chính nó và của con người. Phép đánh giá ở đây chính là khả năng giành chiến thắng của chương trình.
+
+Để xây dựng một chương trình máy tính có khả năng học, ta cần xác định rõ ba yếu tố: nhiệm vụ, phép đánh giá, và nguồn dữ liệu huấn luyện. Bạn đọc sẽ hiểu rõ hơn về các yếu tố này qua các mục còn lại của chương.
+
+\section{Dữ liệu}
+\index{die@điểm dữ liệu -- data point}
+\index{data point -- điểm dữ liệu}
+\index{vector đặc trưng -- feature vector}
+\index{feature vector -- vector đặc trưng}
+\index{dac@đặc trưng -- feature}
+\index{feature -- đặc trưng}
+\index{tensor}
+Các \textit{nhiệm vụ} trong machine learning được mô tả thông qua việc
+một hệ thống xử lý một điểm dữ liệu đầu vào như thế nào.
+
+Một điểm dữ liệu có thể là một bức ảnh, một đoạn âm thanh, một văn bản, hoặc một
+tập các hành vi của người dùng trên Internet. Để chương trình máy tính có thể
+học được, các điểm dữ liệu thường được đưa về dạng tập hợp các con số mà mỗi số
+được gọi là một \textit{đặc trưng} (feature).
+
+
+Có những loại dữ liệu được biểu diễn dưới dạng ma trận hoặc mảng nhiều chiều.
+Một bức ảnh xám có thể được coi là một ma trận mà mỗi phần tử là giá trị độ sáng
+của điểm ảnh tương ứng. Một bức ảnh màu ba kênh đỏ, lục, và lam có thể được biểu
+diễn bởi một mảng ba chiều. Trong cuốn sách này, các điểm dữ liệu đều được biểu
+diễn dưới dạng mảng một chiều, còn được gọi là \textit{vector đặc trưng} (feature vector). Vector đặc trưng của một điểm dữ liệu thường được ký hiệu là $\bx \in \R^d$ trong đó $d$ là số lượng đặc trưng. Các mảng nhiều chiều được hiểu là đã bị \textit{vector hoá} (vectorized) thành mảng một chiều. Kỹ thuật xây dựng vector đặc trưng cho dữ liệu được trình bày cụ thể hơn trong Chương~\ref{cha:feature}.
+
+% Một mô hình machine learning được mô tả bởi một bộ các tham số và siêu tham số.
+\textit{Kinh nghiệm} trong machine learning là bộ dữ liệu được sử dụng để xây
+dựng mô hình. Trong quá trình xây dựng mô hình, bộ dữ liệu thường được chia ra
+làm ba tập dữ liệu không giao nhau: tập huấn luyện, tập kiểm tra, và tập xác thực.
+
+
+
+
+\index{tập huấn luyện -- training set}
+\index{training set -- tập huấn luyện}
+\index{tập kiểm tra -- test set}
+\index{test set -- tập kiểm tra}
+\index{tập xác thực -- validation set}
+\index{validation set -- tập xác thực}
+\textit{Tập huấn luyện} (training set) bao gồm các điểm dữ liệu được sử dụng trực tiếp trong việc xây dựng mô hình. \textit{Tập kiểm tra} (test set) gồm các dữ liệu được dùng để đánh giá hiệu quả của mô hình. Để đảm bảo tính phổ quát, dữ liệu kiểm tra không được sử dụng trong quá trình xây dựng mô hình. Điều kiện cần để một mô hình hiệu quả là kết quả đánh giá trên cả tập huấn luyện và tập kiểm tra đều cao. Tập kiểm tra đại diện cho dữ liệu mà mô hình chưa từng thấy, có thể xuất hiện trong quá trình vận hành mô hình trên thực tế.
+
+Một mô hình hoạt động hiệu quả trên tập huấn luyện chưa chắc đã hoạt động hiệu quả trên tập kiểm tra. Để tăng hiệu quả của mô hình trên dữ liệu kiểm tra, người ta thường sử dụng một tập dữ liệu nữa được gọi là \textit{tập xác thực} (validation set). Tập xác thực này được sử dụng trong việc lựa chọn các siêu tham số mô hình. Các khái niệm này sẽ được làm rõ hơn trong Chương~\ref{cha:overfitting}.
+
+
+\index{học trực tuyến -- online learning}
+\index{online learning -- học trực tuyến}
+\index{học ngoại tuyến -- offline learning}
+\index{offline learning -- học ngoại tuyến}
+\textbf{Lưu ý:} Ranh giới giữa tập huấn luyện, tập xác thực, và tập kiểm tra
+đôi khi không rõ ràng. Dữ liệu thực tế thường không cố định mà thường xuyên được
+cập nhật. Khi có thêm dữ liệu, dữ liệu kiểm thử ở mô hình cũ có thể trở thành dữ
+liệu huấn luyện trong mô hình mới. Trong phạm vi cuốn sách, chúng ta chỉ xem xét
+các mô hình có dữ liệu cố định.
+
+%  Các thuật toán thực tế liên tục được cập nhật dựa trên dữ liệu mới thêm
+% vào, các thuật toán này được gọi là \textit{online learning} hoặc \textit{online
+% training}. Phần dữ liệu mới này ban đầu không được hệ thống sử dụng để xây
+% dựng mô hình, nhưng về sau có thể được mô hình sử dụng để cải tiến. Ngược với
+% \textit{online learning} là \textit{offline learning}, ở đó hệ thống xây dựng mô
+% hình \textit{một lần} dựa trên một tập chính là tập huấn luyện. Các điểm dữ
+% liệu không được dùng trong quá trình xây dựng hệ thống được coi là tập kiểm thử.
+% Trong cuốn sách này, khi không đề cập gì thêm, các thuật toán được ngầm hiểu là
+% \textit{offline
+% learning}, trong đó \textit{training set} là tập hợp được dùng để xây dựng mô
+% hình ban
+% đầu, \textit{test set} là tập hợp được dùng để đánh giá hiệu quả của mô hình
+% được xây dựng đó.
+
+
+% Trong một số mô hình machine learning phức tạp, đầu vào có thể là tập hợp của nhiều vector đặc trưng. Chẳng hạn,
+
+\section{Các bài toán cơ bản trong machine learning}
+
+
+
+
+
+% Trong bài toán phân loại một bức ảnh, việc phân loại được gọi là \textit{task}.
+% Trong bài toán phân cụm dữ liệu, việc phân cụm được gọi là \textit{task}.
+% Nếu ta muốn một con robot có thể tự học cách đi lại, thì việc đi lại được gọi là
+% \textit{task}.
+
+
+% Tập hợp này thường được biểu diễn dưới dạng
+% một \textit{vetor đặc trưng} \footnote{Có những loại dữ liệu được biểu diễn dưới
+% dạng ma trận hoặc mảng nhiều chiều. Một bức ảnh xám có thể được coi là một ma
+% trận mà mỗi phần tử là giá trị độ sáng của điểm ảnh tương ứng. Một bức ảnh màu
+% ba kênh đỏ, lục, và lam có thể được biểu diễn bởi một mảng ba chiều. Trong cuốn
+% sách này, các điểm dữ liệu đều được biểu diễn dưới dạng vector, các mảng nhiều
+% chiều }
+
+% Trong bài toán phân loại ảnh, mỗi ảnh là một điểm dữ liệu.
+% Trong bài toán phân cụm khách hàng, mỗi khách hàng là một điểm dữ liệu. Trong
+% bài toán xác định một tin nhắn có là rác hay không, mỗi tin nhắn là một điểm dữ
+% liệu. Mỗi điểm dữ liệu bao gồm nhiều \textit{đặc trưng} (\textit{feature}) khác
+% nhau, mỗi feature thường được biểu diễn dưới dạng một con số. Chúng ta thường
+% biểu diễn một điểm dữ liệu như một vector\footnote{Có những loại dữ liệu không
+% được biểu diễn dưới dạng một vector mà có thể là một ma trận -- khi giữ nguyên một
+% bức ảnh trong không gian hai chiều, hoặc một \textit{tensor} -- mảng nhiều
+% chiều -- khi xem các bức ảnh với nhiều channel khác nhau. Trong cuốn sách này,
+% chúng ta chỉ xét các điểm dữ liệu dưới dạng vector, hoặc \textit{vector hoá}
+% (\textit{vectorization}) các điểm dữ liệu nhiều chiều.} $\bx \in \R^d$ trong đó
+% mỗi phần tử $x_i$ là một đặc trưng, vector này thường được gọi là \textit{vector
+% đặc trưng} (\textit{feature vector}). Ví dụ, trong một bức ảnh, mỗi giá trị của
+% một điểm ảnh có thể coi là một đặc trưng, vector chứa toàn bộ giá trị các pixel
+% của ảnh có thể coi là một vector đặc trưng. Chương~\ref{cha:feature} sẽ bàn sâu
+% thêm về vector đặc trưng của dữ liệu.
+
+Nhiều bài toán phức tạp có thể được giải quyết bằng machine learning. Dưới đây là một số bài toán phổ biến.
+% \begin{itemize}
+
+\subsection{Phân loại}
+\index{Phân loại -- classification}
+\index{classification -- Phân loại}
+\textit{Phân loại} (classification) là một
+trong những bài toán được nghiên cứu nhiều nhất trong machine learning. Trong
+bài toán này, chương trình được yêu cầu xác định \textit{lớp/nhãn} (class/label) của một điểm dữ liệu trong số $C$ nhãn khác nhau. Cặp (dữ liệu, nhãn) được ký hiệu là $(\bx, y)$ với $y$ nhận một trong $C$ giá trị trong tập đích $\mathcal{Y}$.
+Trong bài toán này, việc xây dựng mô hình tương đương với việc đi tìm hàm số $f$ ánh xạ một điểm dữ liệu $\bx$ vào một phần tử $y \in \mathcal{Y}: y = f(\bx)$.
+
+\textit{Ví dụ 1}: Bài toán phân loại ảnh chữ số viết tay có mười nhãn là các chữ số từ không đến chín. Trong bài toán này:
+\begin{itemize}
+\item Nhiệm vụ: xác định nhãn của một ảnh chữ số viết tay.
+\item Phép đánh giá: số lượng ảnh được gán nhãn đúng.
+\item Kinh nghiệm: dữ liệu gồm các cặp (ảnh chữ số, nhãn) biết trước.
+\end{itemize}
+
+\textit{Ví dụ 2}: Bài toán phân loại email rác. Trong bài toán này:
+\begin{itemize}
+\item Nhiệm vụ: xác một email mới trong hộp thư đến là email rác hay không.
+
+\item Phép đánh giá: tỉ lệ email rác tìm thấy email thường được xác định đúng.
+
+\item Kinh nghiệm: cặp các (email, nhãn) thu thập được trước đó.
+\end{itemize}
+
+% Nhãn này thường là một phần
+% tử trong một tập hợp có $C$ phần tử khác nhau. Mỗi phần tử trong tập hợp này
+% được gọi là một \textit{lớp} (\textit{class}), và thường được đánh số từ $1$ đến
+% $C$. Để giải bài toán này, ta thường phải xây dựng một hàm số $f: \R^d
+% \rightarrow \{1, 2, \dots, C\}$. Khi $y = f(\bx)$, mô hình gán cho một điểm dữ
+% liệu được mô tả bởi vector đặc trưng $\bx$ một nhãn được xác định bởi số $y$.
+
+
+% \textbf{Ví dụ:} Trong nhận dạng chữ số viết tay, ta có ảnh của hàng nghìn ví
+% dụ của mỗi chữ số được viết bởi nhiều người khác nhau. Các bức ảnh này cùng với
+% nhãn của chúng được đưa vào một thuật toán machine learning. Sau khi thuật toán
+% này \textit{học} được một mô hình, tức một hàm số mà đầu vào là một bức ảnh và
+% đầu ra là một chữ số, khi nhận được một bức ảnh mới mà mô hình \textbf{chưa nhìn
+% thấy bao giờ}, nó sẽ dự đoán bức ảnh đó chứa chữ số nào.
+% Ví dụ này khá giống với cách học của con người khi còn nhỏ. Ta đưa bảng chữ cái
+% cho một đứa trẻ và chỉ cho chúng đây là chữ A, đây là chữ B. Sau một vài lần
+% được dạy thì trẻ có thể nhận biết được đâu là chữ A, đâu là chữ B mà chúng chưa nhìn thấy bao giờ.
+
+% Có một biến thể nhỏ ở đầu ra của hàm số $f(\bx)$ khi đầu ra không phải là một số
+% mà là một vector $\by \in \R^C$ trong đó $y_c$ chỉ ra xác suất để điểm dữ liệu
+% $\bx$ rơi vào lớp thứ $c$. Lớp được chọn cuối cùng là lớp có xác suất rơi vào là
+% cao nhất. Việc sử dụng xác suất này đôi khi rất quan trọng, nó giúp chỉ ra
+% \textit{độ chắc chắn} (\textit{confidence}) của mô hình. Nếu xác suất cao nhất
+% là cao hơn nhiều so với các xác suất còn lại, ta nói mô hình có độ chắn chắn là
+% cao khi phân lớp điểm dữ liệu $\bx$. Ngược lại, nếu độ chênh lệch giữa xác suất
+% cao nhất và các xác suất tiếp theo là nhỏ, thì khả năng mô hình đã phân loại
+% nhầm là cao hơn.
+
+\subsection{Hồi quy}
+\index{hồi quy -- regression}
+\index{regression -- hồi quy}
+Nếu tập đích $\mathcal{Y}$ gồm các giá trị thực (có thể vô hạn)
+thì bài toán được gọi là \textit{hồi quy}\footnote{có tài liệu gọi là
+\textit{tiên lượng}} (regression). Trong bài toán này, ta cần xây dựng một hàm số $f: \R^d
+\rightarrow \R$.
+
+\textit{Ví dụ 1}: Ước lượng giá của một căn nhà rộng $x ~ \text{m}^2$, có $y$
+phòng ngủ và cách trung tâm thành phố $z~ \text{km}$.
+
+\textit{Ví dụ 2}: Microsoft có một ứng dụng dự đoán giới tính và tuổi dựa trên
+khuôn mặt (\url{http://how-old.net/}). Phần dự đoán giới tính có thể được coi là
+một mô hình phân loại, phần dự đoán tuổi có thể coi là một mô hình hồi quy. Chú ý rằng nếu coi tuổi là một số nguyên dương không lớn hơn 150, ta có 150
+nhãn khác nhau và phần xác định tuổi có thể được coi là một mô hình phân loại.
+
+Bài toán hồi quy có thể mở rộng ra việc dự đoán nhiều đầu ra cùng một lúc,
+khi đó, hàm cần tìm sẽ là $f: \R^d \rightarrow \R^m$. Một ví dụ là bài toán
+{tạo ảnh độ phân giải cao} từ một ảnh có độ phân giải thấp hơn\footnote{\textit{single image super resolution} trong tiếng Anh}. Khi đó, việc dự đoán giá trị các điểm trong ảnh đầu ra là một bài toán hồi quy nhiều đầu ra.
+
+% \subsection{Transcription}
+% Trong loại bài toán này, hệ thống machine learning được yêu cầu quan sát một
+% loại dữ liệu và
+
+
+
+\subsection{Máy dịch}
+\index{máy dịch -- machine translation}
+\index{machine translation -- máy dịch}
+Trong bài toán \textit{máy dịch} (machine translation), chương trình máy tính được yêu cầu dịch một đoạn văn trong
+một ngôn ngữ sang một ngôn ngữ khác. Dữ liệu huấn luyện là các cặp văn bản song
+ngữ. Các văn bản này có thể chỉ gồm hai ngôn ngữ đang xét hoặc có thêm các ngôn
+ngữ trung gian. Lời giải cho bài toán này gần đây đã có nhiều bước phát triển
+vượt bậc dựa trên các thuật toán deep learning.
+
+\index{phân cụm -- clustering}
+\index{clustering -- phân cụm}
+\subsection{Phân cụm}
+\textit{Phân cụm} (clustering) là bài toán chia dữ liệu $\mathcal{X}$ thành các cụm nhỏ dựa trên sự liên
+quan giữa các dữ liệu trong mỗi cụm. Trong bài toán này, dữ liệu huấn luyện không có nhãn, mô hình tự phân chia dữ liệu thành các cụm khác nhau.
+
+Điều này giống với việc yêu cầu một đứa trẻ phân cụm các mảnh ghép với nhiều hình thù và màu sắc khác nhau. Mặc dù không cho trẻ biết mảnh nào tương ứng
+với hình nào hoặc màu nào, nhiều khả năng chúng vẫn có thể phân loại các mảnh
+ghép theo màu hoặc hình dạng.
+
+\textit{Ví dụ 1}: Phân cụm khách hàng dựa trên hành vi mua hàng. Dựa trên việc mua bán và theo dõi của người dùng trên một trang web thương mại điện tử, mô hình có thể phân người dùng vào các cụm theo sở thích mua hàng. Từ đó, mô hình có thể quảng cáo các mặt hàng mà người dùng có thể quan tâm.
+
+
+\subsection{Hoàn thiện dữ liệu -- data completion}
+\index{hoàn thiện dữ liệu}
+Một bộ dữ liệu có thể có nhiều đặc trưng nhưng việc thu thập đặc trưng cho từng
+điểm dữ liệu đôi khi không khả thi. Chẳng hạn, một bức ảnh có thể bị xước khiến
+nhiều điểm ảnh bị mất hay thông tin về tuổi của một số khách hàng không thu thập
+được. \textit{Hoàn thiện dữ liệu} (data completion) là bài toán dự đoán các trường dữ liệu còn
+thiếu đó. Nhiệm vụ của bài toán này là dựa trên mối tương quan giữa các điểm dữ
+liệu để dự đoán những giá trị còn thiếu. Các hệ thống khuyến nghị là một ví dụ điển hình của loại bài toán này.
+
+Ngoài ra, có nhiều bài toán machine learning khác như \textit{xếp hạng} (ranking), \textit{thu thập thông tin} (information retrieval), \textit{giảm chiều dữ liệu} (dimentionality reduction),...
+
+
+% \subsection{Machine translation}
+
+% \textbf{Ví dụ 2:} Thuật toán dò các khuôn mặt trong một bức ảnh đã được phát
+% triển từ rất lâu. Thời gian đầu, facebook sử dụng thuật toán này để chỉ ra các
+% khuôn mặt trong một bức ảnh và yêu cầu người dùng \textit{tag friends} - tức gán
+% nhãn cho mỗi khuôn mặt. Số lượng cặp dữ liệu (\textit{khuôn mặt, tên người})
+% càng lớn, độ chính xác ở những lần tự động \textit{tag} tiếp theo sẽ càng lớn.
+
+% \textbf{Ví dụ 3:} Bản thân thuật toán dò tìm các khuôn mặt trong 1 bức ảnh cũng
+% là một thuật toán Supervised learning với training data (dữ liệu học) là hàng
+% ngàn cặp (\textit{ảnh, mặt người}) và (\textit{ảnh, không phải mặt người}) được
+% đưa vào. Chú ý là dữ liệu này chỉ phân biệt \textit{mặt người} và \textit{không
+% phải mặt ngưòi} mà không phân biệt khuôn mặt của những người khác nhau.
+
+
+
+% \end{itemize}
+
+
+% Dựa trên dữ liệu huấn luyện, các thuật toán machine learning có thể được chia thành các loại sau đây.
+
+
+% \section{Phép đánh giá, $P$}
+
+% \index{training set--tập huấn luyện}
+% \index{test set--tập kiểm thử}
+
+% Để kiểm tra năng lực của một thuật toán machine learning, chúng ta cần phải
+% thiết kế các phép đánh giá có thể đo đạc được kết quả.
+
+% Thông thường, khi thực hiện một thuật toán machine learning, dữ liệu sẽ được
+% chia thành hai phần riêng biệt: \textit{tập huấn luyện} (\textit{training set})
+% và \textit{tập kiểm thử} (\textit{test set}). Tập huấn luyện sẽ được dùng để tìm
+% các tham số mô hình. Tập kiểm thử được dùng để đánh giá năng lực của mô hình tìm
+% được. Có một điểm cần lưu ý rằng khi tìm các tham số mô hình, ta chỉ được dùng
+% các thông tin trong tập huấn luyện. Việc đánh giá có thể được áp dụng lên cả
+% hai tập hợp. Muốn mô hình thực hiện tốt trên tập kiểm thử thì nó trước hết phải
+% hoạt động tốt trên tập huấn luyện.
+
+% \index{online learning}
+% \index{offline learning}
+% \textbf{Lưu ý:} Ranh giới giữa tập huấn luyện và tập kiểm thử đôi khi không rõ
+% ràng. Các thuật toán thực tế liên tục được cập nhật dựa trên dữ liệu mới thêm
+% vào, các thuật toán này được gọi là \textit{online learning} hoặc \textit{online
+% training}. Phần dữ liệu mới này ban đầu không được hệ thống sử dụng để xây
+% dựng mô hình, nhưng về sau có thể được mô hình sử dụng để cải tiến. Ngược với
+% \textit{online learning} là \textit{offline learning}, ở đó hệ thống xây dựng mô
+% hình \textit{một lần} dựa trên một tập chính là tập huấn luyện. Các điểm dữ
+% liệu không được dùng trong quá trình xây dựng hệ thống được coi là tập kiểm thử.
+% Trong cuốn sách này, khi không đề cập gì thêm, các thuật toán được ngầm hiểu là
+% \textit{offline
+% learning}, trong đó \textit{training set} là tập hợp được dùng để xây dựng mô
+% hình ban
+% đầu, \textit{test set} là tập hợp được dùng để đánh giá hiệu quả của mô hình
+% được xây dựng đó.
+
+% \section{Kinh nghiệm, $E$}
+
+
+
+% Việc huấn luyện các mô hình machine learning có thể coi là việc cho chúng
+% \textit{trải nghiệm} trên các \textit{tập dữ liệu} (\textit{dataset}) -- chính là
+% \textit{training set}. Các tập dữ liệu khác nhau sẽ cho các mô hình các trải
+% nghiệm khác nhau. Chất lượng của
+% các tập dữ liệu này cũng ảnh hưởng tới hiệu năng của mô hình.
+
+\section{Phân nhóm các thuật toán machine learning}
+Dựa trên tính chất của tập dữ liệu, các thuật toán machine learning có thể
+được phân thành hai nhóm chính là \textit{học có giám sát} và \textit{học không giám sát}. Ngoài ra, có hai nhóm thuật toán khác gây nhiều chú ý trong thời gian gần đây là \textit{học bán giám sát} và \textit{học củng cố}.
+
+\index{học có giám sát -- supervised learning}
+\index{supervised learning -- học có giám sát}
+\subsection{Học có giám sát}
+Một thuật toán machine learning được gọi là \textit{học có giám sát} (supervised learning) nếu việc xây dựng mô hình dự đoán mối quan hệ giữa đầu vào và đầu ra được thực hiện dựa trên các cặp (đầu vào, đầu ra) đã biết trong tập huấn luyện. Đây là nhóm thuật toán phổ biến nhất trong các thuật toán machine learning.
+
+Các thuật toán phân loại và hồi quy là hai ví dụ điển hình trong nhóm này. Trong bài toán xác định xem một bức ảnh có chứa một xe máy hay không, ta cần chuẩn bị các ảnh chứa và không chứa xe máy cùng với nhãn của chúng. Dữ liệu này được dùng như dữ liệu huấn luyện cho mô hình phân loại. Một ví dụ khác, nếu việc xây dựng một mô hình máy dịch Anh -- Việt được thực hiện dựa trên hàng triệu cặp văn bản Anh -- Việt tương ứng, ta cũng nói thuật toán này là học có giám sát.
+
+% Khái niệm \textit{học có giám sát} xuất phát từ cách học tương tự ở con người.
+Cách huấn luyện mô hình học máy như trên tương tự với cách dạy học sau đây của
+con người. Ban đầu, cô giáo đưa các bức ảnh chứa chữ số cho một đứa trẻ và chỉ
+ra đâu là chữ số không, đầu là chữ số một,... Qua nhiều lần hướng dẫn, đứa trẻ
+có thể nhận được các chữ số trong một bức ảnh chúng thậm chí chưa nhìn thấy bao
+giờ. Quá trình cô giáo chỉ cho đứa trẻ tên của từng chữ số tương đương với việc
+chỉ cho mô hình học máy đầu ra tương ứng của mỗi điểm dữ liệu đầu vào. Tên gọi
+\textit{học có giám sát} xuất phát từ đây.
+
+
+Diễn giải theo toán học, học có giám sát xảy ra khi việc dự đoán quan hệ giữa
+đầu ra $\by$ và dữ liệu đầu vào $\bx$ được thực hiện dựa trên các cặp $\{(\bx_1,
+\by_1), (\bx_2, \by_2), \dots, (\bx_N, \by_N)\}$ trong tập huấn luyện. Việc huấn
+luyện là việc xây dựng một hàm số $f$ sao cho với mọi $i = 1, 2, \dots, N$,
+$f(\bx_i)$ gần với $\by_i$ nhất có thể. Hơn thế nữa, khi có một điểm dữ liệu
+$\bx$ nằm ngoài tập huấn luyện, đầu ra dự đoán $f(\bx)$ cũng gần với đầu ra
+thực sự $\by$.
+
+
+% Một cách toán học, supervised learning là khi có một tập hợp biến đầu
+% vào $ \mathcal{X} = \{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\} $ và một
+% tập hợp đầu ra tương ứng $ \mathcal{Y} = \{\mathbf{y}_1, \mathbf{y}_2, \dots,
+% \mathbf{y}_N\} $, trong đó $ \mathbf{x}_i, \mathbf{y}_i $ là các vector. Các cặp
+% dữ liệu biết trước $ (\mathbf{x}_i, \mathbf{y}_i) \in \mathcal{X} \times
+% \mathcal{Y} $ tạo nên tập huấn luyện. Từ
+% tập huấn luyện này, chúng ta cần tạo ra một hàm số ánh xạ mỗi phần tử từ tập
+% $\mathcal{X}$ sang một phần tử (xấp xỉ) tương ứng của tập $\mathcal{Y}$: $$
+% \mathbf{y}_i \approx f(\mathbf{x}_i), ~~ \forall i = 1, 2, \dots, N$$ Mục đích
+% là xấp xỉ hàm số $f$ thật tốt để khi có một dữ liệu $\mathbf{x}$ mới, chúng ta
+% có thể tính được nhãn tương ứng của nó $ \mathbf{y} = f(\mathbf{x})$.
+
+\subsection{Học không giám sát}
+\index{học không giám sát -- unsupervised learning}
+\index{unsupervised learning -- học không giám sát}
+Trong một nhóm các thuật toán khác, dữ liệu huấn luyện chỉ bao gồm các dữ liệu đầu vào $\bx$ mà không có đầu ra tương ứng. Các thuật toán machine learning có thể không dự đoán được đầu ra nhưng vẫn trích xuất được những thông tin quan trọng dựa trên mối liên quan giữa các điểm dữ liệu. Các thuật toán trong nhóm này được gọi là \textit{học không giám sát} (unsupervised learning).
+
+Các thuật toán giải quyết bài toán phân cụm và giảm chiều dữ liệu là các ví dụ
+điển hình của nhóm này. Trong bài toán phân cụm, có thể mô hình không trực tiếp
+dự đoán được đầu ra của dữ liệu nhưng vẫn có khả năng phân các điểm dữ liệu có
+đặc tính gần giống nhau vào từng nhóm.
+
+Quay lại ví dụ trên, nếu cô giáo giao cho đứa trẻ các bức ảnh chứa chữ số nhưng không nêu rõ tên gọi của chúng, đứa trẻ sẽ không biết tên gọi của từng chữ số. Tuy nhiên, đứa trẻ vẫn có thể tự chia các chữ số có nét giống nhau vào cùng một nhóm và xác định được nhóm tương tứng của một bức ảnh mới. Đứa trẻ có thể tự thực hiện công việc này mà không cần sự chỉ bảo hay giám sát của cô giáo. Tên gọi \textit{học không giám sát} xuất phát từ đây.
+
+
+% Ngược lại, trong \textbf{unsupervised learning}, chúng ta không biết được kết
+% quả đầu ra mà chỉ biết các vector đặc trưng của dữ liệu đầu vào. Các thuật toán
+% unsupervised learning sẽ dựa vào cấu trúc của dữ liệu để thực hiện một công việc
+% nào đó, ví dụ như phân cụm hoặc \textit{giảm số chiều của dữ liệu}
+% (\textit{dimentionality reduction}). Một cách toán học, unsupervised learning là
+% khi chúng ta chỉ có dữ liệu đầu vào $\mathcal{X}$ mà không biết đầu ra
+% $\mathcal{Y}$ tương ứng.
+
+% Không giống supervised learning, chúng ta không biết câu trả lời chính
+% xác cho mỗi dữ liệu đầu vào trong unsupervised learning. Giống như khi ta học,
+% ta chỉ được đưa cho một chữ cái mà không nói đó là chữ A hay chữ B. Cụm từ
+% \textit{không giám sát}, hay \textit{không ai chỉ bảo} (\textit{unsupervised})
+% được đặt tên theo nghĩa này.
+
+% Từ góc độ xác suất thống kê, unsupervised learning trải nghiệm qua rất nhiều ví
+% dụ (các điểm dữ liệu) $\bx$ và cố gắng học phân phối xác suất $p(\bx)$ hoặc các
+% tính chất của phân phối đó một cách trực tiếp hoặc gián tiếp. Trong khi đó,
+% supervised learning quan sát các ví dụ $\bx$ và các kết quả tương ứng $\by$, sau
+% đó cố gắng học cách dự đoán $\by$ từ $\bx$ thông qua việc đánh giá xác suất có
+% điều kiện $p(\by |\bx)$. Xác suất này có thể diễn đạt bằng lời là biết rằng một
+% điểm dữ liệu có vector đặc trưng là $\bx$, xác suất để đầu ra của nó bằng $\by$
+% là bao nhiêu.
+
+
+
+% Ranh giới giữa unsupervised learning và supervised learning đôi khi là không rõ
+% ràng. Thông thường, người ta thường coi các bài classification, regression là
+% supervised learning, các bài clustering hay \textit{density estimation}
+% (\textit{ước lượng một phân phối}) là unsupervised learning.
+
+\subsection{Học bán giám sát}
+\index{học bán giám sát -- semi-supervised learning}
+\index{semi-supervised learning -- học bán giám sát}
+Ranh giới giữa học có giám sát và học không giám sát đôi khi không rõ ràng. Có những thuật toán mà tập huấn luyện bao gồm các cặp (đầu vào, đầu ra) và dữ liệu khác chỉ có đầu vào. Những thuật toán này được gọi là \textit{học bán giám sát} (semi-supervised learning).
+
+% Có những bài toán mà dữ liệu được dùng để huấn luyện bao gồm cả những dữ liệu có
+% nhãn và chưa được gán nhãn. Các bài toán khi chúng ta có
+% một lượng lớn dữ liệu $\mathcal{X}$ nhưng chỉ một phần trong chúng được gán nhãn
+% được gọi là \textit{học bán giám sát}, hay \textbf{semi-supervised learning}.
+% Những bài toán thuộc nhóm này nằm giữa hai nhóm được nêu bên trên.
+
+Xét một bài toán phân loại mà tập huấn luyện bao gồm các bức ảnh được gán nhãn `chó' hoặc `mèo' và rất nhiều bức ảnh thú cưng tải từ Internet chưa có nhãn.
+Thực tế cho thấy ngày càng nhiều thuật toán rơi vào nhóm này vì việc thu thập nhãn cho dữ liệu có chi phí cao và tốn thời gian. Chẳng hạn, chỉ một phần nhỏ trong các bức ảnh y học có nhãn vì quá trình gán nhãn tốn thời gian và cần sự can thiệp của các chuyên gia. Một ví dụ khác, thuật toán dò tìm vật thể cho xe tự lái được xây dựng trên một lượng lớn video thu được từ camera xe hơi; tuy nhiên, chỉ một lượng nhỏ các vật thể trong các video huấn luyện đó được xác định cụ thể.
+
+\subsection{Học củng cố}
+\index{học củng cố -- reinforcement learning}
+\index{reinforcement learning -- học củng cố}
+
+
+Có một nhóm các thuật toán machine learning khác có thể không yêu cầu dữ liệu
+huấn luyện mà mô hình học cách ra quyết định bằng cách giao tiếp với môi trường
+xung quanh. Các thuật toán thuộc nhóm này liên tục ra quyết định và nhận phản
+hồi từ môi trường để tự củng cố hành vi. Nhóm các thuật toán này có tên
+\textit{học củng cố} (reinforcement learning).
+
+
+% Một đứa trẻ có thể học bằng cách tự khám phá.
+
+% Mô hình này nhận những thông tin của môi trường để ra quyết đCacs  liên tục nhận phản hồi từ môi trường
+% để tự cải thiện hành vi của hệ thống trong các môi trường mới. Các ví dụ điển
+% hình của reinforcement learning là việc huấn luyện cho xe tự lái dựa vào ảnh
+% nhận từ camera và điều khiển tay lái cũng như tốc độ của xe. Reinforcement
+% learning hiện nay chủ yếu được áp dụng vào các trò chơi, khi mà máy tính có thể
+% mô phỏng được các trạng thái của môi trường và huấn luyện thuật toán thông qua
+% rất nhiều vòng lặp.
+
+\textit{Ví dụ 1}: Gần đây, AlphaGo trở nên nổi tiếng với việc chơi cờ vây thắng
+cả con người (\url{https://goo.gl/PzKcvP}). {Cờ vây được xem là trò chơi có độ
+phức tạp cực kỳ cao}\footnote{\textit{Google DeepMind's AlphaGo: How it works}
+(\url{https://goo.gl/nDNcCy}).} với tổng số thế cờ xấp xỉ $10^{761} $, con số
+này ở cờ vua là $10^{120}$ và tổng số nguyên tử trong toàn vũ trụ là khoảng
+$10^{80}$!! Hệ thống phải chọn ra một chiến thuật tối ưu trong số hàng nhiều tỉ
+tỉ lựa chọn, và tất nhiên việc thử tất cả các lựa chọn là không khả thi. Về cơ
+bản, AlphaGo bao gồm các thuật toán thuộc cả học có giảm sát và học củng cố.
+Trong phần học có giám sát, dữ liệu từ các ván cờ do con người chơi với nhau
+được đưa vào để huấn luyện. Tuy nhiên, mục đích cuối cùng của AlphaGo không dừng
+lại ở việc chơi như con người mà thậm chí phải thắng cả con người. Vì vậy, sau
+khi học xong các ván cờ của con người, AlphaGo tự chơi với chính nó qua hàng
+triệu ván cờ để tìm ra các nước đi tối ưu hơn. Thuật toán trong phần tự chơi này
+được xếp vào loại học củng cố.
+
+Gần đây, Google DeepMind đã tiến thêm một bước đáng kể với AlphaGo Zero. Hệ
+thống này thậm chí không cần học từ các ván cờ của con người. Nó có thể tự chơi
+với chính mình để tìm ra các chiến thuật tối ưu. Sau 40 ngày được huấn luyện, nó
+đã thắng tất cả các con người và hệ thống khác, bao gồm
+AlphaGo\footnote{\textit{AlphaGo Zero: Learning from scratch}
+(\url{https://goo.gl/xtDjoF}).}.
+
+\textit{Ví dụ 2}: {Huấn luyện cho máy tính chơi game
+Mario}\footnote{\textit{MarI/O - Machine Learning for Video Games}
+(\url{https://goo.gl/QekkRz})}. Đây là một chương trình thú vị dạy máy tính chơi
+trò chơi điện tử Mario. Trờ chơi này đơn giản hơn cờ vây vì tại một thời điểm,
+tập hợp các quyết định có thể ra gồm ít phần tử. Người chơi chỉ phải bấm một số
+lượng nhỏ các nút di chuyển, nhảy, bắn đạn. Đồng thời, môi trường cũng đơn giản
+hơn và lặp lại ở mỗi lần chơi (tại thời điểm cụ thể sẽ xuất hiện một chướng ngại
+vật cố định ở một vị trí cố định). Đầu vào của là sơ đồ của màn hình tại thời
+điểm hiện tại, nhiệm vụ của thuật toán là tìm tổ hợp phím được bấm với mỗi đầu
+vào.
+
+Việc huấn luyện một thuật toán học củng cố thông thường dựa trên một đại lượng
+được gọi là \textit{điểm thưởng} (reward). Mô hình cần tìm ra một thuật toán tối đa điểm
+thưởng đó qua rất nhiều lần chơi khác nhau. Trong trò chơi cờ vây, điểm thưởng
+có thể là số lượng ván thắng. Trong trò chơi Mario, điểm thưởng được xác định
+dựa trên quãng đường nhân vật Mario đi được và thời gian hoàn thành quãng đường
+đó. Điểm thưởng này không phải là điểm của trò chơi mà là điểm do chính người
+lập trình tạo ra.
+
+
+\section{Hàm mất mát và tham số mô hình}
+\index{tham số mô hình -- model parameter}
+\index{model parameter -- tham số mô hình}
+\index{hàm mất mát -- loss function/cost function}
+\index{loss function/cost function -- hàm mất mát}
+
+Mỗi mô hình machine learning được mô tả bởi bộ \textit{các tham số mô hình} (model parameter).
+Công việc của một thuật toán machine learning là đi tìm các tham số mô hình tối
+ưu cho mỗi bài toán. Việc đi tìm các tham số mô hình có liên quan mật thiết đến
+các phép đánh giá. Mục đích chính là đi tìm các tham số mô hình sao cho
+các phép đánh giá đạt kết quả cao nhất. Trong bài toán phân loại, kết quả
+tốt có thể được hiểu là có ít điểm dữ liệu bị phân loại sai. Trong bài toán
+hồi quy, kết quả tốt là khi sự sai lệch giữa đầu ra dự đoán và đầu ra thực sự
+là nhỏ.
+
+Quan hệ giữa một phép đánh giá và các tham số mô hình được mô tả thông qua một
+hàm số gọi là \textit{hàm mất mát} ({loss function} hoặc
+{cost function}). Hàm số này thường có giá trị nhỏ khi
+phép đánh giá cho kết quả tốt và ngược lại. Việc đi tìm các tham số mô hình sao
+cho phép đánh giá trả về kết quả tốt tương đương với việc tối thiểu hàm mất mát.
+Như vậy, việc xây dựng một mô hình machine learning chính là việc đi giải một
+bài toán tối ưu. Quá trình đó được coi là quá trình \textit{learning} của
+\textit{machine}.
+
+\index{argmin}
+Tập hợp các tham số mô hình được ký hiệu bằng $\theta$, hàm mất mát của
+mô hình được ký hiệu là $\mathcal{L}(\theta)$ hoặc $J(\theta)$. Bài toán đi tìm tham số mô hình tương đương với bài toán tối thiểu hàm mất mát:
+\begin{equation}
+\theta^* = \argmin_{\theta}\mathcal{L}(\theta).
+\end{equation}
+Trong đó, ký hiệu $\displaystyle \argmin_{\theta}\L(\theta)$ được hiểu là giá
+trị của $\theta$ để hàm số $\L(\theta)$ đạt giá trị nhỏ nhất. Biến số được ghi
+dưới dấu $\argmin$ là biến đang được tối ưu. Biến số này cần được chỉ rõ, trừ
+khi hàm mất mát chỉ phụ thuộc vào một biến duy nhất. Ký hiệu $\argmax$ cũng được
+sử dụng một cách tương tự khi cần tìm giá trị của các biến số để hàm số đạt giá
+trị lớn nhất.
+
+Hàm số $\L(\theta)$ có thể không có chặn dưới hoặc đạt giá trị nhỏ nhất tại
+nhiều giá trị $\theta$ khác nhau. Thậm chí, việc tìm giá trị nhỏ nhất của hàm số
+này đôi khi không khả thi. Trong các bài toán tối ưu thực tế, việc chỉ cần tìm
+ra một bộ tham số $\theta$ khiến hàm mất mát đạt giá trị nhỏ nhất hoặc thậm chí
+một giá trị cực tiểu cũng có thể mang lại các kết quả khả quan.
+
+Để hiểu bản chất của các thuật toán machine learning, việc nắm vững các kỹ
+thuật tối ưu cơ bản là cần thiêt. Cuốn sách này cũng cung cấp kiến thức nền tảng cho việc giải các bài toán tối ưu, bao gồm tối ưu không ràng buộc
+(Chương~\ref{cha:gradient_descent}) và tối ưu có ràng buộc (xem
+Phần~\ref{part:cvxopt}).
+
+Trong các chương tiếp theo của phần này, bạn đọc sẽ dần làm quen với các
+thành phần cơ bản của một hệ thống machine learning.
+
+% \section{Tài liệu tham khảo}
+% [1] Mục 5.1, \href{http://www.deeplearningbook.org/}{\textit{Deep learning}} (Goodfellow, 2016) \cite{Goodfellow-et-al-2016}.
+
+% \begin{mydeff}
+%     kasdj
+% \end{mydeff}
+
+% Có hai cách phổ biến phân cụm các thuật toán Machine learning. Một là dựa trên
+% phương thức học (learning style), hai là dựa trên chức năng (function) (của mỗi
+% thuật toán).
+
+
+% \section{Phân nhóm dựa trên phương thức học}
+
+% Theo phương thức học, các thuật toán Machine Learning thường được chia làm 4
+% nhóm: Supervise learning, Unsupervised learning, Semi-supervised lerning và
+% Reinforcement learning. \textit{Có một số cách phân cụm không có
+% Semi-supervised learning hoặc Reinforcement learning.}
+
+% \index{Supervised Learning}
+% \subsection{Supervised Learning (Học có giám sát) }
+% Supervised learning là thuật toán dự đoán đầu ra (outcome) của một dữ liệu mới
+% (new input) dựa trên các cặp (\textit{input, outcome}) đã biết từ trước. Cặp dữ
+% liệu này còn được gọi là (\textit{data. label}), tức (\textit{dữ liệu, nhãn}).
+% Supervised learning là nhóm phổ biến nhất trong các thuật toán Machine Learning.
+
+% Một cách toán học, Supervised learning là khi chúng ra có một tập hợp biến đầu
+% vào $ \mathcal{X} = \{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\} $ và một
+% tập hợp nhãn tương ứng $ \mathcal{Y} = \{\mathbf{y}_1, \mathbf{y}_2, \dots,
+% \mathbf{y}_N\} $, trong đó $ \mathbf{x}_i, \mathbf{y}_i $ là các vector. Các cặp
+% dữ liệu biết trước $ (\mathbf{x}_i, \mathbf{y}_i) \in \mathcal{X} \times
+% \mathcal{Y} $ được gọi là tập \textit{training data} (dữ liệu huấn luyện). Từ
+% tập traing data này, chúng ta cần tạo ra một hàm số ánh xạ mỗi phần tử từ tập
+% $\mathcal{X}$ sang một phần tử (xấp xỉ) tương ứng của tập $\mathcal{Y}$: $$
+% \mathbf{y}_i \approx f(\mathbf{x}_i), ~~ \forall i = 1, 2, \dots, N$$ Mục đích
+% là xấp xỉ hàm số $f$ thật tốt để khi có một dữ liệu $\mathbf{x}$ mới, chúng ta
+% có thể tính được nhãn tương ứng của nó $ \mathbf{y} = f(\mathbf{x}) $.
+
+% \textbf{Ví dụ 1:} trong nhận dạng chữ viết tay (Hình
+% \ref{fig:categories_mnist}), ta có ảnh của hàng nghìn ví dụ của mỗi chữ số được
+% viết bởi nhiều người khác nhau. Chúng ta đưa các bức ảnh này vào trong một thuật
+% toán và chỉ cho nó biết mỗi bức ảnh tương ứng với chữ số nào. Sau khi thuật toán
+% tạo ra (sau khi \textit{học}) một mô hình, tức một hàm số mà đầu vào là một bức
+% ảnh và đầu ra là một chữ số, khi nhận được một bức ảnh mới mà mô hình
+% \textbf{chưa nhìn thấy bao giờ}, nó sẽ dự đoán bức ảnh đó chứa chữ số nào.
+
+
+% Ví dụ này khá giống với cách học của con người khi còn nhỏ. Ta đưa bảng chữ cái
+% cho một đứa trẻ và chỉ cho chúng đây là chữ A, đây là chữ B. Sau một vài lần
+% được dạy thì trẻ có thể nhận biết được đâu là chữ A, đâu là chữ B trong một cuốn
+% sách mà chúng chưa nhìn thấy bao giờ.
+
+% \textbf{Ví dụ 2:} Thuật toán dò các khuôn mặt trong một bức ảnh đã được phát
+% triển từ rất lâu. Thời gian đầu, facebook sử dụng thuật toán này để chỉ ra các
+% khuôn mặt trong một bức ảnh và yêu cầu người dùng \textit{tag friends} - tức gán
+% nhãn cho mỗi khuôn mặt. Số lượng cặp dữ liệu (\textit{khuôn mặt, tên người})
+% càng lớn, độ chính xác ở những lần tự động \textit{tag} tiếp theo sẽ càng lớn.
+
+% \textbf{Ví dụ 3:} Bản thân thuật toán dò tìm các khuôn mặt trong 1 bức ảnh cũng
+% là một thuật toán Supervised learning với training data (dữ liệu học) là hàng
+% ngàn cặp (\textit{ảnh, mặt người}) và (\textit{ảnh, không phải mặt người}) được
+% đưa vào. Chú ý là dữ liệu này chỉ phân biệt \textit{mặt người} và \textit{không
+% phải mặt ngưòi} mà không phân biệt khuôn mặt của những người khác nhau.
+
+% Thuật toán supervised learning còn được tiếp tục chia nhỏ ra thành hai loại
+% chính:
+
+% \index{Classification problems}
+% \subsubsection{Classification (Phân loại)}
+%  Một bài toán được gọi là \textit{classification} nếu các \textit{label} của
+%  \textit{input data} được chia thành một số hữu hạn nhóm. Ví dụ: Gmail xác định
+%  xem một email có phải là spam hay không; các hãng tín dụng xác định xem một
+%  khách hàng có khả năng thanh toán nợ hay không. Ba ví dụ phía trên được chia
+%  vào loại này.
+
+% \index{Regression problems}
+% \subsubsection{Regression (Hồi quy)}
+% (tiếng Việt dịch là \textit{Hồi quy}, tôi không thích cách dịch này vì bản thân
+% không hiểu nó nghĩa là gì)
+
+% Nếu \textit{label} không được chia thành các nhóm mà là một giá trị thực cụ thể.
+% Ví dụ: một căn nhà rộng $x ~ \text{m}^2$, có $y$ phòng ngủ và cách trung tâm
+% thành phố $z~ \text{km}$ sẽ có giá là bao nhiêu?
+
+% Gần đây \href{http://how-old.net/}{Microsoft có một ứng dụng dự đoán giới tính
+% và tuổi dựa trên khuôn mặt}. Phần dự đoán giới tính có thể coi là thuật toán
+% \textbf{Classification}, phần dự đoán tuổi có thể coi là thuật toán
+% \textbf{Regression}. \textit{Chú ý rằng phần dự đoán tuổi cũng có thể coi là
+% \textbf{Classification} nếu ta coi tuổi là một số nguyên dương không lớn hơn
+% 150, chúng ta sẽ có 150 class (lớp) khác nhau.}
+
+% \index{Unsupervised Learning}
+% \subsection{Unsupervised Learning (Học không giám sát)}
+% Trong thuật toán này, chúng ta không biết được \textit{outcome} hay
+% \textit{nhãn} mà chỉ có dữ liệu đầu vào. Thuật toán unsupervised learning sẽ dựa
+% vào cấu trúc của dữ liệu để thực hiện một công việc nào đó, ví dụ như phân cụm
+% (clustering) hoặc giảm số chiều của dữ liệu (dimention reduction) để thuận tiện
+% trong việc lưu trữ và tính toán. Một cách toán học, Unsupervised learning là khi
+% chúng ta chỉ có dữ liệu vào
+% $\mathcal{X} $ mà không biết \textit{nhãn} $\mathcal{Y}$ tương ứng.
+
+% Những thuật toán loại này được gọi là Unsupervised learning vì không giống như
+% Supervised learning, chúng ta không biết câu trả lời chính xác cho mỗi dữ liệu
+% đầu vào. Giống như khi ta học, không có thầy cô giáo nào chỉ cho ta biết đó là
+% chữ A hay chữ B. Cụm \textit{không giám sát} (hoặc \textit{không ai chỉ bảo})
+% được đặt tên theo nghĩa này.
+
+% Các bài toán Unsupervised learning được tiếp tục chia nhỏ thành hai loại:
+
+% \index{Clustering problems}
+% \subsubsection{Clustering (phân cụm)}
+% Một bài toán phân cụm toàn bộ dữ liệu $\mathcal{X}$ thành các nhóm nhỏ dựa trên
+% sự liên quan giữa các dữ liệu trong mỗi nhóm. Ví dụ: phân cụm khách hàng dựa
+% trên hành vi mua hàng. Điều này cũng giống như việc ta đưa cho một đứa trẻ rất
+% nhiều mảnh ghép với các hình thù và màu sắc khác nhau, ví dụ tam giác, vuông,
+% tròn với màu xanh và đỏ, sau đó yêu cẩu trẻ phân chúng thành từng nhóm. Mặc dù
+% không cho trẻ biết mảnh nào tương ứng với hình nào hoặc màu nào, nhiều khả năng
+% chúng vẫn có thể phân loại các mảnh ghép theo màu hoặc hình dạng.
+
+% \index{Association problems}
+% \subsubsection{Association}
+% Là bài toán khi chúng ta muốn khám phá ra một quy luật dựa trên nhiều dữ liệu
+% cho trước. Ví dụ: những khách hàng nam mua quần áo thường có xu hướng mua thêm
+% đồng hồ hoặc thắt lưng; những khán giả xem phim Spider Man thường có xu hướng
+% xem thêm phim Bat Man, dựa vào đó tạo ra một hệ thống gợi ý khách hàng
+% (Recommendation System), thúc đẩy nhu cầu mua sắm.
+
+
+% \index{Semi-Supervised Learning}
+% \subsection{Semi-Supervised Learning (Học bán giám sát)}
+% Các bài toán khi chúng ta có một lượng lớn dữ liệu $\mathcal{X}$ nhưng chỉ một
+% phần trong chúng được gán nhãn được gọi là Semi-Supervised Learning. Những bài
+% toán thuộc nhóm này nằm giữa hai nhóm được nêu bên trên.
+
+% Một ví dụ điển hình của nhóm này là chỉ có một phần ảnh hoặc văn bản được gán
+% nhãn (ví dụ bức ảnh về người, động vật hoặc các văn bản khoa học, chính trị) và
+% phần lớn các bức ảnh/văn bản khác chưa được gán nhãn được thu thập từ internet.
+% Thực tế cho thấy rất nhiều các bài toàn Machine Learning thuộc vào nhóm này vì
+% việc thu thập dữ liệu có nhãn tốn rất nhiều thời gian và có chi phí cao. Rất
+% nhiều loại dữ liệu thậm chí cần phải có chuyên gia mới gán nhãn được (ảnh y học
+% chẳng hạn). Ngược lại, dữ liệu chưa có nhãn có thể được thu thập với chi phí
+% thấp từ internet.
+
+
+% \index{Reinforcement Learning}
+% \subsection{Reinforcement Learning (Học Củng Cố)}
+% Reinforcement learning là các bài toán giúp cho một hệ thống tự động xác định
+% hành vi dựa trên hoàn cảnh để đạt được lợi ích cao nhất (maximizing the
+% performance). Hiện tại, Reinforcement learning chủ yếu được áp dụng vào Lý
+% Thuyết Trò Chơi (Game Theory), các thuật toán cần xác định nưóc đi tiếp theo để
+% đạt được điểm số cao nhất.
+
+% % <div class="imgcap"> <div > <a href = "/2016/12/27/categories/"> <img
+% % src="/assets/categories/alphago.jpeg" width = "800"></a> </div> <div
+% % class="thecap">AlphaGo chơi cờ vây với Lee Sedol. AlphaGo là một ví dụ của
+% % Reinforcement learning. <br> (Nguồn: <a href ="http://www.tomshardware.com/new
+% % s/alphago-defeats-sedol-second-time,31377.html">AlphaGo AI Defeats Sedol
+% % Again, With 'Near Perfect Game')</a></div> </div>
+
+%  % \begin{figure}
+%  %   \centering
+%  %   \includegraphics[width = .7\textwidth]{../categories/alphago.jpeg}
+%  %   \caption{AlphaGo chơi cờ vây với Lee Sedol. AlphaGo là một ví dụ của
+%  %   Reinforcement learning (Nguồn \href{http://www.tomshardware.com/news/alphag
+%  %   o-defeats-sedol-second-time,31377.html}{AlphaGo AI Defeats Sedol Again,
+%  %   With 'Near Perfect Game'})}
+%  %   \label{fig:categories_alphago}
+%  % \end{figure}
+
+% \textbf{Ví dụ 1:} AlphaGo
+% \href{https://gogameguru.com/tag/deepmind-alphago-lee-sedol/}{gần đây nổi tiếng
+% với việc chơi cờ vây thắng cả con người}.
+% \href{https://www.tastehit.com/blog/google-deepmind-alphago-how-it-works/}{Cờ
+% vây được xem là có độ phức tạp cực kỳ cao} với tổng số nước đi là xấp xỉ
+% $10^{761} $, so với cờ vua là $10^{120} $ và tổng số nguyên tử trong toàn vũ trụ
+% là khoảng $10^{80}$!! Vì vậy, thuật toán phải chọn ra 1 nước đi tối ưu trong số
+% hàng nhiều tỉ tỉ lựa chọn, và tất nhiên, không thể áp dụng thuật toán tương tự
+% như \href{https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer}{IBM Deep
+% Blue}) (IBM Deep Blue đã thắng con người trong môn cờ vua 20 năm trước). Về cơ
+% bản, AlphaGo bao gồm các thuật toán thuộc cả Supervised learning và
+% Reinforcement learning. Trong phần Supervised learning, dữ liệu từ các ván cờ do
+% con người chơi với nhau được đưa vào để huấn luyện. Tuy nhiên, mục đích cuối
+% cùng của AlphaGo không phải là chơi như con người mà phải thậm chí thắng cả con
+% người. Vì vậy, sau khi \textit{học} xong các ván cờ của con người, AlphaGo tự
+% chơi với chính nó với hàng triệu ván chơi để tìm ra các nước đi mới tối ưu hơn.
+% Thuật toán trong phần tự chơi này được xếp vào loại Reinforcement learning. (Xem
+% thêm tại \href{https://www.tastehit.com/blog/google-deepmind-alphago-how-it-work
+% s/}{Google DeepMind's AlphaGo: How it works}).
+
+
+% \textbf{Ví dụ 2:} \href{https://www.youtube.com/watch?v=qv6UVOQ0F44}{Huấn luyện
+% cho máy tính chơi game Mario}. Đây là một chương trình thú vị dạy máy tính chơi
+% game Mario. Game này đơn giản hơn cờ vây vì tại một thời điểm, người chơi chỉ
+% phải bấm một số lượng nhỏ các nút (di chuyển, nhảy, bắn đạn) hoặc không cần bấm
+% nút nào. Đồng thời, phản ứng của máy cũng đơn giản hơn và lặp lại ở mỗi lần chơi
+% (tại thời điểm cụ thể sẽ xuất hiện một chướng ngại vật cố định ở một vị trí cố
+% định). Đầu vào của thuật toán là sơ đồ của màn hình tại thời điểm hiện tại,
+% nhiệm vụ của thuật toán là với đầu vào đó, tổ hợp phím nào nên được bấm. Việc
+% huấn luyện này được dựa trên điểm số cho việc di chuyển được bao xa trong thời
+% gian bao lâu trong game, càng xa và càng nhanh thì được điểm thưởng càng cao
+% (điểm thưởng này không phải là điểm của trò chơi mà là điểm do chính người lập
+% trình tạo ra). Thông qua huấn luyện, thuật toán sẽ tìm ra một cách tối ưu để tối
+% đa số điểm trên, qua đó đạt được mục đích cuối cùng là cứu công chúa.
+
+
+
+% % \section{Phân nhóm dựa trên chức năng }
+
+% % Có một cách phân cụm thứ hai dựa trên chức năng của các thuật toán. Trong phần này, tôi xin chỉ liệt kê các thuật toán. Thông tin cụ thể sẽ được trình bày trong các bài viết khác tại blog này. Trong quá trình viết, tôi có thể sẽ thêm bớt một số thuật toán.
+
+
+% % \subsection{Regression Algorithms}
+% % \begin{enumerate}
+% %   \item \href{http://machinelearningcoban.com/2016/12/28/linearregression/}{Linear Regression}
+
+% %   \item \href{http://machinelearningcoban.com/2017/01/27/logisticregression/#sigmoid-function}{Logistic Regression}
+
+
+% %   \item Stepwise Regression
+% % \end{enumerate}
+
+
+% % \subsection{Classification Algorithms }
+
+% % \begin{enumerate}
+% %   \item Linear Classifier
+
+% %   \item  Support Vector Machine (SVM)
+
+% %   \item  Kernel SVM
+
+% %   \item Sparse Represntation-based classification (SRC)
+% % \end{enumerate}
+
+
+% % \subsection{Instance-based Algorithms }
+
+% %  \begin{enumerate}
+% %    \item \href{http://machinelearningcoban.com/2017/01/08/knn/}{k-Nearest Neighbor (kNN)}
+
+% %    \item Learnin Vector Quantization (LVQ)
+% %  \end{enumerate}
+
+
+% % \subsection{Regularization Algorithms }
+
+% %  \begin{enumerate}
+% %    \item  Ridge Regression
+
+% %    \item  Least Absolute Shrinkage and Selection Operator (LASSO)
+
+% %    \item  Least-Angle Regression (LARS)
+% %  \end{enumerate}
+
+
+% % \subsection{Bayesian Algorithms}
+% %  \begin{enumerate}
+% %    \item Naive Bayes
+
+% %    \item Gaussian Naive Bayes
+% %  \end{enumerate}
+
+
+% % \subsection{Clustering Algorithms}
+% % \begin{enumerate}
+% %   \item \href{http://machinelearningcoban.com/2017/01/01/kmeans/}{k-Means clustering}
+
+% %   \item k-Medians
+
+% %   \item Expectation Maximization (EM)
+% % \end{enumerate}
+
+
+% % \subsection{Artificial Neural Network Algorithms }
+% % \begin{enumerate}
+% %   \item \href{http://machinelearningcoban.com/2017/01/21/perceptron/}{Perceptron}
+
+% %   \item \href{http://machinelearningcoban.com/2017/02/17/softmax/}{Softmax Regression}
+
+% %   \item  \href{http://machinelearningcoban.com/2017/02/24/mlp/}{Multi-layer Perceptron}
+
+% %   \item \href{http://machinelearningcoban.com/2017/02/24/mlp/#-backpropagation}{Back-Propagation }
+
+% % \end{enumerate}
+
+% % \subsection{Dimensionality Reduction Algorithms }
+% % \begin{enumerate}
+% %   \item Principal Component Analysis (PCA)
+
+% %   \item Linear Discriminant Analysis (LDA)
+
+% % \end{enumerate}
+
+% % \subsection{Ensemble Algorithms }
+% %  \begin{enumerate}
+% %    \item Boosting
+
+% %    \item AdaBoost
+
+% %   \item Random Forest
+% %  \end{enumerate}
+
+% % Và còn rất nhiều các thuật toán khác.
+
+
+% \section{Tài liệu tham khảo }
+% \begin{enumerate}
+%   \item \href{http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/}{A Tour of Machine Learning Algorithms}
+
+%   \item \href{https://ongxuanhong.wordpress.com/2015/10/22/diem-qua-cac-thuat-toan-machine-learning-hien-dai/}{Điểm qua các thuật toán Machine Learning hiện đại}
+
+
+% \end{enumerate}
+
+
+
+% % \begin{mynote}%{Tiêu đề ở đây}
+% %    \begin{itemize}
+% %      \item asdf
+% %      \item ;alsdf
+% %    \end{itemize}
+% % \end{mynote}
+
+
+
+
+% % \begin{myfr}
+% %           This is the text of the theorem. The counter is automatically assigned and,
+% %           in this example, prefixed with the section number. This theorem is numbered with
+% %           , it is given on page,
+% %           and it is titled.
+% %           \begin{itemize}
+% %             \item lajsdf
+
+% %             \item ljasljdf
+% %           \end{itemize}
+% % \end{myfr}
+
+% % \begin{mytheo}{aa}{jasdf}
+% %     lkasjlf
+% % \end{mytheo}
+
+% % \begin{mydef}{halfspace - nửa không gian}{theoexample}
+% %           This is the text of the theorem. The counter is automatically assigned and,
+% %           in this example, prefixed with the section number. This theorem is numbered with
+% %           , it is given on page,
+% %           and it is titled.
+% % \end{mydef}
+% % \ref{def:theoexample}
+% % % \ref{}
+% % cyan
+% % \begin{myalg}{K-means Clustering}{theoexample}
+% %           This is the text of the theorem. The counter is automatically assigned and,
+% %           in this example, prefixed with the section number. This theorem is numbered with
+% %           , it is given on page,
+% %           and it is titled.
+% % \end{myalg}

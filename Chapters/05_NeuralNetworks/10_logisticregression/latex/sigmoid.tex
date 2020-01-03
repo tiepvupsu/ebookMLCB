@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\usepackage{tikz,pgfplots,calc,tkz-euclide}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{arrows}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+
+
+\begin{document}
+\begin{tikzpicture}[>=stealth, thick]
+    
+    % graph
+    \begin{scope}[xscale = .5]
+        \draw[domain=-5:5, smooth, variable=\x,blue] plot ({\x},{1/(1 + exp(-\x))});      
+        \draw[domain=-5:5, smooth, variable=\x,blue] plot ({\x},{1/(1 + exp(-2*\x))});      
+       
+    \end{scope}
+
+    % \draw[domain=-3:-2] plot (\x,{(\x-1)*(\x-1)-2}) {[turn] (-3,) coordinate(t1) (-1,0) coordinate(t2)};
+    % \draw[domain=-2:2] plot (\x,{(\x-1)*(\x-1)-2});
+    % \draw[red] (t1) -- (t2);
+
+
+\end{tikzpicture}
+\end{document}

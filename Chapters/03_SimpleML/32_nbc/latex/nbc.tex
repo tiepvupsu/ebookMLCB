@@ -1,0 +1,100 @@
+\documentclass{standalone}
+% \documentclass{article}
+\usepackage{tikz}
+\usepackage{amsmath}
+% \renewcommand{\familydefault}{\sfdefault}
+% \usepackage[utf8x]{inputenc}
+% \usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[vietnam]{babel}
+\usetikzlibrary{calc}
+% \usepackage{textcomp}
+\begin{document}
+
+\begin{tikzpicture}
+    \node at (-1, 1) {nhãn = B};
+    \def\dd{1}
+    \node [rotate = 45, anchor = west] at (0*\dd, 0.25) {hanoi};
+    \node [rotate = 45, anchor = west] at (1*\dd, 0.25) {pho};
+    \node [rotate = 45, anchor = west] at (2*\dd, 0.25) {chaolong};
+    \node [rotate = 45, anchor = west] at (3*\dd, 0.25) {buncha};
+    \node [rotate = 45, anchor = west] at (4*\dd, 0.25) {omai};
+    \node [rotate = 45, anchor = west] at (5*\dd, 0.25) {banhgio};
+    \node [rotate = 45, anchor = west] at (6*\dd, 0.25) {saigon};
+    \node [rotate = 45, anchor = west] at (7*\dd, 0.25) {hutiu};
+    \node [rotate = 45, anchor = west] at (8*\dd, 0.25) {banhbo};
+    \node [ anchor = west] at (8.5, -2.75) {$d = |V| = 9$};
+
+    \draw [fill = gray!20] (-2, -4) rectangle (8.5, -3);
+    \draw [fill = gray!20] (-2, -5) rectangle (8.5, -4);
+
+    \foreach \x in {0,...,9}{
+        \draw (\x-.5, 0)  --  (\x-.5, -5);
+    }
+
+    \foreach \y in {0,...,5}{
+        \draw (-.5, -\y)  --  (8.5, -\y);
+    }
+
+    % \begin{scope}{xshift = 1.5 cm}
+    %     \node at (0, 0) {2};
+    %     \node at (1, 0) {1};
+    % \end{scope}
+
+    \foreach \x\y in {0/2, 1/1, 2/1, 3/0, 4/0, 5/0, 6/0, 7/0, 8/0} \node at (\x, -.5) {\y};
+    \foreach \x\y in {0/1, 1/1, 2/0, 3/1, 4/1, 5/0, 6/0, 7/0, 8/0} \node at (\x, -1.5) {\y};
+    \foreach \x\y in {0/0, 1/1, 2/0, 3/0, 4/1, 5/1, 6/0, 7/0, 8/0} \node at (\x, -2.5) {\y};
+
+    \foreach \x\y in {0/3, 1/3, 2/1, 3/1, 4/2, 5/1, 6/0, 7/0, 8/0} \node at (\x, -3.5) {\y};
+    \foreach \x\y in {0/4, 1/4, 2/2, 3/2, 4/3, 5/2, 6/1, 7/1, 8/1} \node at (\x, -4.5) {\y/20};
+
+    \node [anchor = west] at (8.5, -3.5) {$\Rightarrow $ $N_{\text{B}} = 11$};
+    \node [anchor = west] at (8.5, -4.5) { $(20 = N_{\text{B}} + |V|)$};
+
+    \node at (-.75, -.5) [anchor = east] {d1: $\mathbf{x}_1$};
+    \node at (-.75, -1.5) [anchor = east] {d2: $\mathbf{x}_2$};
+    \node at (-.75, -2.5) [anchor = east] {d3: $\mathbf{x}_3$};
+    % \node at (-.75, -3.5) [anchor = east] {d4: $\mathbf{x}_4$};
+    \node at (-.75, -3.5) [anchor = east] {Tổng};
+    \node at (-.75, -4.5) [anchor = east] {$\Rightarrow \hat{\lambda}_{\text{B}}$};
+
+    %% class N 
+    \draw [fill = gray!20] (-2, -7.5) rectangle (8.5, -8.5);
+    \node at (-1, -6) {nhãn = N};
+    \foreach \x\y in {0/0, 1/1, 2/0, 3/0, 4/0, 5/0, 6/1, 7/1, 8/1} \node at (\x, -7) {\y};
+
+     \foreach \x in {0,...,9}{
+        \draw (\x-.5, -8.5)  --  (\x-.5, -6.5);
+    }
+
+    \foreach \y in {6.5, 7.5, 8.5}{
+        \draw (-.5, -\y)  --  (8.5, -\y);
+    }
+
+    \foreach \x\y in {0/1, 1/2, 2/1, 3/1, 4/1, 5/1, 6/2, 7/2, 8/2}\node at (\x, -8) {\y/13};
+
+
+    \node at (-.75, -7) [anchor = east] {d4: $\mathbf{x}_4$};
+    \node [anchor = west] at (8.5, -7) {$\Rightarrow $ $N_{\text{N}} = 4$};
+    \node [anchor = west] at (8.5, -8) {$(13 = N_{\text{N}} + |V|)$};
+    \node at (-.75, -8) [anchor = east] {$\Rightarrow \hat{\lambda}_{\text{N}}$};
+
+
+
+    \node at (14, -1) {d5: $\mathbf{x}_5 = [2, 0, 0, 1, 0, 0, 0, 1, 0]$};
+    \node at (14, -2) {$p(\text{B} | \text{d5}) \propto p(\text{B}) \prod_{i=1}^d p(x_i|\text{B})$};
+
+    \node at (15, -3) {$= \frac{3}{4} \left(\frac{4}{20}\right)^2 \frac{2}{20}\frac{1}{20} \approx 1.5\times 10^{-4}$};
+
+    \node at (14, -5) {$p( \text{N}|\text{d5}) \propto p(\text{N}) \prod_{i=1}^d p(x_i|\text{N})$};
+
+    \node at (15, -6) {$= \frac{1}{4} \left(\frac{1}{13}\right)^2 \frac{1}{13}\frac{2}{13} \approx 1.75\times 10^{-5}$};
+
+    \node at (14.5, -7) {$\Rightarrow p(\mathbf{x}_5 |\text{B}) > p(\mathbf{x}_5 | \text{N})$ $\Rightarrow $ d5 $ \in $ nhãn(B)};
+
+    \draw [rounded corners = 2pt, thick] (-2.5, 3) rectangle (11.5, -9);
+    \node [scale = 1.5] at (4, 2.5) {Pha huấn luyện};
+    \node [scale = 1.5] at (15, 2.5) {Pha kiểm tra};
+    \draw [rounded corners = 2pt, thick] (18, 3) rectangle (11.5, -9);
+\end{tikzpicture}
+\end{document}

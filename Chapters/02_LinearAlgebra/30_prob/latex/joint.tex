@@ -1,0 +1,139 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T5]{fontenc}
+\usetikzlibrary{patterns}
+\usepackage[utf8]{inputenc}
+% \pagestyle{empty}
+\makeatletter
+\pgfdeclarepatternformonly[\GridSize]{MyGrid}{\pgfqpoint{-1pt}{-1pt}}{\pgfqpoint{4pt}{4pt}}{\pgfqpoint{\GridSize}{\GridSize}}%
+{
+  \pgfsetcolor{\tikz@pattern@color}
+  \pgfsetlinewidth{0.3pt}
+  \pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+  \pgfpathlineto{\pgfqpoint{15pt}{15pt}}
+  % \pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+  % \pgfpathlineto{\pgfqpoint{3.1pt}{0pt}}
+  \pgfusepath{stroke}
+}
+\makeatother
+
+\newdimen\GridSize
+\tikzset{
+    GridSize/.code={\GridSize=#1},
+    GridSize=3pt
+}
+\usepackage{xcolor}
+\definecolor{myblue}{RGB}{0, 100, 220}
+
+\begin{document}
+\begin{tikzpicture}[>= stealth]
+    
+    %%% Borders
+    \draw [dashed, line width = 1mm, rounded corners = 4pt, draw= black] (-2, -1.5) rectangle (11.5, 12);
+    \node [scale = 2] at (1, 11.3) {Xác suất đồng thời};
+
+    \draw [dashed, ultra thick, line width = 1mm, draw = black, rounded corners = 10pt] (-2, -2)  --  ++ (0, -11)  -- ++
+        (25, 0)  -- ++ (0, 27)  --  ++ (-11, 0)  -- ++ (0, -16)  --   cycle;
+    \node [scale = 3, text width = 1.8cm] at (19, -7) {Xác suất \\ có điều kiện};
+
+    \draw [dashed, ultra thick, line width = 1mm, draw = black, rounded corners = 10pt] (-2.5, -2.5)  -- ++ (-6.2, 0)  -- ++ (0, 21.2)  -- ++ (20.2, 0)  -- ++ (0, -6.2)  -- ++ (-14, 0)  -- cycle;
+    \node [scale = 3, text width = 3cm] at (-3, 16) {Xác suất biên};
+
+    % \node [scale = 2.5, blue] at (17, 17) {machinelearningcoban.com};
+
+    % \node [scale = 3, black] at (-6, -7) {Tiep Vu};
+    % \node [scale = 3, black] at (-6, -8) {Jul 8, 2017};
+    % \node [scale = 3, black, text width = 2cm] at (-6, -8) {3};
+
+
+    %%% Joint probability
+
+    \foreach \x/\y/\s in {
+    1/1/5, 1/2/20, 1/3/12, 1/4/22, 1/5/20, 1/6/18, 1/7/13, 1/8/7, 1/9/6, 1/10/1, 
+    2/1/23, 2/2/22, 2/3/25, 2/4/24, 2/5/18, 2/6/15, 2/7/13, 2/8/5, 2/9/1, 2/10/0,
+    3/1/15, 3/2/20, 3/3/30, 3/4/24, 3/5/26, 3/6/17, 3/7/16, 3/8/7, 3/9/2, 3/10/1,
+    4/1/12, 4/2/20, 4/3/25, 4/4/29, 4/5/28, 4/6/20, 4/7/18, 4/8/21, 4/9/10, 4/10/3,
+    5/1/15, 5/2/20, 5/3/22, 5/4/32, 5/5/40, 5/6/30, 5/7/29, 5/8/27, 5/9/20, 5/10/5,
+    6/1/19, 6/2/22, 6/3/25, 6/4/27, 6/5/35, 6/6/39, 6/7/42, 6/8/29, 6/9/25, 6/10/7,
+    7/1/12, 7/2/20, 7/3/21, 7/4/32, 7/5/37, 7/6/40, 7/7/45, 7/8/39, 7/9/10, 7/10/7,
+    8/1/4, 8/2/12, 8/3/17, 8/4/32, 8/5/20, 8/6/25, 8/7/35, 8/8/32, 8/9/28, 8/10/8,
+    9/1/3, 9/2/7, 9/3/3, 9/4/12, 9/5/15, 9/6/15, 9/7/20, 9/8/31, 9/9/30, 9/10/10,
+    10/1/3, 10/2/1, 10/3/4, 10/4/5, 10/5/10, 10/6/5, 10/7/10, 10/8/9, 10/9/10, 10/10/8
+    }{
+        \draw [fill = black!80] (\x -.01*\s, \y - .01*\s) rectangle (\x + .01*\s, \y + .01*\s);
+    }
+    \foreach \x in {1,2,3, 4, 5, 6, 7, 8, 9,10}{
+        \node [scale = 1.5] at (\x, 0) {\x};
+        \node [scale = 1.5] at (0, \x) {\x};
+    }
+    \draw [ultra thick] (0.5, .5) rectangle (10.5, 10.5);
+    \node [scale = 2] at (5.5, -.95) {$x$: Điểm Toán};
+    \node [scale = 2] at (5.5, 10.95) {$(x, y)$};
+    \node [scale = 2, rotate = 90] at (-.95, 5.5) {$y$: Điểm Lý};
+
+    %%%%%%%%
+    \draw [rounded corners = 4pt, thick](0.25, 2.6) rectangle (10.75, 3.4);
+    \draw [rounded corners = 4pt, thick](0.25, 8.6) rectangle (10.75, 9.4);
+
+    \draw [rounded corners = 4pt, thick] (9.6, 0.25) rectangle (10.4, 10.75); 
+    \draw [rounded corners = 4pt, thick] (1.6, 0.25) rectangle (2.4, 10.75); 
+
+
+    %%%%%%%%
+
+    \begin{scope}[xshift = 12.2cm]
+        \foreach \x/\y in {1/6, 2/1, 3/2, 4/10, 5/20, 6/25, 7/10, 8/28, 9/30, 10/10}{
+            \draw [fill = gray!35, thick] (\x - .5, 8.5) rectangle (\x + .5, 8.5+\y/6.6);
+            \node [scale = 1.5] at (\x, 8.1) {\x};
+        }
+        \node [scale = 1.95] at (5.5, 7.35) {$(x| y = 9)$};
+
+        \foreach \x/\y in {1/12, 2/25, 3/30, 4/25, 5/22, 6/25, 7/21, 8/17, 9/3, 10/4}{
+            \draw [fill = gray!35, thick] (\x - .5, 2.5) rectangle (\x + .5, 2.5+\y/9.1);
+            \node [scale = 1.5] at (\x, 2.1) {\x};
+        }
+        \node [scale = 1.95] at (5.5, 1.35) {$(x| y = 3)$};
+        \draw [->, line width = 1mm] (-1, 3)  --  (0.4, 3);
+        \draw [->, line width = 1mm] (-1, 9)  --  (0.4, 9);
+    \end{scope}
+    %%%%%%%%%%%
+    \begin{scope}[yshift = -13.2cm]
+        \foreach \x/\y in {1/3, 2/1, 3/4, 4/5, 5/10, 6/5, 7/10, 8/9, 9/10, 10/8 }{
+            \draw [fill = gray!35, thick] (9.5, .5 +\x) rectangle (9.5 + \y/3.4, -.5 + \x);
+            \node [scale = 1.5] at (9.1, \x) {\x};
+        }
+        \node [rotate = -90, scale =2] at (13.5, 5.5) {$(y | x = 10)$};
+
+        \foreach \x/\y in {1/23, 2/22, 3/25, 4/24, 5/18, 6/15, 7/13, 8/5, 9/1, 10/0}{
+            \draw [fill = gray!35, thick] (1.5, .5 +\x) rectangle (1.5 + \y/7.3, -.5 + \x);
+            \node [scale = 1.5] at (1.1, \x) {\x};
+        }
+        \node [rotate = -90, scale =2] at (5.5, 5.5) {$(y | x = 2)$};
+        \draw [->, line width = 1mm] (10, 12.5)  --  (10, 10.75);
+        \draw [->, line width = 1mm] (2, 12.5)  --  (2, 10.75);
+        % \draw ()
+    \end{scope}
+
+    %%%%%%%%%%%% 
+    \begin{scope}[xshift = -17.2cm]
+        \foreach \x/\y in {1/111, 2/164, 3/184, 4/239, 5/249, 6/224, 7/241, 8/207, 9/142, 10/50}{
+            \draw [fill = gray!35, thick] (9.5, .5 +\x) rectangle (9.5 + \y/90, -.5 + \x);
+            \node [scale = 1.5] at (9.1, \x) {\x};
+        }
+        \node [rotate = -90, scale =2] at (13.5, 5.5) {$\displaystyle (y) = \sum_{x} (x, y)$};
+    \end{scope}
+    \begin{scope}[yshift = 11cm]
+        \foreach \x/\y in {1/124, 2/146, 3/158, 4/186, 5/240, 6/270, 7/263, 8/213, 9/146, 10/65}{
+            \draw [fill = gray!35, thick] (\x - .5, 2.5) rectangle (\x + .5, 2.5+\y/90);
+            \node [scale = 1.5] at (\x, 2.1) {\x};
+        }
+        \node [scale = 2] at (5.5, 6.5) {$\displaystyle (x) = \sum_{y} (x, y)$};
+    \end{scope}
+
+        % \draw [dashed, very thick] (1, 10)  --  ++(20, 0)  -- ++ (0, -10)  --  cycle;
+
+\end{tikzpicture}
+% End of code
+\end{document}

@@ -1,0 +1,110 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\def\layersep{2.5cm}
+\pagestyle{empty}
+% \input{definitions}
+\tikzset{dist/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+      % \draw plot[domain=-6:6] (\x,{1/(1 + exp(-\x))-0.5});
+      % \draw plot[domain=0:6] (\x,.5);
+      % \draw plot[domain=-6:0] (\x,-.5);
+      % \draw (0, -.5)  --  (0, .5);
+        \def\a{5}
+      \draw [black] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+      \draw [thin] (-1.1*\a, 0)  --  (1.2*\a, 0);
+      \draw [thin] (0, -.7)  --  (0, .8);
+    \end{scope}
+    }
+  }
+}
+
+\tikzset{distt/.style={path picture= {
+    \begin{scope}[x=1pt,y=10pt]
+        \def\a{5}
+      \draw [blue] (-\a, -.5)  --  (0, -.5)  --  (0, .5)  --  (\a, .5);
+    \end{scope}
+    }
+  }
+}
+
+
+\tikzstyle{every pin edge}=[shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{output neuron}=[neuron,thick, draw = black, fill=white!40]
+\tikzstyle{sign neuron}=[output neuron, dist]
+\tikzstyle{signn neuron}=[output neuron, distt]
+\tikzstyle{hidden neuron}=[neuron, thick, draw = black, fill=white!40]
+\tikzstyle{annot} = [text width=4em, text centered]
+
+
+\begin{document}
+\begin{tikzpicture}[shorten >=1pt,draw=black,thick, node distance=\layersep, >= stealth]
+
+    % Draw bias 
+    \node[input neuron, opacity = .5, label = left:{$x_0$}] (I-0) at (0,0) {1};
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,3}
+    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+        \node[input neuron, label = left:$x_\y$] (I-\name) at (0,-\y) {};
+    \node[input neuron, label = left:$x_d$] (I-4) at (0,-4) {};
+
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[output neuron, label = below:{$z$}] (O-\name) at (\layersep,-\y cm) {$\Sigma$};
+    % Draw the output layer nodes
+    \foreach \name / \y in {3}
+        \path[yshift=0.5cm]
+            node[sign neuron, label = below:$y$] (O2-\name) at (1.5*\layersep,-\y cm) {};
+
+    % Connect every node in the input layer with every node in the
+    % hidden layer.
+    \foreach \source in {0,...,3}{
+        \foreach \dest in {3}{
+            \draw [thick, ->](I-\source)  --  node[midway, fill = white, yshift = -2pt] {$w_\source$} (O-\dest);
+        }
+    }
+    %% d 
+    \draw [thick, ->](I-4)  --  node[midway, fill = white, yshift = -2pt] {$w_d$} (O-3);
+
+    \draw [thick, ->] (O-3)  --  (O2-3);
+
+    \node [anchor = west] at (1.5, .2) {$\displaystyle z = \sum_{i=0}^d w_ix_i = \mathbf{w}^T\mathbf{x}$};
+    \node [anchor = west] at (1.5, -.8) {$y = \text{sgn}(z)$};
+  
+    %% shorten 
+    % \draw [scale = 2, ->, ultra thick] (2.5, -1.25)  --  node[above] {short form} (3.5, -1.25);
+
+    % \begin{scope}[xshift = 6cm]
+    % \foreach \name / \y in {1,...,4}
+    %     % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
+    %         \node[input neuron] (I-\name) at (0,-\y) {};
+
+    %     \node at (0, 0) {Input layer};
+    %     \node at (\layersep, 0) {Output layer};
+
+    %     % Draw the output layer nodes
+    %     \foreach \name / \y in {3}
+    %         \path[yshift=0.5cm]
+    %             node[signn neuron ] (O-\name) at (\layersep,-\y cm) {};
+    %     %         node[sign neuron, label = below:$y$] (O2-\name) at (1.5*\layersep,-\y cm) {};
+
+    %     % Draw the output layer node
+    %     % \node[output neuron,pin={[pin edge={->}]right:Output}, right of=H-3] (O) {};
+
+    %     % Connect every node in the input layer with every node in the
+    %     % hidden layer.
+    %     \foreach \source in {1,...,4}
+    %         \foreach \dest in {3}
+    %             % \path (I-\source) edge (H-\dest);
+    %             \draw [thick, ->](I-\source)  --  (O-\dest);
+    % \end{scope}
+
+\end{tikzpicture}
+% End of code
+\end{document}
