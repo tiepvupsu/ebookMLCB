@@ -240,7 +240,7 @@ softmax. Có một cách khắc phục hiện tượng này dựa trên quan sá
 \end{equation}
 với $c$ là một hằng số bất kỳ. Từ đây, một kỹ thuật đơn giản giúp khắc phục hiện
 tượng tràn số là trừ tất cả các $z_i$ đi một giá trị đủ lớn. Trong thực nghiệm,
-giá trị đủ lớn này thường được chọn là $c = \max_i z_i$. Ta có thể cải tiến
+giá trị đủ lớn này thường được chọn là $c = \max z_i$. Ta có thể cải tiến
 đoạn code cho hàm \pythoninline{softmax} phía trên bằng cách trừ mỗi hàng của
 ma trận đầu vào \pythoninline{Z} đi giá trị lớn nhất trong hàng đó. Ta có phiên
 bản ổn định hơn là \pythoninline{softmax_stable}\footnote{Xem thêm về
