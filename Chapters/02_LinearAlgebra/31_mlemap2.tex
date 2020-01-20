@@ -169,6 +169,7 @@ nhau:
 Tới đây, bài toán tối ưu~\eqref{eqn:31_8} có thể được giải bằng cách giải phương
 trình đạo hàm của hàm mục tiêu bằng 0. Tức $\lambda$ là nghiệm của phương trình
 \begin{eqnarray}
+\label{eqn:31_10_new}
 \frac{n}{\lambda} - \frac{m}{1 - \lambda}  =  0
 \Leftrightarrow \frac{n}{\lambda}  =  \frac{m}{1 - \lambda}
 \Leftrightarrow \lambda  =  \frac{n}{n + m} = \frac{n}{N}
@@ -489,8 +490,8 @@ Bài toán tối ưu MAP
 \label{eqn:31_39}
 & = & \argmax_{\lambda} \left[ \lambda^{n + \alpha - 1} ( 1- \lambda)^{m + \beta - 1} \right]
 \end{eqnarray}
-Bài toán tối ưu~\eqref{eqn:31_39} chính là bài toán tối ưu~\eqref{eqn:31_38} với
-tham số thay đổi một chút. Tương tự như~\eqref{eqn:31_38}, nghiệm
+Bài toán tối ưu~\eqref{eqn:31_39} chính là bài toán tối ưu~\eqref{eqn:31_8} với
+tham số thay đổi một chút. Tương tự như~\eqref{eqn:31_10_new}, nghiệm
 của~\eqref{eqn:31_39} là
 \begin{equation}
 \label{eqn:31_40}
