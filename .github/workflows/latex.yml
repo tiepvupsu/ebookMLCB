@@ -1,18 +1,18 @@
-name: Build LaTeX document
-on: [push]
-jobs:
-  build_latex:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v2
-      - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: book_ML.tex
-          compiler: pdflatex
-          args: "-synctex=1 -interaction=nonstopmode" 
-          working_directory: ./
+# name: Build LaTeX document
+# on: [push]
+# jobs:
+#   build_latex:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Set up Git repository
+#         uses: actions/checkout@v2
+#       - name: Compile LaTeX document
+#         uses: xu-cheng/latex-action@v2
+#         with:
+#           root_file: book_ML.tex
+#           compiler: pdflatex
+#           args: "-synctex=1 -interaction=nonstopmode" 
+#           working_directory: ./
 
 # name: Build LaTeX document
 # on: [push]
@@ -28,3 +28,19 @@ jobs:
 #           root_file: book_ML.tex
 #           compiler: pdflatex
 #           args: "-synctex=1 -interaction=nonstopmode" 
+#
+#
+
+on: [push]
+
+jobs:
+  latex-job:
+    runs-on: ubuntu-latest
+    name: A job to Compile Latex file
+    steps:
+    - uses: actions/checkout@v1
+    - name: Compilation
+      uses: vinay0410/tectonic-action@master
+      with:
+        tex_path: 'book_ML.tex'
+        push: 'yes'
