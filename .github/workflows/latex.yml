@@ -12,3 +12,4 @@ jobs:
           root_file: book_ML.tex
           compiler: pdflatex
           args: ""
+          working_directory: ./
