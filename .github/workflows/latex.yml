@@ -26,4 +26,5 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: book_ML.tex
-          args: ""
+          compiler: pdflatex
+          args: "-synctex=1 -interaction=nonstopmode" 
