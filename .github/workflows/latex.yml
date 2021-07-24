@@ -10,3 +10,4 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: book_ML.tex
+          args: "--verbose"
