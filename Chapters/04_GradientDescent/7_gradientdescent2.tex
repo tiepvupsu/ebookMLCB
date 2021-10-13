@@ -357,8 +357,8 @@ Trước tiên, chúng ta tạo 1000 điểm dữ liệu gần đường thẳng
 
 \begin{lstlisting}[language=Python]
 from sklearn.linear_model import LinearRegression
-X = np.random.rand(1000)
-y = 4 + 3 * X + .5*np.random.randn(1000) # noise added
+X = np.random.rand(1000, 1)
+y = 4 + 3 * X + .5*np.random.randn(1000, 1) # noise added
 model = LinearRegression()
 model.fit(X.reshape(-1, 1), y.reshape(-1, 1))
 w, b = model.coef_[0][0], model.intercept_[0]
