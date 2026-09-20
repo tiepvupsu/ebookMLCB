@@ -451,8 +451,7 @@ Trong các mục tiếp theo, chúng ta sẽ làm việc với hàm mất
 mát~\eqref{eqn:13_loss}. Việc mở rộng cho hàm mất mát với
 cơ chế kiểm soát~\eqref{eqn:13_regloss} không phức tạp vì gradient của số hạng
 kiểm soát $\frac{\lambda}{2}\|\bW\|_F^2$ đơn giản là $\lambda \bW$. Hàm mất
-mát~\eqref{eqn:13_loss} có thể được thực hiện trên Python như sau\footnote{{Truy cập vào nhiều phần tử của mảng hai
-chiều trong numpy - FundaML} \url{https://goo.gl/SzLDxa}.}:
+mát~\eqref{eqn:13_loss} có thể được thực hiện trên Python như sau
 \begin{lstlisting}[language=Python]
 def softmax_loss(X, y, W):
     """
