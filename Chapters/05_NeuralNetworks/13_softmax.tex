@@ -241,8 +241,7 @@ tượng tràn số là trừ tất cả các $z_i$ đi một giá trị đủ l
 giá trị đủ lớn này thường được chọn là $c = \max_i z_i$. Ta có thể cải tiến
 đoạn code cho hàm \pythoninline{softmax} phía trên bằng cách trừ mỗi hàng của
 ma trận đầu vào \pythoninline{Z} đi giá trị lớn nhất trong hàng đó. Ta có phiên
-bản ổn định hơn là \pythoninline{softmax_stable}\footnote{Xem thêm về
-cách xử lý mảng numpy trong Python tại \url{https://fundaml.com}}:
+bản ổn định hơn là \pythoninline{softmax_stable}:
 \begin{lstlisting}[language=Python]
 def softmax_stable(Z):
     """
